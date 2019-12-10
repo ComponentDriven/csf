@@ -12,7 +12,7 @@ yarn add @storybook/csf
 
 See package source for function definitions and types:
 
-- `storyNameFromExport(key)` - Enhance export name (`key`) of the story. Currently implemented with [startCase(https://lodash.com/docs/4.17.11#startCase).
+- `storyNameFromExport(key)` - Enhance export name (`key`) of the story. Currently implemented with [startCase](https://lodash.com/docs/4.17.11#startCase).
 
 - `isExportStory(key, { includeStories, excludeStories })` - Does a named export match CSF inclusion/exclusion options?
 
