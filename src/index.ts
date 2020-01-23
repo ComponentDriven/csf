@@ -1,5 +1,5 @@
 import startCase from 'lodash/startCase';
-import { StoryProperties } from './properties';
+import { StoryProperties, StoryProperty, FieldTypes } from './properties';
 
 export * from './properties';
 

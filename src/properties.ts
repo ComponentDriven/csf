@@ -3,7 +3,7 @@
  * examples are propvided for the different types:
  *
  */
-export const FieldTypes = {
+export enum FieldTypes {
   /**
    * userName: {
    *   type: csf.FieldTypes.TEXT,
@@ -11,11 +11,11 @@ export const FieldTypes = {
    *   defaultValue: 'Storyteller',
    * },
    */
-  TEXT: 'text',
+  TEXT = 'text',
 
   /**
    *  age: {
-   *   type: 'number',
+   *   type: csf.FieldTypes.NUMBER,
    *   label: 'Age',
    *   defaultValue: 78,
    *   range: true,
@@ -24,20 +24,20 @@ export const FieldTypes = {
    *   step: 5,
    * },
    */
-  NUMBER: 'number',
+  NUMBER = 'number',
 
   /**
    * nice: {
-   *  type: 'boolean',
+   *  type: csf.FieldTypes.BOOLEAN,
    *  label: 'Nice',
    *  defaultValue: true,
    * },
    */
-  BOOLEAN: 'boolean',
+  BOOLEAN = 'boolean',
 
   /**
    * fruit: {
-   *   type: 'options',
+   *   type: csf.FieldTypes.OPTIONS,
    *   label: 'Fruit',
    *   defaultValue: 'apple',
    *   options: {
@@ -47,16 +47,16 @@ export const FieldTypes = {
    *   },
    * },
    */
-  OPTIONS: 'options',
+  OPTIONS = 'options',
 
   /**
    *  birthday: {
-   *   type: 'date',
+   *   type: csf.FieldTypes.DATE,
    *   label: 'Birthday',
    *   defaultValue: new Date(),
    *  },
    */
-  DATE: 'date',
+  DATE = 'date',
 
   /**
    * color: {
@@ -64,21 +64,21 @@ export const FieldTypes = {
    *   defaultValue: '#000000',
    * },
    */
-  COLOR: 'color',
+  COLOR = 'color',
 
   /**
    * button: {
-   *  type: 'button',
+   *  type: csf.FieldTypes.BUTTON,
    *   onClick: () => {
    *    ... code to modify some variables
    *  }
    * },
    */
-  BUTTON: 'button',
+  BUTTON = 'button',
 
   /**
    * otherStyles: {
-   *   type: 'object',
+   *   type: csf.FieldTypes.OBJECT,
    *   label: 'Styles',
    *   defaultValue: {
    *     border: '2px dashed silver',
@@ -87,20 +87,20 @@ export const FieldTypes = {
    *   },
    * },
    */
-  OBJECT: 'object',
+  OBJECT = 'object',
 
   /**
    * items: {
-   *   type: 'array',
+   *   type: csf.FieldTypes.ARRAY,
    *   label: 'Items',
    *   defaultValue: ['Laptop', 'Book', 'Whiskey'],
    * },
    */
-  ARRAY: 'array',
+  ARRAY = 'array',
 
   /**
    * images: {
-   *   type: 'files',
+   *   type: csf.FieldTypes.FILES,
    *   label: 'Happy Picture',
    *   accept: 'image/*',
    *   defaultValue: [
@@ -108,11 +108,11 @@ export const FieldTypes = {
    *   ],
    * },
    */
-  FILES: 'files',
-};
+  FILES = 'files',
+}
 
 export interface StoryPropertyObject {
-  type?: string;
+  type?: FieldTypes;
 
   /**
    * label to display next to the field editor
