@@ -90,7 +90,7 @@ export const parseKind = (kind: string, { rootSeparator, groupSeparator }: Separ
  * csf story definition
  */
 export interface CSFStory {
-  story: {
+  story?: {
     /**
      * story name if differnet from the export name
      */
@@ -101,5 +101,12 @@ export interface CSFStory {
      * will be passed onto the story function
      */
     properties?: StoryProperties;
+
+    /**
+     * optional collection of story parameters
+     */
+    parameters?: {
+      [key: string]: any;
+    };
   };
 }
