@@ -8,7 +8,7 @@ export enum PropertyTypes {
    * userName: {
    *   type: csf.PropertyTypes.TEXT,
    *   label: 'Name',
-   *   defaultValue: 'Storyteller',
+   *   value: 'Storyteller',
    * },
    */
   TEXT = 'text',
@@ -17,7 +17,7 @@ export enum PropertyTypes {
    *  age: {
    *   type: csf.PropertyTypes.NUMBER,
    *   label: 'Age',
-   *   defaultValue: 78,
+   *   value: 78,
    *   range: true,
    *   min: 0,
    *   max: 90,
@@ -30,7 +30,7 @@ export enum PropertyTypes {
    * nice: {
    *  type: csf.PropertyTypes.BOOLEAN,
    *  label: 'Nice',
-   *  defaultValue: true,
+   *  value: true,
    * },
    */
   BOOLEAN = 'boolean',
@@ -39,7 +39,7 @@ export enum PropertyTypes {
    * fruit: {
    *   type: csf.PropertyTypes.OPTIONS,
    *   label: 'Fruit',
-   *   defaultValue: 'apple',
+   *   value: 'apple',
    *   options: {
    *     Apple: 'apple',
    *     Banana: 'banana',
@@ -53,7 +53,7 @@ export enum PropertyTypes {
    *  birthday: {
    *   type: csf.PropertyTypes.DATE,
    *   label: 'Birthday',
-   *   defaultValue: new Date(),
+   *   value: new Date(),
    *  },
    */
   DATE = 'date',
@@ -61,7 +61,7 @@ export enum PropertyTypes {
   /**
    * color: {
    *   type: 'color',
-   *   defaultValue: '#000000',
+   *   value: '#000000',
    * },
    */
   COLOR = 'color',
@@ -80,7 +80,7 @@ export enum PropertyTypes {
    * otherStyles: {
    *   type: csf.PropertyTypes.OBJECT,
    *   label: 'Styles',
-   *   defaultValue: {
+   *   value: {
    *     border: '2px dashed silver',
    *     borderRadius: 10,
    *     padding: 10,
@@ -93,7 +93,7 @@ export enum PropertyTypes {
    * items: {
    *   type: csf.PropertyTypes.ARRAY,
    *   label: 'Items',
-   *   defaultValue: ['Laptop', 'Book', 'Whiskey'],
+   *   value: ['Laptop', 'Book', 'Whiskey'],
    * },
    */
   ARRAY = 'array',
@@ -103,7 +103,7 @@ export enum PropertyTypes {
    *   type: csf.PropertyTypes.FILES,
    *   label: 'Happy Picture',
    *   accept: 'image/*',
-   *   defaultValue: [
+   *   value: [
    *     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfiARwMCyEWcOFPAAAAP0lEQVQoz8WQMQoAIAwDL/7/z3GwghSp4KDZyiUpBMCYUgd8rehtH16/l3XewgU2KAzapjXBbNFaPS6lDMlKB6OiDv3iAH1OAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTAxLTI4VDEyOjExOjMzLTA3OjAwlAHQBgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0wMS0yOFQxMjoxMTozMy0wNzowMOVcaLoAAAAASUVORK5CYII=',
    *   ],
    * },
@@ -124,7 +124,7 @@ export interface StoryPropertyBase<T> {
   /**
    * a default value for the property
    */
-  defaultValue?: T;
+  value?: T;
 
   /**
    * hide the label from the property editor
@@ -132,7 +132,7 @@ export interface StoryPropertyBase<T> {
   hideLabel?: boolean;
   /**
    * hide the property editor for this property
-   * will only use the defaultValue
+   * will only use the value
    */
 
   hidden?: boolean;
