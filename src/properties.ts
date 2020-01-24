@@ -176,6 +176,14 @@ export interface StoryPropertyFiles extends StoryPropertyBase<string[]> {
   accept?: string;
 }
 
+export interface StoryPropertyArray extends StoryPropertyBase<string[]> {
+  type: PropertyTypes.ARRAY;
+  /**
+   * the array items separator, by dfault comma
+   */
+  separator?: string;
+}
+
 export interface StoryPropertyObject extends StoryPropertyBase<object> {
   type: PropertyTypes.OBJECT;
 }
@@ -241,11 +249,12 @@ export type StoryProperty =
   | StoryPropertyBoolean
   | StoryPropertyColor
   | StoryPropertyDate
-  | StoryPropertyFiles
   | StoryPropertyObject
   | StoryPropertyButton
   | StoryPropertyOptions
-  | StoryPropertyNumber;
+  | StoryPropertyNumber
+  | StoryPropertyArray
+  | StoryPropertyFiles;
 
 /**
  * StoryProperties are defined in key value pairs
