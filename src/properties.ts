@@ -122,13 +122,6 @@ export interface StoryPropertyBase<T> {
   label?: string;
 
   /**
-   * placehlder for empty properties
-   * either undefined defautValue
-   * or user clears the field
-   */
-  placeholder?: string;
-
-  /**
    * a default value for the property
    */
   defaultValue?: T;
@@ -153,6 +146,13 @@ export interface StoryPropertyBase<T> {
 
 export interface StoryPropertyText extends StoryPropertyBase<string> {
   type: PropertyTypes.TEXT;
+
+  /**
+   * placehlder for empty properties
+   * either undefined defautValue
+   * or user clears the field
+   */
+  placeholder?: string;
 }
 
 export interface StoryPropertyBoolean extends StoryPropertyBase<boolean> {
