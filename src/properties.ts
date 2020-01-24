@@ -3,10 +3,10 @@
  * examples are propvided for the different types:
  *
  */
-export enum FieldTypes {
+export enum PropertyTypes {
   /**
    * userName: {
-   *   type: csf.FieldTypes.TEXT,
+   *   type: csf.PropertyTypes.TEXT,
    *   label: 'Name',
    *   defaultValue: 'Storyteller',
    * },
@@ -15,7 +15,7 @@ export enum FieldTypes {
 
   /**
    *  age: {
-   *   type: csf.FieldTypes.NUMBER,
+   *   type: csf.PropertyTypes.NUMBER,
    *   label: 'Age',
    *   defaultValue: 78,
    *   range: true,
@@ -28,7 +28,7 @@ export enum FieldTypes {
 
   /**
    * nice: {
-   *  type: csf.FieldTypes.BOOLEAN,
+   *  type: csf.PropertyTypes.BOOLEAN,
    *  label: 'Nice',
    *  defaultValue: true,
    * },
@@ -37,7 +37,7 @@ export enum FieldTypes {
 
   /**
    * fruit: {
-   *   type: csf.FieldTypes.OPTIONS,
+   *   type: csf.PropertyTypes.OPTIONS,
    *   label: 'Fruit',
    *   defaultValue: 'apple',
    *   options: {
@@ -51,7 +51,7 @@ export enum FieldTypes {
 
   /**
    *  birthday: {
-   *   type: csf.FieldTypes.DATE,
+   *   type: csf.PropertyTypes.DATE,
    *   label: 'Birthday',
    *   defaultValue: new Date(),
    *  },
@@ -68,7 +68,7 @@ export enum FieldTypes {
 
   /**
    * button: {
-   *  type: csf.FieldTypes.BUTTON,
+   *  type: csf.PropertyTypes.BUTTON,
    *   onClick: () => {
    *    ... code to modify some variables
    *  }
@@ -78,7 +78,7 @@ export enum FieldTypes {
 
   /**
    * otherStyles: {
-   *   type: csf.FieldTypes.OBJECT,
+   *   type: csf.PropertyTypes.OBJECT,
    *   label: 'Styles',
    *   defaultValue: {
    *     border: '2px dashed silver',
@@ -91,7 +91,7 @@ export enum FieldTypes {
 
   /**
    * items: {
-   *   type: csf.FieldTypes.ARRAY,
+   *   type: csf.PropertyTypes.ARRAY,
    *   label: 'Items',
    *   defaultValue: ['Laptop', 'Book', 'Whiskey'],
    * },
@@ -100,7 +100,7 @@ export enum FieldTypes {
 
   /**
    * images: {
-   *   type: csf.FieldTypes.FILES,
+   *   type: csf.PropertyTypes.FILES,
    *   label: 'Happy Picture',
    *   accept: 'image/*',
    *   defaultValue: [
@@ -111,8 +111,8 @@ export enum FieldTypes {
   FILES = 'files',
 }
 
-export interface StoryPropertyObject {
-  type?: FieldTypes;
+export interface StoryPropertyBase<T> {
+  type: string;
 
   /**
    * label to display next to the field editor
@@ -131,7 +131,7 @@ export interface StoryPropertyObject {
   /**
    * a default value for the property
    */
-  defaultValue?: any;
+  defaultValue?: T;
 
   /**
    * hide the label from the property editor
@@ -149,19 +149,59 @@ export interface StoryPropertyObject {
    * for example different editor tabs
    */
   groupId?: string;
+}
 
-  // FIELD TYPE SPECIFIC
+export interface StoryPropertyText extends StoryPropertyBase<string> {
+  type: PropertyTypes.TEXT;
+}
+
+export interface StoryPropertyBoolean extends StoryPropertyBase<boolean> {
+  type: PropertyTypes.BOOLEAN;
+}
+
+export interface StoryPropertyColor extends StoryPropertyBase<string> {
+  type: PropertyTypes.COLOR;
+}
+
+export interface StoryPropertyDate extends StoryPropertyBase<typeof Date> {
+  type: PropertyTypes.DATE;
+}
+
+export interface StoryPropertyFiles extends StoryPropertyBase<string[]> {
+  type: PropertyTypes.FILES;
+  /**
+   * type of files to acept user to open
+   * ex 'image/*',
+   */
+  accept?: string;
+}
+
+export interface StoryPropertyObject extends StoryPropertyBase<object> {
+  type: PropertyTypes.OBJECT;
+}
+
+export interface StoryPropertyButton extends StoryPropertyBase<void> {
+  type: PropertyTypes.BUTTON;
+
   /**
    * for button type fields, an onClick handler
    */
-  onClick?: () => any;
+  onClick?: (prop: StoryPropertyButton) => void;
+}
+
+export interface StoryPropertyOptions
+  extends StoryPropertyBase<string[] | { [key: string]: string }> {
+  type: PropertyTypes.OPTIONS;
 
   /**
    * for options type fields
    */
 
   display?: 'select' | 'radio' | 'inline-radio' | 'multi-select' | 'check' | 'inline-check';
+}
 
+export interface StoryPropertyNumber extends StoryPropertyBase<number> {
+  type: PropertyTypes.NUMBER;
   /**
    * for numeric type fields
    */
@@ -196,7 +236,16 @@ export interface StoryPropertyObject {
  * },
  */
 
-export type StoryProperty = StoryPropertyObject | string;
+export type StoryProperty =
+  | StoryPropertyText
+  | StoryPropertyBoolean
+  | StoryPropertyColor
+  | StoryPropertyDate
+  | StoryPropertyFiles
+  | StoryPropertyObject
+  | StoryPropertyButton
+  | StoryPropertyOptions
+  | StoryPropertyNumber;
 
 /**
  * StoryProperties are defined in key value pairs
