@@ -87,9 +87,9 @@ export const parseKind = (kind: string, { rootSeparator, groupSeparator }: Separ
 };
 
 /**
- * csf story definition
+ * csf story metadata attached to the story export function
  */
-export interface CSFStory {
+export interface StoryMetadata {
   story?: {
     /**
      * story name if differnet from the export name
