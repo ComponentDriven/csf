@@ -256,8 +256,6 @@ export interface StoryProperties {
   [name: string]: StoryProperty;
 }
 
-export type StoryPropertiesArray = StoryProperty[];
-
 /**
  * StoryValues are passed into the story function
  * either the default value or
