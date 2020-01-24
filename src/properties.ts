@@ -163,7 +163,7 @@ export interface StoryPropertyColor extends StoryPropertyBase<string> {
   type: PropertyTypes.COLOR;
 }
 
-export interface StoryPropertyDate extends StoryPropertyBase<typeof Date> {
+export interface StoryPropertyDate extends StoryPropertyBase<Date> {
   type: PropertyTypes.DATE;
 }
 
