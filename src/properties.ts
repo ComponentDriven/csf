@@ -197,15 +197,26 @@ export interface StoryPropertyButton extends StoryPropertyBase<void> {
   onClick?: (prop: StoryPropertyButton) => void;
 }
 
-export interface StoryPropertyOptions
-  extends StoryPropertyBase<string[] | { [key: string]: string }> {
+export type OptionsValueType = string | string[] | { [key: string]: string };
+export type OptionsListType = { [key: string]: OptionsValueType } | OptionsValueType[];
+
+/**
+ * list of options can be
+ * 1. key-value pair object
+ * 2. array of strings
+ * 3. array of key-value pair objects
+ */
+
+export interface StoryPropertyOptions extends StoryPropertyBase<OptionsValueType> {
   type: PropertyTypes.OPTIONS;
 
+  options: OptionsListType;
   /**
-   * for options type fields
+   * how to render slecting the options:
+   * default is 'select'
    */
 
-  display?: 'select' | 'radio' | 'inline-radio' | 'multi-select' | 'check' | 'inline-check';
+  display?: 'select' | 'multi-select' | 'radio' | 'inline-radio' | 'check' | 'inline-check';
 }
 
 export interface StoryPropertyNumber extends StoryPropertyBase<number> {
@@ -263,13 +274,4 @@ export type StoryProperty =
  */
 export interface StoryProperties {
   [name: string]: StoryProperty;
-}
-
-/**
- * StoryValues are passed into the story function
- * either the default value or
- * if a property editor is installed, can be modified
- */
-export interface StoryValues {
-  [name: string]: any;
 }
