@@ -179,7 +179,7 @@ export interface StoryPropertyFiles extends StoryPropertyBase<string[]> {
 export interface StoryPropertyArray extends StoryPropertyBase<string[]> {
   type: PropertyTypes.ARRAY;
   /**
-   * the array items separator, by dfault comma
+   * the array items separator, by default comma
    */
   separator?: string;
 }
