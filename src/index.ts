@@ -92,7 +92,7 @@ export const parseKind = (kind: string, { rootSeparator, groupSeparator }: Separ
 export interface StoryMetadata {
   story?: {
     /**
-     * story name if differnet from the export name
+     * story name if different from the export name
      */
     name?: string;
 

@@ -1,6 +1,6 @@
 /**
  * Property field types
- * examples are propvided for the different types:
+ * examples are provided for the different types:
  *
  */
 export enum PropertyTypes {
@@ -112,7 +112,7 @@ export enum PropertyTypes {
 }
 
 export interface StoryPropertyBase<T> {
-  type: string;
+  type: PropertyTypes;
 
   /**
    * label to display next to the field editor
@@ -148,8 +148,8 @@ export interface StoryPropertyText extends StoryPropertyBase<string> {
   type: PropertyTypes.TEXT;
 
   /**
-   * placehlder for empty properties
-   * either undefined defautValue
+   * placeholder for empty properties
+   * either undefined initial value
    * or user clears the field
    */
   placeholder?: string;
@@ -170,7 +170,7 @@ export interface StoryPropertyDate extends StoryPropertyBase<Date> {
 export interface StoryPropertyFiles extends StoryPropertyBase<string[]> {
   type: PropertyTypes.FILES;
   /**
-   * type of files to acept user to open
+   * type of files to accept user to open
    * ex 'image/*',
    */
   accept?: string;
@@ -231,12 +231,12 @@ export interface StoryPropertyNumber extends StoryPropertyBase<number> {
   range?: boolean;
 
   /**
-   * minimum allowed value for numeric propery
+   * minimum allowed value for numeric property
    */
   min?: number;
 
   /**
-   * maximum allowed value for numeric propery
+   * maximum allowed value for numeric property
    */
   max?: number;
 
