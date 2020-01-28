@@ -153,6 +153,12 @@ export interface StoryPropertyText extends StoryPropertyBase<string> {
    * or user clears the field
    */
   placeholder?: string;
+
+  /**
+   * number of rows in a TextArea field
+   * by default, only 1 row = means a Input field
+   */
+  maxRows?: number;
 }
 
 export interface StoryPropertyBoolean extends StoryPropertyBase<boolean> {
@@ -223,7 +229,7 @@ export type OptionsListType = { [key: string]: string } | OptionsValueType[];
 
 /**
  * list of options can be
- * 1. key-value pair object
+ * 1. key-value pair object: in format { label: value }
  * 2. array of strings
  * 3. array of key-value pair objects
  */
