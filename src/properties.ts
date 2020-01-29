@@ -142,6 +142,13 @@ export interface StoryPropertyBase<T> {
    * for example different editor tabs
    */
   groupId?: string;
+
+  /**
+   * allows custom sorting of the properties
+   * if 'order' is not provided, the props
+   * will be sorted by the order/key of the object (unreliable)
+   */
+  order?: number;
 }
 
 export interface StoryPropertyText extends StoryPropertyBase<string> {
