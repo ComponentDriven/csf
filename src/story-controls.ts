@@ -162,7 +162,7 @@ export interface StoryControlText extends StoryControlBase<string> {
   placeholder?: string;
 
   /**
-   * minimum number of rows in a TextArea field for longe textr
+   * minimum number of rows in a TextArea field for longe text
    * by default, only 1 row = means a Input field
    */
   minRows?: number;
