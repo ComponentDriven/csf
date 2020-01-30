@@ -258,7 +258,7 @@ export type OptionsListType<T = unknown> = { [key: string]: T } | OptionsValueTy
 export interface StoryControlOptions<T = unknown> extends StoryControlBase<OptionsValueType<T>> {
   type: ControlTypes.OPTIONS;
 
-  options: OptionsListType;
+  options: OptionsListType<T>;
   /**
    * how to render selecting the options:
    * default is 'select'
