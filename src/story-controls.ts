@@ -1,12 +1,12 @@
 /**
- * Property field types
+ * Control field types
  * examples are provided for the different types:
  *
  */
-export enum PropertyTypes {
+export enum ControlTypes {
   /**
    * userName: {
-   *   type: csf.PropertyTypes.TEXT,
+   *   type: csf.ControlTypes.TEXT,
    *   label: 'Name',
    *   value: 'Storyteller',
    * },
@@ -15,7 +15,7 @@ export enum PropertyTypes {
 
   /**
    *  age: {
-   *   type: csf.PropertyTypes.NUMBER,
+   *   type: csf.ControlTypes.NUMBER,
    *   label: 'Age',
    *   value: 78,
    *   range: true,
@@ -28,7 +28,7 @@ export enum PropertyTypes {
 
   /**
    * nice: {
-   *  type: csf.PropertyTypes.BOOLEAN,
+   *  type: csf.ControlTypes.BOOLEAN,
    *  label: 'Nice',
    *  value: true,
    * },
@@ -37,7 +37,7 @@ export enum PropertyTypes {
 
   /**
    * fruit: {
-   *   type: csf.PropertyTypes.OPTIONS,
+   *   type: csf.ControlTypes.OPTIONS,
    *   label: 'Fruit',
    *   value: 'apple',
    *   options: {
@@ -51,7 +51,7 @@ export enum PropertyTypes {
 
   /**
    *  birthday: {
-   *   type: csf.PropertyTypes.DATE,
+   *   type: csf.ControlTypes.DATE,
    *   label: 'Birthday',
    *   value: new Date(),
    *  },
@@ -68,7 +68,7 @@ export enum PropertyTypes {
 
   /**
    * button: {
-   *  type: csf.PropertyTypes.BUTTON,
+   *  type: csf.ControlTypes.BUTTON,
    *   onClick: () => {
    *    ... code to modify some variables
    *  }
@@ -78,7 +78,7 @@ export enum PropertyTypes {
 
   /**
    * otherStyles: {
-   *   type: csf.PropertyTypes.OBJECT,
+   *   type: csf.ControlTypes.OBJECT,
    *   label: 'Styles',
    *   value: {
    *     border: '2px dashed silver',
@@ -91,7 +91,7 @@ export enum PropertyTypes {
 
   /**
    * items: {
-   *   type: csf.PropertyTypes.ARRAY,
+   *   type: csf.ControlTypes.ARRAY,
    *   label: 'Items',
    *   value: ['Laptop', 'Book', 'Whiskey'],
    * },
@@ -100,7 +100,7 @@ export enum PropertyTypes {
 
   /**
    * images: {
-   *   type: csf.PropertyTypes.FILES,
+   *   type: csf.ControlTypes.FILES,
    *   label: 'Happy Picture',
    *   accept: 'image/*',
    *   value: [
@@ -111,8 +111,8 @@ export enum PropertyTypes {
   FILES = 'files',
 }
 
-export interface StoryPropertyBase<T> {
-  type: PropertyTypes;
+export interface StoryControlBase<T> {
+  type: ControlTypes;
 
   /**
    * label to display next to the field editor
@@ -151,8 +151,8 @@ export interface StoryPropertyBase<T> {
   order?: number;
 }
 
-export interface StoryPropertyText extends StoryPropertyBase<string> {
-  type: PropertyTypes.TEXT;
+export interface StoryControlText extends StoryControlBase<string> {
+  type: ControlTypes.TEXT;
 
   /**
    * placeholder for empty properties
@@ -162,22 +162,27 @@ export interface StoryPropertyText extends StoryPropertyBase<string> {
   placeholder?: string;
 
   /**
-   * number of rows in a TextArea field
+   * minimum number of rows in a TextArea field for longe textr
    * by default, only 1 row = means a Input field
+   */
+  minRows?: number;
+
+  /**
+   * number of rows in a TextArea field
    */
   maxRows?: number;
 }
 
-export interface StoryPropertyBoolean extends StoryPropertyBase<boolean> {
-  type: PropertyTypes.BOOLEAN;
+export interface StoryControlBoolean extends StoryControlBase<boolean> {
+  type: ControlTypes.BOOLEAN;
 }
 
-export interface StoryPropertyColor extends StoryPropertyBase<string> {
-  type: PropertyTypes.COLOR;
+export interface StoryControlColor extends StoryControlBase<string> {
+  type: ControlTypes.COLOR;
 }
 
-export interface StoryPropertyDate extends StoryPropertyBase<Date> {
-  type: PropertyTypes.DATE;
+export interface StoryControlDate extends StoryControlBase<Date> {
+  type: ControlTypes.DATE;
   /**
    * whether to display a date picker (calendar).
    * default: true
@@ -192,8 +197,8 @@ export interface StoryPropertyDate extends StoryPropertyBase<Date> {
   timePicker?: boolean;
 }
 
-export interface StoryPropertyFiles extends StoryPropertyBase<string[]> {
-  type: PropertyTypes.FILES;
+export interface StoryControlFiles extends StoryControlBase<string[]> {
+  type: ControlTypes.FILES;
   /**
    * type of files to accept user to open
    * ex 'image/*',
@@ -201,30 +206,38 @@ export interface StoryPropertyFiles extends StoryPropertyBase<string[]> {
   accept?: string;
 }
 
-export interface StoryPropertyArray extends StoryPropertyBase<string[]> {
-  type: PropertyTypes.ARRAY;
+export interface StoryControlArray extends StoryControlBase<string[]> {
+  type: ControlTypes.ARRAY;
   /**
    * the array items separator, by default comma
    */
   separator?: string;
 }
 
-export interface StoryPropertyObject extends StoryPropertyBase<object> {
-  type: PropertyTypes.OBJECT;
+export interface StoryControlObject extends StoryControlBase<object> {
+  type: ControlTypes.OBJECT;
+  /**
+   * minimum number of rows in a TextArea field
+   */
+  minRows?: number;
+
+  /**
+   * maximun number of rows in a TextArea field
+   */
+  maxRows?: number;
 }
 
-export interface StoryPropertyButton extends StoryPropertyBase<void> {
-  type: PropertyTypes.BUTTON;
+export interface StoryControlButton extends StoryControlBase<void> {
+  type: ControlTypes.BUTTON;
 
   /**
    * for button type fields, an onClick handler
    */
-  onClick?: (prop: StoryPropertyButton) => void;
+  onClick?: (prop: StoryControlButton) => void;
 }
 
 export type OptionsValueType<T = unknown> =
   | T
-  | string
   | number
   | string[]
   | number[]
@@ -242,10 +255,10 @@ export type OptionsListType<T = unknown> = { [key: string]: T } | OptionsValueTy
  * 3. array of key-value pair objects
  */
 
-export interface StoryPropertyOptions<T = unknown> extends StoryPropertyBase<OptionsValueType<T>> {
-  type: PropertyTypes.OPTIONS;
+export interface StoryControlOptions<T = unknown> extends StoryControlBase<OptionsValueType<T>> {
+  type: ControlTypes.OPTIONS;
 
-  options: OptionsListType<T>;
+  options: OptionsListType;
   /**
    * how to render selecting the options:
    * default is 'select'
@@ -254,8 +267,8 @@ export interface StoryPropertyOptions<T = unknown> extends StoryPropertyBase<Opt
   display?: 'select' | 'multi-select' | 'radio' | 'inline-radio' | 'check' | 'inline-check';
 }
 
-export interface StoryPropertyNumber extends StoryPropertyBase<number> {
-  type: PropertyTypes.NUMBER;
+export interface StoryControlNumber extends StoryControlBase<number> {
+  type: ControlTypes.NUMBER;
   /**
    * for numeric type fields
    */
@@ -283,30 +296,30 @@ export interface StoryPropertyNumber extends StoryPropertyBase<number> {
 }
 
 /**
- * StoryProperty is a either an object of property settings
+ * StoryControl is a either an object of property settings
  * or a shortcut can be used:
  *  properties: {
  *   text: 'Hello',
  * },
  */
 
-export type StoryProperty =
-  | StoryPropertyText
-  | StoryPropertyBoolean
-  | StoryPropertyColor
-  | StoryPropertyDate
-  | StoryPropertyObject
-  | StoryPropertyButton
-  | StoryPropertyOptions
-  | StoryPropertyNumber
-  | StoryPropertyArray
-  | StoryPropertyFiles;
+export type StoryControl =
+  | StoryControlText
+  | StoryControlBoolean
+  | StoryControlColor
+  | StoryControlDate
+  | StoryControlObject
+  | StoryControlButton
+  | StoryControlOptions
+  | StoryControlNumber
+  | StoryControlArray
+  | StoryControlFiles;
 
 /**
- * StoryProperties are defined in key value pairs
+ * StoryControls are defined in key value pairs
  * the name of the property is the key
- * and the value is the StoryProperty
+ * and the value is the StoryControl
  */
-export interface StoryProperties {
-  [name: string]: StoryProperty;
+export interface StoryControls {
+  [name: string]: StoryControl;
 }

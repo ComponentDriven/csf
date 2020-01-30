@@ -1,10 +1,10 @@
-import { PropertyTypes, StoryProperty } from '.';
+import { ControlTypes, StoryControl } from '.';
 
 describe('properties', () => {
   it('type PropertyTypes.TEXT', () => {
     expect(() => {
-      const prop: StoryProperty = {
-        type: PropertyTypes.TEXT,
+      const prop: StoryControl = {
+        type: ControlTypes.TEXT,
       };
       return prop.type === 'text';
     }).toBeTruthy();

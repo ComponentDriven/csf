@@ -1,7 +1,7 @@
 import startCase from 'lodash/startCase';
-import { StoryProperties } from './properties';
+import { StoryControls } from './story-controls';
 
-export * from './properties';
+export * from './story-controls';
 
 /**
  * Remove punctuation and illegal characters from a story ID.
@@ -100,7 +100,7 @@ export interface StoryMetadata {
      * optional collection of properties, which values
      * will be passed onto the story function
      */
-    properties?: StoryProperties;
+    properties?: StoryControls;
 
     /**
      * optional collection of story parameters
@@ -108,5 +108,9 @@ export interface StoryMetadata {
     parameters?: {
       [key: string]: any;
     };
+    /**
+     * other fields to add, such as decoratirs
+     */
+    [key: string]: any;
   };
 }
