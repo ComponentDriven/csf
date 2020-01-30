@@ -97,10 +97,10 @@ export interface StoryMetadata {
     name?: string;
 
     /**
-     * optional collection of properties, which values
+     * optional collection of controls/properties, which values
      * will be passed onto the story function
      */
-    properties?: StoryControls;
+    controls?: StoryControls;
 
     /**
      * optional collection of story parameters
