@@ -109,7 +109,7 @@ export interface StoryMetadata {
       [key: string]: any;
     };
     /**
-     * other fields to add, such as decoratirs
+     * other fields to add, such as decorators
      */
     [key: string]: any;
   };
