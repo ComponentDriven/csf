@@ -222,7 +222,8 @@ export interface StoryPropertyButton extends StoryPropertyBase<void> {
   onClick?: (prop: StoryPropertyButton) => void;
 }
 
-export type OptionsValueType =
+export type OptionsValueType<T = unknown> =
+  | T
   | string
   | number
   | string[]
@@ -232,7 +233,7 @@ export type OptionsValueType =
 /**
  * value/label pairs or array of OptionsValueType
  */
-export type OptionsListType = { [key: string]: string } | OptionsValueType[];
+export type OptionsListType<T = unknown> = { [key: string]: T } | OptionsValueType<T>[];
 
 /**
  * list of options can be
@@ -241,12 +242,12 @@ export type OptionsListType = { [key: string]: string } | OptionsValueType[];
  * 3. array of key-value pair objects
  */
 
-export interface StoryPropertyOptions extends StoryPropertyBase<OptionsValueType> {
+export interface StoryPropertyOptions<T = unknown> extends StoryPropertyBase<OptionsValueType<T>> {
   type: PropertyTypes.OPTIONS;
 
-  options: OptionsListType;
+  options: OptionsListType<T>;
   /**
-   * how to render slecting the options:
+   * how to render selecting the options:
    * default is 'select'
    */
 
