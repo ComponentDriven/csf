@@ -82,3 +82,5 @@ export const parseKind = (kind: string, { rootSeparator, groupSeparator }: Separ
     groups,
   };
 };
+
+export * from './story';
