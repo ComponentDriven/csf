@@ -12,7 +12,7 @@ export interface KindMeta<Component = unknown, Decorator = unknown> {
   id?: StoryId;
   title: StoryKind;
   component?: Component;
-  subcomponents?: unknown; // TODO
+  subcomponents?: Record<string, Component>;
   decorators?: Decorator[];
   parameters?: {
     [name: string]: unknown;
