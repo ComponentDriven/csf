@@ -8,24 +8,28 @@ type StoryReturnType<T> = T extends (storyFn: infer StoryFn, context: any) => an
     : never
   : never;
 
-export interface KindMeta<Component = unknown, Decorator = unknown> {
+type DefaultParameters = { [name: string]: unknown };
+
+type ParametersType<T extends { [P: string]: any }> = { [P in keyof T]: T[P] };
+
+export interface KindMeta<
+  Component = unknown,
+  Parameters = DefaultParameters,
+  Decorator = unknown
+> {
   id?: StoryId;
   title: StoryKind;
   component?: Component;
   subcomponents?: Record<string, Component>;
   decorators?: Decorator[];
-  parameters?: {
-    [name: string]: unknown;
-  };
+  parameters?: ParametersType<Parameters>;
 }
 
-export interface StoryMeta<Decorator = unknown> {
+export interface StoryMeta<Parameters = DefaultParameters, Decorator = unknown> {
   (): StoryReturnType<Decorator>;
   story?: {
     name?: StoryName;
     decorators?: Decorator[];
-    parameters?: {
-      [name: string]: unknown;
-    };
+    parameters?: ParametersType<Parameters>;
   };
 }
