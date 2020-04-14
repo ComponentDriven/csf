@@ -2,15 +2,16 @@ export type StoryId = string;
 export type StoryKind = string;
 export type StoryName = string;
 
-export type StoryReturnType<T> = T extends (storyFn: infer StoryFn, context: any) => any
-  ? StoryFn extends (...args: any) => any
-    ? ReturnType<StoryFn>
-    : never
-  : never;
+export type StoryFnType<Context, ReturnType> = (context?: Context) => ReturnType;
+
+export type DecoratorFunction<Context, StoryFn extends StoryFnType<Context, any>> = (
+  fn: StoryFn,
+  context: Context
+) => ReturnType<StoryFn>;
 
 export type ParametersType = { [name: string]: any };
 
-export interface KindMeta<Component = unknown, Decorator = unknown> {
+export interface KindMeta<Decorator extends DecoratorFunction<any, any>, Component = unknown> {
   id?: StoryId;
   title: StoryKind;
   component?: Component;
@@ -19,8 +20,12 @@ export interface KindMeta<Component = unknown, Decorator = unknown> {
   parameters?: ParametersType;
 }
 
-export interface StoryMeta<Decorator = unknown> {
-  (): StoryReturnType<Decorator>;
+export interface StoryMeta<
+  Context,
+  StoryFn extends StoryFnType<Context, any>,
+  Decorator extends DecoratorFunction<Context, StoryFn>
+> {
+  (context?: Context): ReturnType<StoryFn>;
   story?: {
     name?: StoryName;
     decorators?: Decorator[];
