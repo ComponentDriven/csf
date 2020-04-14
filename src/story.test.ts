@@ -5,6 +5,7 @@ import {
   StoryId,
   StoryName,
   StoryKind,
+  DefaultParameters,
 } from './story';
 
 // NOTE Types defined in @storybook/addons
@@ -19,15 +20,27 @@ type StoryFn = (c?: Context) => string;
 // NOTE This is example of type definition for @storybook/<framework>
 
 type DecoratorFunction = DecoratorFunctionBase<Context, StoryFn>;
-type KindMeta<Component = unknown> = KindMetaBase<DecoratorFunction, Component>;
-type StoryMeta = StoryMetaBase<Context, StoryFn, DecoratorFunction>;
+type KindMetaWithParams<Parameters, Component = unknown> = KindMetaBase<
+  DecoratorFunction,
+  Parameters,
+  Component
+>;
+type KindMeta<Component = unknown> = KindMetaWithParams<DefaultParameters, Component>;
+type StoryMeta<Parameters = DefaultParameters> = StoryMetaBase<
+  Context,
+  StoryFn,
+  DecoratorFunction,
+  Parameters
+>;
 
 // NOTE This is examples of using types from @storybook/<framework>
+
+type UserKindMeta<Component> = KindMetaWithParams<{ a: string; b: number; c: null }, Component>;
 
 const Button = () => 'Button';
 const Input = () => 'Input';
 
-const kind: KindMeta<typeof Button> = {
+const kind: UserKindMeta<typeof Button> = {
   id: 'button',
   title: 'Button',
   component: Button,
@@ -36,9 +49,17 @@ const kind: KindMeta<typeof Button> = {
   parameters: { a: '1', b: 2, c: null },
 };
 
-export default kind;
+const looseKind: KindMeta<typeof Button> = kind;
 
-export const Simple: StoryMeta = () => `Once upon a time, there was a ${Button()}...`;
+const strictA: string = kind.parameters?.a ?? '';
+const looseA: number = looseKind.parameters?.a;
+
+Object.is(strictA, looseA);
+
+export default looseKind;
+
+export const Simple: StoryMeta<{ d: never[]; e: object; f: Function }> = () =>
+  `Once upon a time, there was a ${Button()}...`;
 Simple.story = {
   name: 'simple story of lonely button',
   decorators: [(storyFn, context) => `Storyteller: '${storyFn(context)}'`],
