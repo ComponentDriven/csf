@@ -49,19 +49,19 @@ const kind: UserKindMeta<typeof Button> = {
   parameters: { a: '1', b: 2, c: null },
 };
 
-const looseKind: KindMeta<typeof Button> = kind;
-
-const strictA: string = kind.parameters?.a ?? '';
-const looseA: number = looseKind.parameters?.a;
-
-Object.is(strictA, looseA);
-
-export default looseKind;
-
-export const Simple: StoryMeta<{ d: never[]; e: object; f: Function }> = () =>
+const Simple: StoryMeta<{ d: never[]; e: object; f: Function }> = () =>
   `Once upon a time, there was a ${Button()}...`;
 Simple.story = {
   name: 'simple story of lonely button',
   decorators: [(storyFn, context) => `Storyteller: '${storyFn(context)}'`],
   parameters: { d: [], e: {}, f: () => null },
 };
+
+const looseKind: KindMeta<typeof Button> = kind;
+
+const strictA: string = kind.parameters?.a ?? '';
+const looseA: number = looseKind.parameters?.a;
+
+describe('story', () => {
+  test('kinds', () => expect(looseA).toBe(strictA));
+});
