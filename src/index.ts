@@ -1,7 +1,4 @@
 import startCase from 'lodash/startCase';
-import { StoryProperties } from './properties';
-
-export * from './properties';
 
 /**
  * Remove punctuation and illegal characters from a story ID.
@@ -86,27 +83,4 @@ export const parseKind = (kind: string, { rootSeparator, groupSeparator }: Separ
   };
 };
 
-/**
- * csf story metadata attached to the story export function
- */
-export interface StoryMetadata {
-  story?: {
-    /**
-     * story name if different from the export name
-     */
-    name?: string;
-
-    /**
-     * optional collection of properties, which values
-     * will be passed onto the story function
-     */
-    properties?: StoryProperties;
-
-    /**
-     * optional collection of story parameters
-     */
-    parameters?: {
-      [key: string]: any;
-    };
-  };
-}
+export * from './story';
