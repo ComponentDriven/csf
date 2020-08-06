@@ -35,15 +35,15 @@ export const emoji = () => <Button>😀😎👍💯</Button>;
 **Compatible with:** [Jest](https://jestjs.io/), [Enzyme](https://enzymejs.github.io/enzyme), [Testing Library](https://testing-library.com), [Cypress](https://www.cypress.io/), [Mocha](https://mochajs.org), etc.
 
 
-## @storybook/csf
+## CSF utilities
 
-A minimal set of utility functions for dealing with Storybook [Component Story Format (CSF)](https://storybook.js.org/docs/formats/component-story-format/).
+A minimal set of utility functions for dealing with [Component Story Format (CSF)](https://storybook.js.org/docs/formats/component-story-format/).
 
 
 ### Install
 
 ```sh
-yarn add @storybook/csf
+yarn add @componentdriven/csf
 ```
 
 ### API

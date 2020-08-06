@@ -1,20 +1,20 @@
 {
-  "name": "@storybook/csf",
+  "name": "@componentdriven/csf",
   "version": "0.0.2-alpha.0",
-  "description": "Storybook Component Story Format (CSF) utilities",
+  "description": "Component Story Format (CSF) utilities",
   "keywords": [
     "storybook",
     "component story format",
     "csf",
     "stories"
   ],
-  "homepage": "https://github.com/storybookjs/csf",
+  "homepage": "https://github.com/ComponentDriven/csf",
   "bugs": {
-    "url": "https://github.com/storybookjs/csf/issues"
+    "url": "https://github.com/ComponentDriven/csf/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/storybookjs/csf.git"
+    "url": "https://github.com/ComponentDriven/csf.git"
   },
   "license": "MIT",
   "files": [
