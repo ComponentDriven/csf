@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/ComponentDriven/csf/polish-readme/csf-header.png" width="321px" />
+<img src="/csf-header.png" width="321px" />
 
 # Component Story Format (CSF)
 
