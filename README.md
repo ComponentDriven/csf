@@ -1,4 +1,4 @@
-<img src="https://user-images.githubusercontent.com/42671/89649515-eceafc00-d88e-11ea-9728-5ef80cdf8462.png" width="321px" />
+<img src="https://user-images.githubusercontent.com/42671/89649515-eceafc00-d88e-11ea-9728-5ef80cdf8462.png" width="321px" height="236px" />
 
 # Component Story Format (CSF)
 
