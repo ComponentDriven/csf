@@ -1,9 +1,10 @@
 import { toId, storyNameFromExport, isExportStory } from '.';
 
 describe('toId', () => {
-  [
+  const testCases: [string, string, string | undefined, string][] = [
     // name, kind, story, output
     ['handles simple cases', 'kind', 'story', 'kind--story'],
+    ['handles kind without story', 'kind', undefined, 'kind'],
     ['handles basic substitution', 'a b$c?d😀e', '1-2:3', 'a-b-c-d😀e--1-2-3'],
     ['handles runs of non-url chars', 'a?&*b', 'story', 'a-b--story'],
     ['removes non-url chars from start and end', '?ab-', 'story', 'ab--story'],
@@ -11,7 +12,9 @@ describe('toId', () => {
     ['non-latin', 'Кнопки', 'нормальный', 'кнопки--нормальный'],
     ['korean', 'kind', '바보 (babo)', 'kind--바보-babo'],
     ['all punctuation', 'kind', 'unicorns,’–—―′¿`"<>()!.!!!{}[]%^&$*#&', 'kind--unicorns'],
-  ].forEach(([name, kind, story, output]) => {
+  ];
+
+  testCases.forEach(([name, kind, story, output]) => {
     it(name, () => {
       expect(toId(kind, story)).toBe(output);
     });
