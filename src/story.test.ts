@@ -23,7 +23,7 @@ const simple: XMeta = {
   component: Button,
   decorators: [(storyFn, context) => `withDecorator(${storyFn(context)})`],
   parameters: { a: () => null, b: NaN, c: Symbol('symbol') },
-  loaders: [async () => ({ d: '3' })],
+  loaders: [() => Promise.resolve({ d: '3' })],
   args: { a: 1 },
   argTypes: { a: { type: { name: 'string' } } },
 };
@@ -33,7 +33,7 @@ const strict: XMeta<ButtonArgs> = {
   component: Button,
   decorators: [(storyFn, context) => `withDecorator(${storyFn(context)})`],
   parameters: { a: () => null, b: NaN, c: Symbol('symbol') },
-  loaders: [async () => ({ d: '3' })],
+  loaders: [() => Promise.resolve({ d: '3' })],
   args: { x: '1' },
   argTypes: { x: { type: { name: 'string' } } },
 };
@@ -46,7 +46,7 @@ CSF1Story.story = {
   name: 'Another name for story',
   decorators: [storyFn => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
-  loaders: [async () => ({ d: '3' })],
+  loaders: [() => Promise.resolve({ d: '3' })],
   args: { a: 1 },
 };
 
@@ -54,7 +54,7 @@ const CSF2Story: XStory = () => 'Named Story';
 CSF2Story.storyName = 'Another name for story';
 CSF2Story.decorators = [storyFn => `Wrapped(${storyFn()}`];
 CSF2Story.parameters = { a: [1, '2', {}], b: undefined, c: Button };
-CSF2Story.loaders = [async () => ({ d: '3' })];
+CSF2Story.loaders = [() => Promise.resolve({ d: '3' })];
 CSF2Story.args = { a: 1 };
 
 const CSF3Story: XStory = {
@@ -62,7 +62,7 @@ const CSF3Story: XStory = {
   name: 'Another name for story',
   decorators: [storyFn => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
-  loaders: [async () => ({ d: '3' })],
+  loaders: [() => Promise.resolve({ d: '3' })],
   args: { a: 1 },
 };
 
@@ -71,7 +71,7 @@ const CSF3StoryStrict: XStory<ButtonArgs> = {
   name: 'Another name for story',
   decorators: [storyFn => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
-  loaders: [async () => ({ d: '3' })],
+  loaders: [() => Promise.resolve({ d: '3' })],
   args: { x: '1' },
 };
 
