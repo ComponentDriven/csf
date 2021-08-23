@@ -1,5 +1,5 @@
 {
-  "name": "@componentdriven/csf",
+  "name": "@storybook/csf",
   "version": "0.0.2-alpha.0",
   "description": "Component Story Format (CSF) utilities",
   "keywords": [
@@ -28,8 +28,8 @@
   "scripts": {
     "build": "babel src --out-dir dist --extensions \".ts\" && tsc --emitDeclarationOnly",
     "lint": "eslint src --ext .js,.ts",
-    "prepublish": "yarn build",
-    "test": "jest"
+    "test": "jest",
+    "release": "yarn build && auto shipit"
   },
   "eslintConfig": {
     "extends": [
@@ -51,6 +51,7 @@
     "@storybook/eslint-config-storybook": "^2.1.0",
     "@types/jest": "^24.0.23",
     "@types/lodash": "^4.14.149",
+    "auto": "^10.31.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^24.9.0",
     "common-tags": "^1.8.0",
