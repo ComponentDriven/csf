@@ -104,6 +104,11 @@ export type DecoratorFunction<TFramework extends Framework> = (
   c: StoryContext<TFramework>
 ) => TFramework['storyResult'];
 
+export type DecoratorApplicator<TFramework extends Framework> = (
+  storyFn: LegacyStoryFn<TFramework>,
+  decorators: DecoratorFunction<TFramework>[]
+) => LegacyStoryFn<TFramework>;
+
 export type BaseAnnotations<TFramework extends Framework, TArgs = Args> = {
   /**
    * Wrapper components or Storybook decorators that wrap a story.
@@ -156,6 +161,7 @@ export type GlobalAnnotations<TFramework extends Framework, TArgs = Args> = Base
   argTypesEnhancers?: ArgTypesEnhancer<TFramework>[];
   globals?: Globals;
   globalTypes?: GlobalTypes;
+  applyDecorators?: DecoratorApplicator<TFramework>;
 };
 
 type StoryDescriptor = string[] | RegExp;
