@@ -1,130 +1,81 @@
-import {
-  KindMeta as KindMetaBase,
-  StoryMeta as StoryMetaBase,
-  DecoratorFunction as DecoratorFunctionBase,
-  StoryId,
-  StoryName,
-  StoryKind,
-  DefaultParameters,
-} from './story';
+import { Args, ComponentAnnotations, StoryAnnotationsOrFn } from './story';
 
-// NOTE Types defined in @storybook/addons
-type Context = {
-  id: StoryId;
-  kind: StoryKind;
-  name: StoryName;
+// NOTE Example of internal type definition for @storybook/<X> (where X is a framework)
+type XFramework = {
+  component: () => string;
+  storyResult: string;
 };
 
-type StoryFn = (c?: Context) => string;
+type XMeta<TArgs = Args> = ComponentAnnotations<XFramework, TArgs>;
+type XStory<TArgs = Args> = StoryAnnotationsOrFn<XFramework, TArgs>;
 
-// NOTE Example of internal type definition for @storybook/<framework>
+// NOTE Examples of using types from @storybook/<X> in real project
 
-type DecoratorFunction = DecoratorFunctionBase<Context, StoryFn>;
-type KindMetaWithParams<Parameters, Component = unknown> = KindMetaBase<
-  DecoratorFunction,
-  Parameters,
-  Component
->;
-type KindMeta<Component = unknown> = KindMetaWithParams<DefaultParameters, Component>;
-type StoryMeta<Parameters = DefaultParameters> = StoryMetaBase<
-  Context,
-  StoryFn,
-  DecoratorFunction,
-  Parameters
->;
-
-// NOTE Examples of using types from @storybook/<framework> in real project
-
-type UserKindMeta<Component> = KindMetaWithParams<{ a: string; b: number; c: null }, Component>;
-
-const Button = () => 'Button';
-const Input = () => 'Input';
+const Button: XFramework['component'] = () => 'Button';
+type ButtonArgs = {
+  x: string;
+  y: string;
+};
 
 // NOTE Various kind usages
-const simple: KindMeta = {
+const simple: XMeta = {
   title: 'simple',
-};
-
-const withUnknownComponent: KindMeta = {
-  title: 'component',
   component: Button,
-};
-
-const withTypedComponent: KindMeta<typeof Button> = {
-  title: 'buttonComponent',
-  component: Button,
-};
-
-const withDecorator: KindMeta = {
-  title: 'withDecorator',
   decorators: [(storyFn, context) => `withDecorator(${storyFn(context)})`],
-};
-
-const looseParameters: KindMeta = {
-  title: 'looseKind',
   parameters: { a: () => null, b: NaN, c: Symbol('symbol') },
+  loaders: [async () => ({ d: '3' })],
+  args: { a: 1 },
+  argTypes: { a: { type: { name: 'string' } } },
 };
 
-const strictParameters: KindMetaWithParams<{ a: number; b: Function; c: Promise<string>[] }> = {
-  title: 'strictKind',
-  parameters: {
-    a: 1,
-    b() {
-      /* noop */
-    },
-    c: [Promise.resolve('string')],
-  },
-};
-
-const complexKind: UserKindMeta<typeof Button> = {
-  id: 'button',
-  title: 'Button',
+const strict: XMeta<ButtonArgs> = {
+  title: 'simple',
   component: Button,
-  subcomponents: { input: Input },
   decorators: [(storyFn, context) => `withDecorator(${storyFn(context)})`],
-  parameters: { a: '1', b: 2, c: null },
+  parameters: { a: () => null, b: NaN, c: Symbol('symbol') },
+  loaders: [async () => ({ d: '3' })],
+  args: { x: '1' },
+  argTypes: { x: { type: { name: 'string' } } },
 };
 
 // NOTE Various story usages
-const Simple: StoryMeta = () => 'Simple';
+const Simple: XStory = () => 'Simple';
 
-const NamedStory: StoryMeta = () => 'Named Story';
-NamedStory.story = { name: 'Another name for story' };
-
-const DecoratedStory: StoryMeta = () => 'Body';
-DecoratedStory.story = {
+const CSF1Story: XStory = () => 'Named Story';
+CSF1Story.story = {
+  name: 'Another name for story',
   decorators: [storyFn => `Wrapped(${storyFn()}`],
-};
-
-const LooseStory: StoryMeta = Button;
-LooseStory.story = {
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
+  loaders: [async () => ({ d: '3' })],
+  args: { a: 1 },
 };
 
-const StrictStory: StoryMeta<{ a: string[]; b: StoryFn; c: DecoratorFunction }> = () => Input();
-StrictStory.story = {
-  parameters: {
-    a: ['1', '2'],
-    b: Simple,
-    c: (storyFn, context) => `withDecorator(${storyFn(context)})`,
-  },
+const CSF2Story: XStory = () => 'Named Story';
+CSF2Story.storyName = 'Another name for story';
+CSF2Story.decorators = [storyFn => `Wrapped(${storyFn()}`];
+CSF2Story.parameters = { a: [1, '2', {}], b: undefined, c: Button };
+CSF2Story.loaders = [async () => ({ d: '3' })];
+CSF2Story.args = { a: 1 };
+
+const CSF3Story: XStory = {
+  render: () => 'Named Story',
+  name: 'Another name for story',
+  decorators: [storyFn => `Wrapped(${storyFn()}`],
+  parameters: { a: [1, '2', {}], b: undefined, c: Button },
+  loaders: [async () => ({ d: '3' })],
+  args: { a: 1 },
 };
 
-const ComplexStory: StoryMeta<{ d: never[]; e: object; f: Function }> = () =>
-  `Once upon a time, there was a ${Button()}...`;
-Simple.story = {
-  name: 'simple story of lonely button',
-  decorators: [(storyFn, context) => `Storyteller: '${storyFn(context)}'`],
-  parameters: { d: [], e: {}, f: () => null },
+const CSF3StoryStrict: XStory<ButtonArgs> = {
+  render: () => 'Named Story',
+  name: 'Another name for story',
+  decorators: [storyFn => `Wrapped(${storyFn()}`],
+  parameters: { a: [1, '2', {}], b: undefined, c: Button },
+  loaders: [async () => ({ d: '3' })],
+  args: { x: '1' },
 };
-
-// NOTE Comparison difference between strict and loose parameters typing
-const looseKind: KindMeta<typeof Button> = complexKind;
-
-const strictA: string = complexKind.parameters?.a ?? '';
-const looseA: number = looseKind.parameters?.a;
 
 // NOTE Jest forced to define at least one test in file
 describe('story', () => {
-  test('kinds', () => expect(looseA).toBe(strictA));
+  test('true', () => expect(true).toBe(true));
 });
