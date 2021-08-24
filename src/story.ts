@@ -1,9 +1,14 @@
 import { SBType } from './SBType';
 
+export * from './SBType';
 export type StoryId = string;
 export type ComponentId = string;
 export type ComponentTitle = string;
 export type StoryName = string;
+
+type A<TF extends Framework> = {
+  field: TF['component'];
+};
 
 /** @deprecated */
 export type StoryKind = ComponentTitle;
@@ -26,7 +31,7 @@ export type InputType = {
   name?: string;
   description?: string;
   defaultValue?: any;
-  type?: SBType;
+  type?: SBType | SBType['name'];
   [key: string]: any;
 };
 
