@@ -1,4 +1,4 @@
-import { SBType } from './SBType';
+import { SBType, SBScalarType } from './SBType';
 
 export * from './SBType';
 export type StoryId = string;
@@ -31,15 +31,22 @@ export type InputType = {
   name?: string;
   description?: string;
   defaultValue?: any;
-  type?: SBType | SBType['name'];
+  type?: SBType | SBScalarType['name'];
   [key: string]: any;
+};
+
+export type StrictInputType = InputType & {
+  name: string;
+  type?: SBType;
 };
 
 export type Args = { [name: string]: any };
 export type ArgTypes = { [name: string]: InputType };
+export type StrictArgTypes = { [name: string]: StrictInputType };
 
 export type Globals = { [name: string]: any };
 export type GlobalTypes = { [name: string]: InputType };
+export type StrictGlobalTypes = { [name: string]: StrictInputType };
 
 export type Framework = { component: unknown; storyResult: unknown };
 export type StoryContextForEnhancers<TFramework extends Framework> = StoryIdentifier & {
@@ -48,15 +55,15 @@ export type StoryContextForEnhancers<TFramework extends Framework> = StoryIdenti
 
   parameters: Parameters;
   initialArgs: Args;
-  argTypes: ArgTypes;
+  argTypes: StrictArgTypes;
 };
 
 export type ArgsEnhancer<TFramework extends Framework> = (
   context: StoryContextForEnhancers<TFramework>
 ) => Args;
-export type ArgTypesEnhancer<TFramework extends Framework> = (
+export type ArgTypesEnhancer<TFramework extends Framework> = ((
   context: StoryContextForEnhancers<TFramework>
-) => ArgTypes & {
+) => ArgTypes) & {
   secondPass?: boolean;
 };
 
