@@ -63,7 +63,7 @@ export type ArgsEnhancer<TFramework extends Framework> = (
 ) => Args;
 export type ArgTypesEnhancer<TFramework extends Framework> = ((
   context: StoryContextForEnhancers<TFramework>
-) => ArgTypes) & {
+) => StrictArgTypes) & {
   secondPass?: boolean;
 };
 
