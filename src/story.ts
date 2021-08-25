@@ -27,18 +27,18 @@ export interface StoryIdentifier {
 
 export type Parameters = { [name: string]: any };
 
-export type InputType = {
+export interface InputType {
   name?: string;
   description?: string;
   defaultValue?: any;
   type?: SBType | SBScalarType['name'];
   [key: string]: any;
-};
+}
 
-export type StrictInputType = InputType & {
+export interface StrictInputType extends InputType {
   name: string;
   type?: SBType;
-};
+}
 
 export type Args = { [name: string]: any };
 export type ArgTypes = { [name: string]: InputType };
