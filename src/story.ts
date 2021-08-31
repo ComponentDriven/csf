@@ -70,6 +70,9 @@ export type ArgTypesEnhancer<TFramework extends Framework> = ((
 export type StoryContextUpdate = {
   args: Args;
   globals: Globals;
+  // NOTE: it is currently possibly to add *any* key you like to the context
+  // (although you cannot override the basic keys). This will likely be removed in future.
+  [key: string]: any;
 };
 
 export type ViewMode = 'story' | 'docs';
