@@ -6,7 +6,7 @@ export type ComponentId = string;
 export type ComponentTitle = string;
 export type StoryName = string;
 
-type A<TF extends Framework> = {
+type A<TF extends AnyFramework> = {
   field: TF['component'];
 };
 
@@ -48,8 +48,8 @@ export type Globals = { [name: string]: any };
 export type GlobalTypes = { [name: string]: InputType };
 export type StrictGlobalTypes = { [name: string]: StrictInputType };
 
-export type Framework = { component: unknown; storyResult: unknown };
-export type StoryContextForEnhancers<TFramework extends Framework> = StoryIdentifier & {
+export type AnyFramework = { component: unknown; storyResult: unknown };
+export type StoryContextForEnhancers<TFramework extends AnyFramework> = StoryIdentifier & {
   component?: TFramework['component'];
   subcomponents?: Record<string, TFramework['component']>;
 
@@ -58,10 +58,10 @@ export type StoryContextForEnhancers<TFramework extends Framework> = StoryIdenti
   argTypes: StrictArgTypes;
 };
 
-export type ArgsEnhancer<TFramework extends Framework> = (
+export type ArgsEnhancer<TFramework extends AnyFramework> = (
   context: StoryContextForEnhancers<TFramework>
 ) => Args;
-export type ArgTypesEnhancer<TFramework extends Framework> = ((
+export type ArgTypesEnhancer<TFramework extends AnyFramework> = ((
   context: StoryContextForEnhancers<TFramework>
 ) => StrictArgTypes) & {
   secondPass?: boolean;
@@ -76,7 +76,7 @@ export type StoryContextUpdate = {
 };
 
 export type ViewMode = 'story' | 'docs';
-export type StoryContextForLoaders<TFramework extends Framework> = StoryContextForEnhancers<
+export type StoryContextForLoaders<TFramework extends AnyFramework> = StoryContextForEnhancers<
   TFramework
 > &
   Required<StoryContextUpdate> & {
@@ -85,46 +85,46 @@ export type StoryContextForLoaders<TFramework extends Framework> = StoryContextF
     originalStoryFn: StoryFn<TFramework>;
   };
 
-export type LoaderFunction<TFramework extends Framework> = (
+export type LoaderFunction<TFramework extends AnyFramework> = (
   c: StoryContextForLoaders<TFramework>
 ) => Promise<Record<string, any>>;
 
-export type StoryContext<TFramework extends Framework> = StoryContextForLoaders<TFramework> & {
+export type StoryContext<TFramework extends AnyFramework> = StoryContextForLoaders<TFramework> & {
   loaded: Record<string, any>;
 };
 
 // This is the type of story function passed to a decorator -- does not rely on being passed any context
-export type PartialStoryFn<TFramework extends Framework> = (
+export type PartialStoryFn<TFramework extends AnyFramework> = (
   p?: StoryContextUpdate
 ) => TFramework['storyResult'];
 
 // This is a passArgsFirst: false user story function
-export type LegacyStoryFn<TFramework extends Framework> = (
+export type LegacyStoryFn<TFramework extends AnyFramework> = (
   p?: StoryContext<TFramework>
 ) => TFramework['storyResult'];
 
 // This is a passArgsFirst: true user story function
-export type ArgsStoryFn<TFramework extends Framework> = (
+export type ArgsStoryFn<TFramework extends AnyFramework> = (
   a?: Args,
   p?: StoryContext<TFramework>
 ) => TFramework['storyResult'];
 
 // This is either type of user story function
-export type StoryFn<TFramework extends Framework> =
+export type StoryFn<TFramework extends AnyFramework> =
   | LegacyStoryFn<TFramework>
   | ArgsStoryFn<TFramework>;
 
-export type DecoratorFunction<TFramework extends Framework> = (
+export type DecoratorFunction<TFramework extends AnyFramework> = (
   fn: PartialStoryFn<TFramework>,
   c: StoryContext<TFramework>
 ) => TFramework['storyResult'];
 
-export type DecoratorApplicator<TFramework extends Framework> = (
+export type DecoratorApplicator<TFramework extends AnyFramework> = (
   storyFn: LegacyStoryFn<TFramework>,
   decorators: DecoratorFunction<TFramework>[]
 ) => LegacyStoryFn<TFramework>;
 
-export type BaseAnnotations<TFramework extends Framework, TArgs = Args> = {
+export type BaseAnnotations<TFramework extends AnyFramework, TArgs = Args> = {
   /**
    * Wrapper components or Storybook decorators that wrap a story.
    *
@@ -168,7 +168,7 @@ export type BaseAnnotations<TFramework extends Framework, TArgs = Args> = {
   play?: () => Promise<void>;
 };
 
-export type GlobalAnnotations<TFramework extends Framework, TArgs = Args> = BaseAnnotations<
+export type GlobalAnnotations<TFramework extends AnyFramework, TArgs = Args> = BaseAnnotations<
   TFramework,
   TArgs
 > & {
@@ -180,7 +180,7 @@ export type GlobalAnnotations<TFramework extends Framework, TArgs = Args> = Base
 };
 
 type StoryDescriptor = string[] | RegExp;
-export type ComponentAnnotations<TFramework extends Framework, TArgs = Args> = BaseAnnotations<
+export type ComponentAnnotations<TFramework extends AnyFramework, TArgs = Args> = BaseAnnotations<
   TFramework,
   TArgs
 > & {
@@ -255,7 +255,7 @@ export type ComponentAnnotations<TFramework extends Framework, TArgs = Args> = B
   subcomponents?: Record<string, TFramework['component']>;
 };
 
-export type StoryAnnotations<TFramework extends Framework, TArgs = Args> = BaseAnnotations<
+export type StoryAnnotations<TFramework extends AnyFramework, TArgs = Args> = BaseAnnotations<
   TFramework,
   TArgs
 > & {
@@ -273,9 +273,9 @@ export type StoryAnnotations<TFramework extends Framework, TArgs = Args> = BaseA
   story?: Omit<StoryAnnotations<TFramework, TArgs>, 'story'>;
 };
 
-type AnnotatedStoryFn<TFramework extends Framework, TArgs = Args> = StoryFn<TFramework> &
+type AnnotatedStoryFn<TFramework extends AnyFramework, TArgs = Args> = StoryFn<TFramework> &
   StoryAnnotations<TFramework, TArgs>;
 
-export type StoryAnnotationsOrFn<TFramework extends Framework, TArgs = Args> =
+export type StoryAnnotationsOrFn<TFramework extends AnyFramework, TArgs = Args> =
   | AnnotatedStoryFn<TFramework, TArgs>
   | StoryAnnotations<TFramework, TArgs>;
