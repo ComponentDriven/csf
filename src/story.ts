@@ -156,7 +156,7 @@ export type BaseAnnotations<TFramework extends AnyFramework, TArgs = Args> = {
    * ArgTypes encode basic metadata for args, such as `name`, `description`, `defaultValue` for an arg. These get automatically filled in by Storybook Docs.
    * @see [Control annotations](https://github.com/storybookjs/storybook/blob/91e9dee33faa8eff0b342a366845de7100415367/addons/controls/README.md#control-annotations)
    */
-  argTypes?: ArgTypes<TArgs>;
+  argTypes?: Partial<ArgTypes<TArgs>>;
 
   /**
    * Asynchronous functions which provide data for a story.
