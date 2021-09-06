@@ -280,7 +280,20 @@ export type StoryAnnotations<TFramework extends AnyFramework, TArgs = Args> = Ba
   story?: Omit<StoryAnnotations<TFramework, TArgs>, 'story'>;
 };
 
-type AnnotatedStoryFn<TFramework extends AnyFramework, TArgs = Args> = StoryFn<TFramework, TArgs> &
+type LegacyAnnotatedStoryFn<TFramework extends AnyFramework, TArgs = Args> = StoryFn<
+  TFramework,
+  TArgs
+> &
+  StoryAnnotations<TFramework, TArgs>;
+
+export type LegacyStoryAnnotationsOrFn<TFramework extends AnyFramework, TArgs = Args> =
+  | LegacyAnnotatedStoryFn<TFramework, TArgs>
+  | StoryAnnotations<TFramework, TArgs>;
+
+type AnnotatedStoryFn<TFramework extends AnyFramework, TArgs = Args> = ArgsStoryFn<
+  TFramework,
+  TArgs
+> &
   StoryAnnotations<TFramework, TArgs>;
 
 export type StoryAnnotationsOrFn<TFramework extends AnyFramework, TArgs = Args> =
