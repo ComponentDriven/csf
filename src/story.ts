@@ -114,18 +114,18 @@ export type PlayFunction<TFramework extends AnyFramework, TArgs = Args> = (
 
 // This is the type of story function passed to a decorator -- does not rely on being passed any context
 export type PartialStoryFn<TFramework extends AnyFramework, TArgs = Args> = (
-  p?: StoryContextUpdate<TArgs>
+  update?: StoryContextUpdate<TArgs>
 ) => TFramework['storyResult'];
 
 // This is a passArgsFirst: false user story function
 export type LegacyStoryFn<TFramework extends AnyFramework, TArgs = Args> = (
-  p?: StoryContext<TFramework, TArgs>
+  context: StoryContext<TFramework, TArgs>
 ) => TFramework['storyResult'];
 
 // This is a passArgsFirst: true user story function
 export type ArgsStoryFn<TFramework extends AnyFramework, TArgs = Args> = (
-  a?: TArgs,
-  p?: StoryContext<TFramework, TArgs>
+  args: TArgs,
+  context: StoryContext<TFramework, TArgs>
 ) => TFramework['storyResult'];
 
 // This is either type of user story function
