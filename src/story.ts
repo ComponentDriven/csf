@@ -175,7 +175,7 @@ export type BaseAnnotations<TFramework extends AnyFramework, TArgs = Args> = {
   play?: () => Promise<void>;
 };
 
-export type GlobalAnnotations<TFramework extends AnyFramework, TArgs = Args> = BaseAnnotations<
+export type ProjectAnnotations<TFramework extends AnyFramework, TArgs = Args> = BaseAnnotations<
   TFramework,
   TArgs
 > & {
