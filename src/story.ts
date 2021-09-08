@@ -48,7 +48,7 @@ export type Globals = { [name: string]: any };
 export type GlobalTypes = { [name: string]: InputType };
 export type StrictGlobalTypes = { [name: string]: StrictInputType };
 
-export type AnyFramework = { component: unknown; storyResult: unknown };
+export type AnyFramework = { canvasElement: unknown; component: unknown; storyResult: unknown };
 export type StoryContextForEnhancers<
   TFramework extends AnyFramework = AnyFramework,
   TArgs = Args
@@ -90,7 +90,7 @@ export type StoryContextForLoaders<
   };
 
 export type LoaderFunction<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
-  c: StoryContextForLoaders<TFramework, TArgs>
+  context: StoryContextForLoaders<TFramework, TArgs>
 ) => Promise<Record<string, any>>;
 
 export type StoryContext<
@@ -98,18 +98,12 @@ export type StoryContext<
   TArgs = Args
 > = StoryContextForLoaders<TFramework, TArgs> & {
   loaded: Record<string, any>;
-};
-
-export type StoryContextForPlayFunction<
-  TFramework extends AnyFramework = AnyFramework,
-  TArgs = Args
-> = StoryContext<TFramework, TArgs> & {
   abortSignal: AbortSignal;
-  canvas?: HTMLElement;
+  canvasElement: HTMLElement;
 };
 
 export type PlayFunction<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
-  // context: StoryContextForPlayFunction<TFramework, TArgs>
+  context: StoryContext<TFramework, TArgs>
 ) => Promise<void> | void;
 
 // This is the type of story function passed to a decorator -- does not rely on being passed any context
@@ -292,22 +286,20 @@ export type StoryAnnotations<
   story?: Omit<StoryAnnotations<TFramework, TArgs>, 'story'>;
 };
 
-export type LegacyAnnotatedStoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = StoryFn<
-  TFramework,
-  TArgs
-> &
-  StoryAnnotations<TFramework, TArgs>;
+export type LegacyAnnotatedStoryFn<
+  TFramework extends AnyFramework = AnyFramework,
+  TArgs = Args
+> = StoryFn<TFramework, TArgs> & StoryAnnotations<TFramework, TArgs>;
 
 export type LegacyStoryAnnotationsOrFn<
   TFramework extends AnyFramework = AnyFramework,
   TArgs = Args
 > = LegacyAnnotatedStoryFn<TFramework, TArgs> | StoryAnnotations<TFramework, TArgs>;
 
-export type AnnotatedStoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = ArgsStoryFn<
-  TFramework,
-  TArgs
-> &
-  StoryAnnotations<TFramework, TArgs>;
+export type AnnotatedStoryFn<
+  TFramework extends AnyFramework = AnyFramework,
+  TArgs = Args
+> = ArgsStoryFn<TFramework, TArgs> & StoryAnnotations<TFramework, TArgs>;
 
 export type StoryAnnotationsOrFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> =
   | AnnotatedStoryFn<TFramework, TArgs>
