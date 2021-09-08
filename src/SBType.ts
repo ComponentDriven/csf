@@ -4,7 +4,7 @@ interface SBBaseType {
 }
 
 export type SBScalarType = SBBaseType & {
-  name: 'boolean' | 'string' | 'number' | 'function';
+  name: 'boolean' | 'string' | 'number' | 'function' | 'symbol';
 };
 
 export type SBArrayType = SBBaseType & {
