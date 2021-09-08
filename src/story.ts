@@ -90,7 +90,7 @@ export type StoryContextForLoaders<
   };
 
 export type LoaderFunction<TFramework extends AnyFramework, TArgs = Args> = (
-  c: StoryContextForLoaders<TFramework, TArgs>
+  context: StoryContextForLoaders<TFramework, TArgs>
 ) => Promise<Record<string, any>>;
 
 export type StoryContext<TFramework extends AnyFramework, TArgs = Args> = StoryContextForLoaders<
@@ -99,6 +99,18 @@ export type StoryContext<TFramework extends AnyFramework, TArgs = Args> = StoryC
 > & {
   loaded: Record<string, any>;
 };
+
+export type StoryContextForPlayFunction<
+  TFramework extends AnyFramework,
+  TArgs = Args
+> = StoryContext<TFramework, TArgs> & {
+  abortSignal: AbortSignal;
+  canvas?: HTMLElement;
+};
+
+export type PlayFunction<TFramework extends AnyFramework, TArgs = Args> = (
+  context: StoryContextForPlayFunction<TFramework, TArgs>
+) => Promise<void> | void;
 
 // This is the type of story function passed to a decorator -- does not rely on being passed any context
 export type PartialStoryFn<TFramework extends AnyFramework, TArgs = Args> = (
@@ -172,7 +184,7 @@ export type BaseAnnotations<TFramework extends AnyFramework, TArgs = Args> = {
   /**
    * Function that is executed after the story is rendered.
    */
-  play?: () => Promise<void>;
+  play?: PlayFunction<TFramework, TArgs>;
 };
 
 export type ProjectAnnotations<TFramework extends AnyFramework, TArgs = Args> = BaseAnnotations<
