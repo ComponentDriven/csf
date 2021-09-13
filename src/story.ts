@@ -109,7 +109,7 @@ export type StoryContextForPlayFunction<
 };
 
 export type PlayFunction<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
-  context: StoryContextForPlayFunction<TFramework, TArgs>
+  // context: StoryContextForPlayFunction<TFramework, TArgs>
 ) => Promise<void> | void;
 
 // This is the type of story function passed to a decorator -- does not rely on being passed any context
