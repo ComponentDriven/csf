@@ -292,7 +292,7 @@ export type StoryAnnotations<
   story?: Omit<StoryAnnotations<TFramework, TArgs>, 'story'>;
 };
 
-type LegacyAnnotatedStoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = StoryFn<
+export type LegacyAnnotatedStoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = StoryFn<
   TFramework,
   TArgs
 > &
@@ -303,7 +303,7 @@ export type LegacyStoryAnnotationsOrFn<
   TArgs = Args
 > = LegacyAnnotatedStoryFn<TFramework, TArgs> | StoryAnnotations<TFramework, TArgs>;
 
-type AnnotatedStoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = ArgsStoryFn<
+export type AnnotatedStoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = ArgsStoryFn<
   TFramework,
   TArgs
 > &
