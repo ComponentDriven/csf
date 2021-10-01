@@ -29,9 +29,7 @@ const sanitizeSafe = (string: string, part: string) => {
  * Generate a storybook ID from a component/kind and story name.
  */
 export const toId = (kind: string, name?: string) =>
-  `${sanitizeSafe(kind, 'kind')}${
-    typeof name === 'string' ? `--${sanitizeSafe(name, 'name')}` : ''
-  }`;
+  `${sanitizeSafe(kind, 'kind')}${name ? `--${sanitizeSafe(name, 'name')}` : ''}`;
 
 /**
  * Transform a CSF named export into a readable story name

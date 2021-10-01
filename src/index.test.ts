@@ -36,8 +36,8 @@ describe('toId', () => {
     );
   });
 
-  it('does not allow empty story', () => {
-    expect(() => toId('kind', '')).toThrow(`Invalid name '', must include alphanumeric characters`);
+  it('allows empty story', () => {
+    expect(() => toId('kind', '')).not.toThrow();
   });
 });
 
