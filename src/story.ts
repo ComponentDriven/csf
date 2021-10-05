@@ -48,7 +48,7 @@ export type Globals = { [name: string]: any };
 export type GlobalTypes = { [name: string]: InputType };
 export type StrictGlobalTypes = { [name: string]: StrictInputType };
 
-export type AnyFramework = { canvasElement: unknown; component: unknown; storyResult: unknown };
+export type AnyFramework = { component: unknown; storyResult: unknown };
 export type StoryContextForEnhancers<
   TFramework extends AnyFramework = AnyFramework,
   TArgs = Args
