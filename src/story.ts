@@ -144,7 +144,7 @@ export type BaseAnnotations<TFramework extends AnyFramework = AnyFramework, TArg
    * Decorators defined in Meta will be applied to every story variation.
    * @see [Decorators](https://storybook.js.org/docs/addons/introduction/#1-decorators)
    */
-  decorators?: DecoratorFunction<TFramework, TArgs>[];
+  decorators?: DecoratorFunction<TFramework, Args>[];
 
   /**
    * Custom metadata for a story.
@@ -168,28 +168,28 @@ export type BaseAnnotations<TFramework extends AnyFramework = AnyFramework, TArg
    * Asynchronous functions which provide data for a story.
    * @see [Loaders](https://storybook.js.org/docs/react/writing-stories/loaders)
    */
-  loaders?: LoaderFunction<TFramework, TArgs>[];
+  loaders?: LoaderFunction<TFramework, Args>[];
 
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the framework will be used.
    */
-  render?: ArgsStoryFn<TFramework, TArgs>;
+  render?: ArgsStoryFn<TFramework, Args>;
 
   /**
    * Function that is executed after the story is rendered.
    */
-  play?: PlayFunction<TFramework, TArgs>;
+  play?: PlayFunction<TFramework, Args>;
 };
 
 export type ProjectAnnotations<
   TFramework extends AnyFramework = AnyFramework,
   TArgs = Args
 > = BaseAnnotations<TFramework, TArgs> & {
-  argsEnhancers?: ArgsEnhancer<TFramework, TArgs>[];
-  argTypesEnhancers?: ArgTypesEnhancer<TFramework, TArgs>[];
+  argsEnhancers?: ArgsEnhancer<TFramework, Args>[];
+  argTypesEnhancers?: ArgTypesEnhancer<TFramework, Args>[];
   globals?: Globals;
   globalTypes?: GlobalTypes;
-  applyDecorators?: DecoratorApplicator<TFramework, TArgs>;
+  applyDecorators?: DecoratorApplicator<TFramework, Args>;
 };
 
 type StoryDescriptor = string[] | RegExp;
@@ -289,7 +289,7 @@ export type StoryAnnotations<
 export type LegacyAnnotatedStoryFn<
   TFramework extends AnyFramework = AnyFramework,
   TArgs = Args
-> = StoryFn<TFramework, TArgs> & StoryAnnotations<TFramework, TArgs>;
+> = StoryFn<TFramework, Args> & StoryAnnotations<TFramework, TArgs>;
 
 export type LegacyStoryAnnotationsOrFn<
   TFramework extends AnyFramework = AnyFramework,
@@ -299,7 +299,7 @@ export type LegacyStoryAnnotationsOrFn<
 export type AnnotatedStoryFn<
   TFramework extends AnyFramework = AnyFramework,
   TArgs = Args
-> = ArgsStoryFn<TFramework, TArgs> & StoryAnnotations<TFramework, TArgs>;
+> = ArgsStoryFn<TFramework, Args> & StoryAnnotations<TFramework, TArgs>;
 
 export type StoryAnnotationsOrFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> =
   | AnnotatedStoryFn<TFramework, TArgs>
