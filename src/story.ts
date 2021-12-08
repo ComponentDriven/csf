@@ -174,11 +174,6 @@ export type BaseAnnotations<TFramework extends AnyFramework = AnyFramework, TArg
    * Define a custom render function for the story(ies). If not passed, a default render function by the framework will be used.
    */
   render?: ArgsStoryFn<TFramework, Args>;
-
-  /**
-   * Function that is executed after the story is rendered.
-   */
-  play?: PlayFunction<TFramework, Args>;
 };
 
 export type ProjectAnnotations<
@@ -265,7 +260,14 @@ export type ComponentAnnotations<
    *
    * By defining them each component will have its tab in the args table.
    */
-  subcomponents?: Record<string, TFramework['component']>;
+    subcomponents?: Record<string, TFramework['component']>;
+  
+
+
+  /**
+   * Function that is executed after the story is rendered.
+   */
+  play?: PlayFunction<TFramework, TArgs>;
 };
 
 export type StoryAnnotations<
@@ -281,6 +283,11 @@ export type StoryAnnotations<
    * Override the display name in the UI (CSF v2)
    */
   storyName?: StoryName;
+  
+  /**
+   * Function that is executed after the story is rendered.
+   */
+  play?: PlayFunction<TFramework, TArgs>;
 
   /** @deprecated */
   story?: Omit<StoryAnnotations<TFramework, TArgs>, 'story'>;
@@ -289,7 +296,7 @@ export type StoryAnnotations<
 export type LegacyAnnotatedStoryFn<
   TFramework extends AnyFramework = AnyFramework,
   TArgs = Args
-> = StoryFn<TFramework, Args> & StoryAnnotations<TFramework, TArgs>;
+> = StoryFn<TFramework, TArgs> & StoryAnnotations<TFramework, TArgs>;
 
 export type LegacyStoryAnnotationsOrFn<
   TFramework extends AnyFramework = AnyFramework,
@@ -299,7 +306,7 @@ export type LegacyStoryAnnotationsOrFn<
 export type AnnotatedStoryFn<
   TFramework extends AnyFramework = AnyFramework,
   TArgs = Args
-> = ArgsStoryFn<TFramework, Args> & StoryAnnotations<TFramework, TArgs>;
+> = ArgsStoryFn<TFramework, TArgs> & StoryAnnotations<TFramework, TArgs>;
 
 export type StoryAnnotationsOrFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> =
   | AnnotatedStoryFn<TFramework, TArgs>
