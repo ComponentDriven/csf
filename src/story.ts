@@ -261,13 +261,6 @@ export type ComponentAnnotations<
    * By defining them each component will have its tab in the args table.
    */
     subcomponents?: Record<string, TFramework['component']>;
-  
-
-
-  /**
-   * Function that is executed after the story is rendered.
-   */
-  play?: PlayFunction<TFramework, TArgs>;
 };
 
 export type StoryAnnotations<
