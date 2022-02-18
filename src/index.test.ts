@@ -1,4 +1,5 @@
-import { toId, storyNameFromExport, isExportStory } from '.';
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+import { toId, storyNameFromExport, isExportStory, includeConditionalArg } from '.';
 
 describe('toId', () => {
   const testCases: [string, string, string | undefined, string][] = [
@@ -90,5 +91,36 @@ describe('isExportStory', () => {
     expect(isExportStory('a', { includeStories: /a/, excludeStories: ['a'] })).toBeFalsy();
     expect(isExportStory('a', { includeStories: /.*/, excludeStories: /.*/ })).toBeFalsy();
     expect(isExportStory('a', { includeStories: /a/, excludeStories: /b/ })).toBeTruthy();
+  });
+});
+
+describe('includeConditionalArg', () => {
+  it('boolean values', () => {
+    expect(includeConditionalArg({ includeIf: true }, {})).toBe(true);
+    expect(includeConditionalArg({ includeIf: false }, {})).toBe(false);
+    expect(includeConditionalArg({ excludeIf: true }, {})).toBe(false);
+    expect(includeConditionalArg({ excludeIf: false }, {})).toBe(true);
+  });
+
+  it('dynamic values', () => {
+    expect(includeConditionalArg({ includeIf: 'foo' }, { foo: true })).toBe(true);
+    expect(includeConditionalArg({ includeIf: 'bar' }, {})).toBe(false);
+    expect(includeConditionalArg({ excludeIf: 'foo' }, { foo: true })).toBe(false);
+    expect(includeConditionalArg({ excludeIf: 'bar' }, {})).toBe(true);
+  });
+
+  it('other values', () => {
+    expect(includeConditionalArg({ includeIf: undefined }, {})).toBe(true);
+    // @ts-ignore
+    expect(includeConditionalArg({ includeIf: null }, {})).toBe(false);
+    expect(includeConditionalArg({ excludeIf: undefined }, {})).toBe(true);
+    // @ts-ignore
+    expect(includeConditionalArg({ excludeIf: null }, {})).toBe(true);
+  });
+
+  it('mixed values', () => {
+    expect(includeConditionalArg({ includeIf: true, excludeIf: true }, {})).toBe(true);
+    expect(includeConditionalArg({ includeIf: 'foo', excludeIf: true }, { foo: true })).toBe(true);
+    expect(includeConditionalArg({ includeIf: 'bar', excludeIf: true }, {})).toBe(false);
   });
 });
