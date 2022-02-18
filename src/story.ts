@@ -32,6 +32,8 @@ export interface InputType {
   description?: string;
   defaultValue?: any;
   type?: SBType | SBScalarType['name'];
+  includeIf?: boolean | string;
+  excludeIf?: boolean | string;
   [key: string]: any;
 }
 
@@ -260,7 +262,7 @@ export type ComponentAnnotations<
    *
    * By defining them each component will have its tab in the args table.
    */
-    subcomponents?: Record<string, TFramework['component']>;
+  subcomponents?: Record<string, TFramework['component']>;
 };
 
 export type StoryAnnotations<
@@ -276,7 +278,7 @@ export type StoryAnnotations<
    * Override the display name in the UI (CSF v2)
    */
   storyName?: StoryName;
-  
+
   /**
    * Function that is executed after the story is rendered.
    */
