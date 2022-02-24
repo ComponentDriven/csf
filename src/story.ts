@@ -32,8 +32,8 @@ export interface InputType {
   description?: string;
   defaultValue?: any;
   type?: SBType | SBScalarType['name'];
-  includeIf?: boolean | string;
-  excludeIf?: boolean | string;
+  addIf?: string;
+  removeIf?: string;
   [key: string]: any;
 }
 

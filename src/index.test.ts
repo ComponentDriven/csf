@@ -95,32 +95,10 @@ describe('isExportStory', () => {
 });
 
 describe('includeConditionalArg', () => {
-  it('boolean values', () => {
-    expect(includeConditionalArg({ includeIf: true }, {})).toBe(true);
-    expect(includeConditionalArg({ includeIf: false }, {})).toBe(false);
-    expect(includeConditionalArg({ excludeIf: true }, {})).toBe(false);
-    expect(includeConditionalArg({ excludeIf: false }, {})).toBe(true);
-  });
-
   it('dynamic values', () => {
-    expect(includeConditionalArg({ includeIf: 'foo' }, { foo: true })).toBe(true);
-    expect(includeConditionalArg({ includeIf: 'bar' }, {})).toBe(false);
-    expect(includeConditionalArg({ excludeIf: 'foo' }, { foo: true })).toBe(false);
-    expect(includeConditionalArg({ excludeIf: 'bar' }, {})).toBe(true);
-  });
-
-  it('other values', () => {
-    expect(includeConditionalArg({ includeIf: undefined }, {})).toBe(true);
-    // @ts-ignore
-    expect(includeConditionalArg({ includeIf: null }, {})).toBe(false);
-    expect(includeConditionalArg({ excludeIf: undefined }, {})).toBe(true);
-    // @ts-ignore
-    expect(includeConditionalArg({ excludeIf: null }, {})).toBe(true);
-  });
-
-  it('mixed values', () => {
-    expect(includeConditionalArg({ includeIf: true, excludeIf: true }, {})).toBe(true);
-    expect(includeConditionalArg({ includeIf: 'foo', excludeIf: true }, { foo: true })).toBe(true);
-    expect(includeConditionalArg({ includeIf: 'bar', excludeIf: true }, {})).toBe(false);
+    expect(includeConditionalArg({ addIf: 'foo' }, { foo: true })).toBe(true);
+    expect(includeConditionalArg({ addIf: 'bar' }, {})).toBe(false);
+    expect(includeConditionalArg({ removeIf: 'foo' }, { foo: true })).toBe(false);
+    expect(includeConditionalArg({ removeIf: 'bar' }, {})).toBe(true);
   });
 });

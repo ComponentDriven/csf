@@ -84,17 +84,14 @@ export const parseKind = (kind: string, { rootSeparator, groupSeparator }: Separ
   };
 };
 
-const includeHelper = (includeIf: boolean | string, args: Args) =>
-  typeof includeIf === 'string' && includeIf.length > 0 ? !!args[includeIf] : !!includeIf;
-
 /**
  * Helper function to include/exclude an arg based on the value of other other args
  * aka "conditional args"
  */
 export const includeConditionalArg = (argType: InputType, args: Args) => {
-  const { includeIf, excludeIf } = argType;
-  if (typeof includeIf !== 'undefined') return includeHelper(includeIf, args);
-  if (typeof excludeIf !== 'undefined') return !includeHelper(excludeIf, args);
+  const { addIf, removeIf } = argType;
+  if (addIf) return !!args[addIf];
+  if (removeIf) return !args[removeIf];
   return true;
 };
 
