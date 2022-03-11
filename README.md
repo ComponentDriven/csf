@@ -3,12 +3,12 @@
 # Component Story Format (CSF)
 
 ### Why a standard format?
-Components have risen to dominate the UI landscape. There are new component-oriented tools for development, testing, design, and prototyping. These tools engage in the creation and consumption of components and component examples (a.k.a. stories). But each tool has its own proprietary format because a simple, platform-agnostic way to express component examples doesn't yet exist.
+Components have risen to dominate the UI landscape. There are new component-oriented tools for development, testing, design, and prototyping. These tools engage in the creation and consumption of components and component examples (a.k.a. stories). But each tool has its own proprietary format because a simple, platform-agnostic way to express component examples doesn’t yet exist.
 
-### The "Story" is the source of truth for a component.
-A story is a code snippet that renders an example of a component in a specific state. Think about it like a "[user story](https://en.wikipedia.org/wiki/User_story)".
+### The “Story” is the source of truth for a component.
+A story is a code snippet that renders an example of a component in a specific state. Think about it like a “user story](https://en.wikipedia.org/wiki/User_story)”.
 
-It uses the production code shipped to users, making it the most accurate representation of a component example. What's more, stories are expressed in the view layer you use to build your app.
+It uses the production code shipped to users, making it the most accurate representation of a component example. What’s more, stories are expressed in the view layer you use to build your app.
 
 
 ### Component Story Format
@@ -20,13 +20,13 @@ export const text = () => <Button>Hello</Button>;
 export const emoji = () => <Button>😀😎👍💯</Button>;
 ```
 
-💎 **Simple.** Writing component "stories" is as easy as exporting ES6 functions using a clean, widely-used format.
+💎 **Simple.** Writing component “stories” is as easy as exporting ES6 functions using a clean, widely-used format.
 
-🚚 **Non-proprietary.** CSF doesn't require any vendor-specific libraries. Component stories are easily consumed anywhere ES6 modules live, including your favourite testing tools like Jest and Cypress.
+🚚 **Non-proprietary.** CSF doesn’t require any vendor-specific libraries. Component stories are easily consumed anywhere ES6 modules live, including your favourite testing tools like Jest and Cypress.
 
 ☝️ **Declarative.** The declarative syntax is isomorphic to higher-level formats like MDX, enabling clean, verifiable transformations.
 
-🔥 **Optimized.** Component stories don't need any libraries other than your components. And because they're ES6 modules, they're even tree-shakeable!
+🔥 **Optimized.** Component stories don’t need any libraries other than your components. And because they’re ES6 modules, they’re even tree-shakeable!
 
 ### Who uses CSF?
 
@@ -42,8 +42,8 @@ A minimal set of utility functions for dealing with [Component Story Format (CSF
 
 ### Install
 
-```sh
-yarn add @componentdriven/csf
+```shell-session
+$ yarn add @componentdriven/csf
 ```
 
 ### API
@@ -62,12 +62,12 @@ See package source for function definitions and types:
 
 ## Contributing
 
-If you have any suggestions, please open an issue or a PR.
+If you have any suggestions, please open an issue or a pull request.
 
 All contributions are welcome!
 
-### run tests:
+### Run tests:
 
-```sh
-yarn test
+```shell-session
+$ yarn test
 ```
