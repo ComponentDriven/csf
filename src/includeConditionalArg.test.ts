@@ -2,14 +2,24 @@
 import { includeConditionalArg, testValue } from './includeConditionalArg';
 
 describe('testValue', () => {
+  describe('implicit', () => {
+    it.each([
+      ['implicit true', {}, true, true],
+      ['implicit truthy', {}, 1, true],
+      ['implicit false', {}, false, false],
+      ['implicit falsey', {}, 0, false],
+      ['implicit undefined', {}, undefined, false],
+    ])('%s', (_name, cond, value, expected) => {
+      // @ts-ignore
+      expect(testValue(cond, value)).toBe(expected);
+    });
+  });
   describe('exists', () => {
     it.each([
-      ['implicit exist true', {}, 1, true],
-      ['implicit exist false', {}, undefined, false],
-      ['explicit exist', { exists: true }, 1, true],
-      ['explicit exist false', { exists: true }, undefined, false],
-      ['explicit nexist', { exists: false }, undefined, true],
-      ['explicit nexist false', { exists: false }, 1, false],
+      ['exist', { exists: true }, 1, true],
+      ['exist false', { exists: true }, undefined, false],
+      ['nexist', { exists: false }, undefined, true],
+      ['nexist false', { exists: false }, 1, false],
     ])('%s', (_name, cond, value, expected) => {
       // @ts-ignore
       expect(testValue(cond, value)).toBe(expected);
@@ -72,6 +82,16 @@ describe('includeConditionalArg', () => {
   });
 
   describe('args', () => {
+    describe('implicit', () => {
+      it.each([
+        ['implicit true', { if: { arg: 'a' } }, { a: 1 }, {}, true],
+        ['implicit falsey', { if: { arg: 'a' } }, { a: 0 }, {}, false],
+        ['implicit undefined', { if: { arg: 'a' } }, {}, {}, false],
+      ])('%s', (_name, argType, args, globals, expected) => {
+        // @ts-ignore
+        expect(includeConditionalArg(argType, args, globals)).toBe(expected);
+      });
+    });
     describe('exists', () => {
       it.each([
         ['implicit exist true', { if: { arg: 'a' } }, { a: 1 }, {}, true],
@@ -103,11 +123,20 @@ describe('includeConditionalArg', () => {
     });
   });
   describe('globals', () => {
+    describe('implicit', () => {
+      it.each([
+        ['implicit true', { if: { global: 'a' } }, {}, { a: 1 }, true],
+        ['implicit falsey', { if: { global: 'a' } }, {}, { a: 0 }, false],
+        ['implicit undefined', { if: { global: 'a' } }, {}, {}, false],
+      ])('%s', (_name, argType, args, globals, expected) => {
+        // @ts-ignore
+        expect(includeConditionalArg(argType, args, globals)).toBe(expected);
+      });
+    });
     describe('exists', () => {
       it.each([
-        // name, argType, args, globals, expected
-        ['implicit exist true', { if: { global: 'a' } }, {}, { a: 1 }, true],
-        ['implicit exist false', { if: { global: 'a' } }, { a: 1 }, {}, false],
+        ['implicit exist true', { if: { global: 'a', exists: true } }, {}, { a: 1 }, true],
+        ['implicit exist false', { if: { global: 'a', exists: true } }, { a: 1 }, {}, false],
       ])('%s', (_name, argType, args, globals, expected) => {
         // @ts-ignore
         expect(includeConditionalArg(argType, args, globals)).toBe(expected);

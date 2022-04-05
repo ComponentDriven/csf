@@ -14,10 +14,12 @@ export const testValue = (cond: Omit<Conditional, 'arg' | 'global'>, value: any)
   if (typeof neq !== 'undefined') {
     return !isEqual(value, neq);
   }
-
-  const shouldExist = typeof exists !== 'undefined' ? exists : true;
-  const valueExists = typeof value !== 'undefined';
-  return shouldExist ? valueExists : !valueExists;
+  if (typeof exists !== 'undefined') {
+    const valueExists = typeof value !== 'undefined';
+    return exists ? valueExists : !valueExists;
+  }
+  // implicit test for truthiness
+  return !!value;
 };
 
 /**
