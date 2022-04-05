@@ -1,5 +1,4 @@
 import startCase from 'lodash/startCase';
-import { Args, InputType } from './story';
 
 /**
  * Remove punctuation and illegal characters from a story ID.
@@ -84,15 +83,5 @@ export const parseKind = (kind: string, { rootSeparator, groupSeparator }: Separ
   };
 };
 
-/**
- * Helper function to include/exclude an arg based on the value of other other args
- * aka "conditional args"
- */
-export const includeConditionalArg = (argType: InputType, args: Args) => {
-  const { addIf, removeIf } = argType;
-  if (addIf) return !!args[addIf];
-  if (removeIf) return !args[removeIf];
-  return true;
-};
-
+export { includeConditionalArg } from './includeConditionalArg';
 export * from './story';

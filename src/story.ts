@@ -27,13 +27,15 @@ export interface StoryIdentifier {
 
 export type Parameters = { [name: string]: any };
 
+type ConditionalTest = { exists?: boolean } | { eq: any } | { neq: any };
+type ConditionalValue = { arg: string } | { global: string };
+export type Conditional = ConditionalValue & ConditionalTest;
 export interface InputType {
   name?: string;
   description?: string;
   defaultValue?: any;
   type?: SBType | SBScalarType['name'];
-  addIf?: string;
-  removeIf?: string;
+  if?: Conditional;
   [key: string]: any;
 }
 

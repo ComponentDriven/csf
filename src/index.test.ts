@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
-import { toId, storyNameFromExport, isExportStory, includeConditionalArg } from '.';
+import { toId, storyNameFromExport, isExportStory } from '.';
 
 describe('toId', () => {
   const testCases: [string, string, string | undefined, string][] = [
@@ -91,14 +91,5 @@ describe('isExportStory', () => {
     expect(isExportStory('a', { includeStories: /a/, excludeStories: ['a'] })).toBeFalsy();
     expect(isExportStory('a', { includeStories: /.*/, excludeStories: /.*/ })).toBeFalsy();
     expect(isExportStory('a', { includeStories: /a/, excludeStories: /b/ })).toBeTruthy();
-  });
-});
-
-describe('includeConditionalArg', () => {
-  it('dynamic values', () => {
-    expect(includeConditionalArg({ addIf: 'foo' }, { foo: true })).toBe(true);
-    expect(includeConditionalArg({ addIf: 'bar' }, {})).toBe(false);
-    expect(includeConditionalArg({ removeIf: 'foo' }, { foo: true })).toBe(false);
-    expect(includeConditionalArg({ removeIf: 'bar' }, {})).toBe(true);
   });
 });
