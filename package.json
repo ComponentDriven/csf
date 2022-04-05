@@ -38,7 +38,10 @@
   },
   "prettier": "@storybook/linter-config/prettier.config",
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/src"
+    ]
   },
   "dependencies": {
     "lodash": "^4.17.15"
