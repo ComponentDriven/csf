@@ -4,8 +4,8 @@ import { Args, Globals, InputType, Conditional } from './story';
 const count = (vals: any[]) => vals.map(v => typeof v !== 'undefined').filter(Boolean).length;
 
 export const testValue = (cond: Omit<Conditional, 'arg' | 'global'>, value: any) => {
-  const { exists, eq, neq } = cond as any;
-  if (count([exists, eq, neq]) > 1) {
+  const { exists, eq, neq, truthy } = cond as any;
+  if (count([exists, eq, neq, truthy]) > 1) {
     throw new Error(`Invalid conditional test ${JSON.stringify({ exists, eq, neq })}`);
   }
   if (typeof eq !== 'undefined') {
@@ -18,8 +18,8 @@ export const testValue = (cond: Omit<Conditional, 'arg' | 'global'>, value: any)
     const valueExists = typeof value !== 'undefined';
     return exists ? valueExists : !valueExists;
   }
-  // implicit test for truthiness
-  return !!value;
+  const shouldBeTruthy = typeof truthy === 'undefined' ? true : truthy;
+  return shouldBeTruthy ? !!value : !value;
 };
 
 /**
