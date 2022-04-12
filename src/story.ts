@@ -177,7 +177,7 @@ export type BaseAnnotations<TFramework extends AnyFramework = AnyFramework, TArg
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the framework will be used.
    */
-  render?: ArgsStoryFn<TFramework, Args>;
+  render?: ArgsStoryFn<TFramework, TArgs>;
 };
 
 export type ProjectAnnotations<

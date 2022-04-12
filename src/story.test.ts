@@ -58,7 +58,7 @@ CSF2Story.loaders = [() => Promise.resolve({ d: '3' })];
 CSF2Story.args = { a: 1 };
 
 const CSF3Story: XStory = {
-  render: () => 'Named Story',
+  render: (args) => 'Named Story',
   name: 'Another name for story',
   decorators: [storyFn => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
@@ -67,7 +67,7 @@ const CSF3Story: XStory = {
 };
 
 const CSF3StoryStrict: XStory<ButtonArgs> = {
-  render: () => 'Named Story',
+  render: (args) => 'Named Story',
   name: 'Another name for story',
   decorators: [storyFn => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
