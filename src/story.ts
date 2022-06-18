@@ -144,7 +144,7 @@ export type BaseAnnotations<TFramework extends AnyFramework = AnyFramework, TArg
    * Decorators defined in Meta will be applied to every story variation.
    * @see [Decorators](https://storybook.js.org/docs/addons/introduction/#1-decorators)
    */
-  decorators?: DecoratorFunction<TFramework, Args>[];
+  decorators?: DecoratorFunction<TFramework, TArgs>[];
 
   /**
    * Custom metadata for a story.
@@ -168,23 +168,23 @@ export type BaseAnnotations<TFramework extends AnyFramework = AnyFramework, TArg
    * Asynchronous functions which provide data for a story.
    * @see [Loaders](https://storybook.js.org/docs/react/writing-stories/loaders)
    */
-  loaders?: LoaderFunction<TFramework, Args>[];
+  loaders?: LoaderFunction<TFramework, TArgs>[];
 
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the framework will be used.
    */
-  render?: ArgsStoryFn<TFramework, Args>;
+  render?: ArgsStoryFn<TFramework, TArgs>;
 };
 
 export type ProjectAnnotations<
   TFramework extends AnyFramework = AnyFramework,
   TArgs = Args
 > = BaseAnnotations<TFramework, TArgs> & {
-  argsEnhancers?: ArgsEnhancer<TFramework, Args>[];
-  argTypesEnhancers?: ArgTypesEnhancer<TFramework, Args>[];
+  argsEnhancers?: ArgsEnhancer<TFramework, TArgs>[];
+  argTypesEnhancers?: ArgTypesEnhancer<TFramework, TArgs>[];
   globals?: Globals;
   globalTypes?: GlobalTypes;
-  applyDecorators?: DecoratorApplicator<TFramework, Args>;
+  applyDecorators?: DecoratorApplicator<TFramework, TArgs>;
 };
 
 type StoryDescriptor = string[] | RegExp;
@@ -276,7 +276,7 @@ export type StoryAnnotations<
    * Override the display name in the UI (CSF v2)
    */
   storyName?: StoryName;
-  
+
   /**
    * Function that is executed after the story is rendered.
    */
