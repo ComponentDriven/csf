@@ -106,8 +106,20 @@ export type StoryContext<
   canvasElement: HTMLElement;
 };
 
+export type StepFunction<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
+  stepName: string,
+  substeps: PlayFunction<TFramework, TArgs>
+) => void;
+
+export type PlayFunctionContext<
+  TFramework extends AnyFramework = AnyFramework,
+  TArgs = Args
+> = StoryContext<TFramework, TArgs> & {
+  step: StepFunction<TFramework, TArgs>;
+};
+
 export type PlayFunction<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
-  context: StoryContext<TFramework, TArgs>
+  context: PlayFunctionContext<TFramework, TArgs>
 ) => Promise<void> | void;
 
 // This is the type of story function passed to a decorator -- does not rely on being passed any context
@@ -140,6 +152,11 @@ export type DecoratorApplicator<TFramework extends AnyFramework = AnyFramework, 
   storyFn: LegacyStoryFn<TFramework, TArgs>,
   decorators: DecoratorFunction<TFramework, TArgs>[]
 ) => LegacyStoryFn<TFramework, TArgs>;
+
+export type StepRunner<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
+  stepFunction: PlayFunction<TFramework, TArgs>,
+  context: PlayFunctionContext<TFramework, TArgs>
+) => Promise<void>;
 
 export type BaseAnnotations<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = {
   /**
@@ -189,6 +206,7 @@ export type ProjectAnnotations<
   globals?: Globals;
   globalTypes?: GlobalTypes;
   applyDecorators?: DecoratorApplicator<TFramework, Args>;
+  runStep?: StepRunner;
 };
 
 type StoryDescriptor = string[] | RegExp;

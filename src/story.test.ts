@@ -1,4 +1,4 @@
-import { Args, ComponentAnnotations, StoryAnnotationsOrFn } from './story';
+import { Args, ComponentAnnotations, StoryAnnotationsOrFn, ProjectAnnotations } from './story';
 
 // NOTE Example of internal type definition for @storybook/<X> (where X is a framework)
 type XFramework = {
@@ -58,7 +58,7 @@ CSF2Story.loaders = [() => Promise.resolve({ d: '3' })];
 CSF2Story.args = { a: 1 };
 
 const CSF3Story: XStory = {
-  render: (args) => 'Named Story',
+  render: args => 'Named Story',
   name: 'Another name for story',
   decorators: [storyFn => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
@@ -67,12 +67,23 @@ const CSF3Story: XStory = {
 };
 
 const CSF3StoryStrict: XStory<ButtonArgs> = {
-  render: (args) => 'Named Story',
+  render: args => 'Named Story',
   name: 'Another name for story',
   decorators: [storyFn => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
   loaders: [() => Promise.resolve({ d: '3' })],
   args: { x: '1' },
+  play: ({ step }) => {
+    step('a step', ({ step: substep }) => {
+      substep('a substep', () => {});
+    });
+  },
+};
+
+const project: ProjectAnnotations<XFramework> = {
+  async runStep(stepFn, context) {
+    return stepFn(context);
+  },
 };
 
 // NOTE Jest forced to define at least one test in file
