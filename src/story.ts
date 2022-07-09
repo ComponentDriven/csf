@@ -106,9 +106,11 @@ export type StoryContext<
   canvasElement: HTMLElement;
 };
 
+export type StepLabel = string;
+
 export type StepFunction<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
-  stepName: string,
-  substeps: PlayFunction<TFramework, TArgs>
+  label: StepLabel,
+  play: PlayFunction<TFramework, TArgs>
 ) => void;
 
 export type PlayFunctionContext<
@@ -154,7 +156,8 @@ export type DecoratorApplicator<TFramework extends AnyFramework = AnyFramework, 
 ) => LegacyStoryFn<TFramework, TArgs>;
 
 export type StepRunner<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
-  stepFunction: PlayFunction<TFramework, TArgs>,
+  label: StepLabel,
+  play: PlayFunction<TFramework, TArgs>,
   context: PlayFunctionContext<TFramework, TArgs>
 ) => Promise<void>;
 

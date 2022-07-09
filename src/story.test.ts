@@ -81,8 +81,8 @@ const CSF3StoryStrict: XStory<ButtonArgs> = {
 };
 
 const project: ProjectAnnotations<XFramework> = {
-  async runStep(stepFn, context) {
-    return stepFn(context);
+  async runStep(label, play, context) {
+    return play(context);
   },
 };
 
