@@ -209,7 +209,7 @@ export type ProjectAnnotations<
   globals?: Globals;
   globalTypes?: GlobalTypes;
   applyDecorators?: DecoratorApplicator<TFramework, Args>;
-  runStep?: StepRunner;
+  runStep?: StepRunner<TFramework, TArgs>;
 };
 
 type StoryDescriptor = string[] | RegExp;
