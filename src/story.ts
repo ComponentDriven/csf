@@ -111,7 +111,7 @@ export type StepLabel = string;
 export type StepFunction<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
   label: StepLabel,
   play: PlayFunction<TFramework, TArgs>
-) => void;
+) => Promise<void> | void;
 
 export type PlayFunctionContext<
   TFramework extends AnyFramework = AnyFramework,

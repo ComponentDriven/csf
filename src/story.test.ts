@@ -73,9 +73,9 @@ const CSF3StoryStrict: XStory<ButtonArgs> = {
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
   loaders: [() => Promise.resolve({ d: '3' })],
   args: { x: '1' },
-  play: ({ step }) => {
-    step('a step', ({ step: substep }) => {
-      substep('a substep', () => {});
+  play: async ({ step }) => {
+    await step('a step', async ({ step: substep }) => {
+      await substep('a substep', () => {});
     });
   },
 };
