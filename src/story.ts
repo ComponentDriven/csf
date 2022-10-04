@@ -126,7 +126,7 @@ export type PlayFunction<TFramework extends AnyFramework = AnyFramework, TArgs =
 
 // This is the type of story function passed to a decorator -- does not rely on being passed any context
 export type PartialStoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
-  update?: StoryContextUpdate<TArgs>
+  update?: StoryContextUpdate<Partial<TArgs>>
 ) => TFramework['storyResult'];
 
 // This is a passArgsFirst: false user story function
@@ -168,7 +168,7 @@ export type BaseAnnotations<TFramework extends AnyFramework = AnyFramework, TArg
    * Decorators defined in Meta will be applied to every story variation.
    * @see [Decorators](https://storybook.js.org/docs/addons/introduction/#1-decorators)
    */
-  decorators?: DecoratorFunction<TFramework, Args>[];
+  decorators?: DecoratorFunction<TFramework, TArgs>[];
 
   /**
    * Custom metadata for a story.
@@ -192,7 +192,7 @@ export type BaseAnnotations<TFramework extends AnyFramework = AnyFramework, TArg
    * Asynchronous functions which provide data for a story.
    * @see [Loaders](https://storybook.js.org/docs/react/writing-stories/loaders)
    */
-  loaders?: LoaderFunction<TFramework, Args>[];
+  loaders?: LoaderFunction<TFramework, TArgs>[];
 
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the framework will be used.
@@ -213,10 +213,8 @@ export type ProjectAnnotations<
 };
 
 type StoryDescriptor = string[] | RegExp;
-export type ComponentAnnotations<
-  TFramework extends AnyFramework = AnyFramework,
-  TArgs = Args
-> = BaseAnnotations<TFramework, TArgs> & {
+export interface ComponentAnnotations<TFramework extends AnyFramework = AnyFramework, TArgs = Args>
+  extends BaseAnnotations<TFramework, TArgs> {
   /**
    * Title of the component which will be presented in the navigation. **Should be unique.**
    *
@@ -286,12 +284,10 @@ export type ComponentAnnotations<
    * By defining them each component will have its tab in the args table.
    */
   subcomponents?: Record<string, TFramework['component']>;
-};
+}
 
-export type StoryAnnotations<
-  TFramework extends AnyFramework = AnyFramework,
-  TArgs = Args
-> = BaseAnnotations<TFramework, TArgs> & {
+export interface StoryAnnotations<TFramework extends AnyFramework = AnyFramework, TArgs = Args>
+  extends BaseAnnotations<TFramework, TArgs> {
   /**
    * Override the display name in the UI (CSF v3)
    */
@@ -309,7 +305,7 @@ export type StoryAnnotations<
 
   /** @deprecated */
   story?: Omit<StoryAnnotations<TFramework, TArgs>, 'story'>;
-};
+}
 
 export type LegacyAnnotatedStoryFn<
   TFramework extends AnyFramework = AnyFramework,
