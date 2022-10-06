@@ -55,7 +55,7 @@ export type AnyFramework = {
   // component: (args: this['T']) => string;
   // This generic type will eventually be filled in with TArgs
   // Credits to Michael Arnaldi.
-  T: unknown;
+  T?: unknown;
 };
 
 export type StoryContextForEnhancers<
