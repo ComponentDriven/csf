@@ -50,8 +50,12 @@ export type StrictGlobalTypes = { [name: string]: StrictInputType };
 
 export type AnyFramework = {
   component: unknown;
-  T: unknown;
   storyResult: unknown;
+  // A generic type T that can be used in the definition of the component like this:
+  // component: (args: this['T']) => string;
+  // This generic type will eventually be filled in with TArgs
+  // Credits to Michael Arnaldi.
+  T: unknown;
 };
 
 export type StoryContextForEnhancers<
@@ -267,7 +271,7 @@ export interface ComponentAnnotations<TFramework extends AnyFramework = AnyFrame
    *
    * Used by addons for automatic prop table generation and display of other component metadata.
    */
-  component?: (TFramework & { T: Args extends TArgs ? any : TArgs})['component'];
+  component?: (TFramework & { T: Args extends TArgs ? any : TArgs })['component'];
 
   /**
    * Auxiliary subcomponents that are part of the stories.
