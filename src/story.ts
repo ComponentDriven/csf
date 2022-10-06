@@ -267,7 +267,7 @@ export interface ComponentAnnotations<TFramework extends AnyFramework = AnyFrame
    *
    * Used by addons for automatic prop table generation and display of other component metadata.
    */
-  component?: (TFramework & { T: TArgs })['component'];
+  component?: (TFramework & { T: Args extends TArgs ? any : TArgs})['component'];
 
   /**
    * Auxiliary subcomponents that are part of the stories.

@@ -1,21 +1,28 @@
-import { Args, ComponentAnnotations, StoryAnnotationsOrFn, ProjectAnnotations } from './story';
+import {
+  Args,
+  ComponentAnnotations,
+  StoryAnnotationsOrFn,
+  ProjectAnnotations,
+  AnyFramework,
+} from './story';
 
 // NOTE Example of internal type definition for @storybook/<X> (where X is a framework)
-type XFramework = {
-  component: () => string;
+interface XFramework extends AnyFramework {
+  component: (args: this['T']) => string;
   storyResult: string;
-};
+}
 
 type XMeta<TArgs = Args> = ComponentAnnotations<XFramework, TArgs>;
 type XStory<TArgs = Args> = StoryAnnotationsOrFn<XFramework, TArgs>;
 
 // NOTE Examples of using types from @storybook/<X> in real project
 
-const Button: XFramework['component'] = () => 'Button';
 type ButtonArgs = {
   x: string;
   y: string;
 };
+
+const Button = (props: ButtonArgs) => 'Button';
 
 // NOTE Various kind usages
 const simple: XMeta = {
@@ -24,8 +31,8 @@ const simple: XMeta = {
   decorators: [(storyFn, context) => `withDecorator(${storyFn(context)})`],
   parameters: { a: () => null, b: NaN, c: Symbol('symbol') },
   loaders: [() => Promise.resolve({ d: '3' })],
-  args: { a: 1 },
-  argTypes: { a: { type: { name: 'string' } } },
+  args: { x: '1' },
+  argTypes: { x: { type: { name: 'string' } } },
 };
 
 const strict: XMeta<ButtonArgs> = {
@@ -44,7 +51,7 @@ const Simple: XStory = () => 'Simple';
 const CSF1Story: XStory = () => 'Named Story';
 CSF1Story.story = {
   name: 'Another name for story',
-  decorators: [storyFn => `Wrapped(${storyFn()}`],
+  decorators: [(storyFn) => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
   loaders: [() => Promise.resolve({ d: '3' })],
   args: { a: 1 },
@@ -52,24 +59,24 @@ CSF1Story.story = {
 
 const CSF2Story: XStory = () => 'Named Story';
 CSF2Story.storyName = 'Another name for story';
-CSF2Story.decorators = [storyFn => `Wrapped(${storyFn()}`];
+CSF2Story.decorators = [(storyFn) => `Wrapped(${storyFn()}`];
 CSF2Story.parameters = { a: [1, '2', {}], b: undefined, c: Button };
 CSF2Story.loaders = [() => Promise.resolve({ d: '3' })];
 CSF2Story.args = { a: 1 };
 
 const CSF3Story: XStory = {
-  render: args => 'Named Story',
+  render: (args) => 'Named Story',
   name: 'Another name for story',
-  decorators: [storyFn => `Wrapped(${storyFn()}`],
+  decorators: [(storyFn) => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
   loaders: [() => Promise.resolve({ d: '3' })],
   args: { a: 1 },
 };
 
 const CSF3StoryStrict: XStory<ButtonArgs> = {
-  render: args => 'Named Story',
+  render: (args) => 'Named Story',
   name: 'Another name for story',
-  decorators: [storyFn => `Wrapped(${storyFn()}`],
+  decorators: [(storyFn) => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
   loaders: [() => Promise.resolve({ d: '3' })],
   args: { x: '1' },
