@@ -6,10 +6,6 @@ export type ComponentId = string;
 export type ComponentTitle = string;
 export type StoryName = string;
 
-type A<TF extends AnyFramework> = {
-  field: TF['component'];
-};
-
 /** @deprecated */
 export type StoryKind = ComponentTitle;
 
@@ -52,13 +48,18 @@ export type Globals = { [name: string]: any };
 export type GlobalTypes = { [name: string]: InputType };
 export type StrictGlobalTypes = { [name: string]: StrictInputType };
 
-export type AnyFramework = { component: unknown; storyResult: unknown };
+export type AnyFramework = {
+  component: unknown;
+  T: unknown;
+  storyResult: unknown;
+};
+
 export type StoryContextForEnhancers<
   TFramework extends AnyFramework = AnyFramework,
   TArgs = Args
 > = StoryIdentifier & {
-  component?: TFramework['component'];
-  subcomponents?: Record<string, TFramework['component']>;
+  component?: (TFramework & { T: any })['component'];
+  subcomponents?: (TFramework & { T: any })['component'];
 
   parameters: Parameters;
   initialArgs: TArgs;
@@ -266,7 +267,7 @@ export interface ComponentAnnotations<TFramework extends AnyFramework = AnyFrame
    *
    * Used by addons for automatic prop table generation and display of other component metadata.
    */
-  component?: TFramework['component'];
+  component?: (TFramework & { T: TArgs })['component'];
 
   /**
    * Auxiliary subcomponents that are part of the stories.
@@ -286,8 +287,11 @@ export interface ComponentAnnotations<TFramework extends AnyFramework = AnyFrame
   subcomponents?: Record<string, TFramework['component']>;
 }
 
-export interface StoryAnnotations<TFramework extends AnyFramework = AnyFramework, TArgs = Args>
-  extends BaseAnnotations<TFramework, TArgs> {
+export type StoryAnnotations<
+  TFramework extends AnyFramework = AnyFramework,
+  TArgs = Args,
+  TArgsAnnotations = Partial<TArgs>
+> = BaseAnnotations<TFramework, TArgs> & {
   /**
    * Override the display name in the UI (CSF v3)
    */
@@ -305,7 +309,7 @@ export interface StoryAnnotations<TFramework extends AnyFramework = AnyFramework
 
   /** @deprecated */
   story?: Omit<StoryAnnotations<TFramework, TArgs>, 'story'>;
-}
+} & ({} extends TArgsAnnotations ? { args?: TArgsAnnotations } : { args: TArgsAnnotations });
 
 export type LegacyAnnotatedStoryFn<
   TFramework extends AnyFramework = AnyFramework,
