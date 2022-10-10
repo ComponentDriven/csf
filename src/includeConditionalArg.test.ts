@@ -59,6 +59,11 @@ describe('testValue', () => {
 
 describe('includeConditionalArg', () => {
   describe('errors', () => {
+    it('should throw if neither arg nor global is specified', () => {
+      expect(() => includeConditionalArg({ if: {} }, {}, {})).toThrowErrorMatchingInlineSnapshot(
+        `"Invalid conditional value {}"`
+      );
+    });
     it('should throw if arg and global are both specified', () => {
       expect(() =>
         includeConditionalArg({ if: { arg: 'a', global: 'b' } }, {}, {})

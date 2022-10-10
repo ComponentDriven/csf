@@ -47,6 +47,7 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
+    "@auto-it/released": "^10.37.1",
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
@@ -62,6 +63,12 @@
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
     "typescript": "^3.7.2"
+  },
+  "auto": {
+    "plugins": [
+      "npm",
+      "released"
+    ]
   },
   "publishConfig": {
     "access": "public"
