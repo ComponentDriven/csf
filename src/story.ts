@@ -294,7 +294,7 @@ export interface ComponentAnnotations<TFramework extends AnyFramework = AnyFrame
 export type StoryAnnotations<
   TFramework extends AnyFramework = AnyFramework,
   TArgs = Args,
-  TArgsAnnotations = Partial<TArgs>
+  TRequiredArgs = Partial<TArgs>
 > = BaseAnnotations<TFramework, TArgs> & {
   /**
    * Override the display name in the UI (CSF v3)
@@ -313,7 +313,7 @@ export type StoryAnnotations<
 
   /** @deprecated */
   story?: Omit<StoryAnnotations<TFramework, TArgs>, 'story'>;
-} & ({} extends TArgsAnnotations ? { args?: TArgsAnnotations } : { args: TArgsAnnotations });
+} & ({} extends TRequiredArgs ? { args?: TRequiredArgs } : { args: TRequiredArgs });
 
 export type LegacyAnnotatedStoryFn<
   TFramework extends AnyFramework = AnyFramework,
