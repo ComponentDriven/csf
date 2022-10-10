@@ -63,8 +63,7 @@ export type StoryContextForEnhancers<
   TArgs = Args
 > = StoryIdentifier & {
   component?: (TFramework & { T: any })['component'];
-  subcomponents?: (TFramework & { T: any })['component'];
-
+  subcomponents?: Record<string, (TFramework & { T: any })['component']>;
   parameters: Parameters;
   initialArgs: TArgs;
   argTypes: StrictArgTypes<TArgs>;
