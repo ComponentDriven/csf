@@ -1,3 +1,4 @@
+/* global HTMLElement, AbortSignal */
 import { Simplify, UnionToIntersection } from 'type-fest';
 import { SBType, SBScalarType } from './SBType';
 
@@ -343,9 +344,9 @@ export type ArgsFromMeta<TFramework extends AnyFramework, Meta> = Meta extends {
   : unknown;
 
 type DecoratorsArgs<TFramework extends AnyFramework, Decorators> = UnionToIntersection<
-  Decorators extends DecoratorFunction<TFramework, infer Args> ? Args : unknown
+  Decorators extends DecoratorFunction<TFramework, infer TArgs> ? TArgs : unknown
 >;
 
 type LoaderArgs<TFramework extends AnyFramework, Loaders> = UnionToIntersection<
-  Loaders extends LoaderFunction<TFramework, infer Args> ? Args : unknown
+  Loaders extends LoaderFunction<TFramework, infer TArgs> ? TArgs : unknown
 >;

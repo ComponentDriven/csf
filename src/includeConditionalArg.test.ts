@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { includeConditionalArg, testValue } from './includeConditionalArg';
+import type { Conditional } from './story';
 
 describe('testValue', () => {
   describe('truthy', () => {
@@ -60,33 +61,27 @@ describe('testValue', () => {
 describe('includeConditionalArg', () => {
   describe('errors', () => {
     it('should throw if neither arg nor global is specified', () => {
-      expect(() => includeConditionalArg({ if: {} }, {}, {})).toThrowErrorMatchingInlineSnapshot(
-        `"Invalid conditional value {}"`
-      );
+      expect(() =>
+        includeConditionalArg({ if: {} as Conditional }, {}, {})
+      ).toThrowErrorMatchingInlineSnapshot(`"Invalid conditional value {}"`);
     });
     it('should throw if arg and global are both specified', () => {
       expect(() =>
         includeConditionalArg({ if: { arg: 'a', global: 'b' } }, {}, {})
-      ).toThrowErrorMatchingInlineSnapshot(
-        `"Invalid conditional value {\\"arg\\":\\"a\\",\\"global\\":\\"b\\"}"`
-      );
+      ).toThrowErrorMatchingInlineSnapshot(`"Invalid conditional value {"arg":"a","global":"b"}"`);
     });
     it('should throw if mulitiple exists / eq / neq are specified', () => {
       expect(() =>
         includeConditionalArg({ if: { arg: 'a', exists: true, eq: 1 } }, {}, {})
-      ).toThrowErrorMatchingInlineSnapshot(
-        `"Invalid conditional test {\\"exists\\":true,\\"eq\\":1}"`
-      );
+      ).toThrowErrorMatchingInlineSnapshot(`"Invalid conditional test {"exists":true,"eq":1}"`);
 
       expect(() =>
         includeConditionalArg({ if: { arg: 'a', exists: false, neq: 0 } }, {}, {})
-      ).toThrowErrorMatchingInlineSnapshot(
-        `"Invalid conditional test {\\"exists\\":false,\\"neq\\":0}"`
-      );
+      ).toThrowErrorMatchingInlineSnapshot(`"Invalid conditional test {"exists":false,"neq":0}"`);
 
       expect(() =>
         includeConditionalArg({ if: { arg: 'a', eq: 1, neq: 0 } }, {}, {})
-      ).toThrowErrorMatchingInlineSnapshot(`"Invalid conditional test {\\"eq\\":1,\\"neq\\":0}"`);
+      ).toThrowErrorMatchingInlineSnapshot(`"Invalid conditional test {"eq":1,"neq":0}"`);
     });
   });
 
