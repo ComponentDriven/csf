@@ -44,7 +44,8 @@
     ]
   },
   "dependencies": {
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "type-fest": "^2.19.0"
   },
   "devDependencies": {
     "@auto-it/released": "^10.37.1",
@@ -62,7 +63,7 @@
     "eslint": "^6.7.1",
     "jest": "^24.9.0",
     "prettier": "^2.7.1",
-    "typescript": "^3.7.2"
+    "typescript": "^4.8.4"
   },
   "auto": {
     "plugins": [

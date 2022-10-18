@@ -1,3 +1,4 @@
+import { Simplify, UnionToIntersection } from 'type-fest';
 import { SBType, SBScalarType } from './SBType';
 
 export * from './SBType';
@@ -142,7 +143,7 @@ export type LegacyStoryFn<TFramework extends AnyFramework = AnyFramework, TArgs 
 export type ArgsStoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
   args: TArgs,
   context: StoryContext<TFramework, TArgs>
-) => TFramework['storyResult'];
+) => (TFramework & { T: TArgs })['storyResult'];
 
 // This is either type of user story function
 export type StoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> =
@@ -332,3 +333,19 @@ export type AnnotatedStoryFn<
 export type StoryAnnotationsOrFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> =
   | AnnotatedStoryFn<TFramework, TArgs>
   | StoryAnnotations<TFramework, TArgs>;
+
+export type ArgsFromMeta<TFramework extends AnyFramework, Meta> = Meta extends {
+  render?: ArgsStoryFn<TFramework, infer RArgs>;
+  loaders?: (infer Loaders)[];
+  decorators?: (infer Decorators)[];
+}
+  ? Simplify<RArgs & DecoratorsArgs<TFramework, Decorators> & LoaderArgs<TFramework, Loaders>>
+  : unknown;
+
+type DecoratorsArgs<TFramework extends AnyFramework, Decorators> = UnionToIntersection<
+  Decorators extends DecoratorFunction<TFramework, infer Args> ? Args : unknown
+>;
+
+type LoaderArgs<TFramework extends AnyFramework, Loaders> = UnionToIntersection<
+  Loaders extends LoaderFunction<TFramework, infer Args> ? Args : unknown
+>;
