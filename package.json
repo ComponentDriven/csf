@@ -36,7 +36,18 @@
   "eslintConfig": {
     "extends": [
       "@storybook/eslint-config-storybook"
-    ]
+    ],
+    "rules": {
+      "jest/expect-expect": [
+        "warn",
+        {
+          "assertFunctionNames": [
+            "expect",
+            "expectTypeOf"
+          ]
+        }
+      ]
+    }
   },
   "prettier": "@storybook/linter-config/prettier.config",
   "jest": {
@@ -47,6 +58,7 @@
     ]
   },
   "dependencies": {
+    "expect-type": "^0.14.2",
     "lodash": "^4.17.15",
     "type-fest": "^2.19.0"
   },
