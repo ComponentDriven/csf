@@ -1,9 +1,14 @@
+import { expectTypeOf } from 'expect-type';
 import {
-  Args,
-  ComponentAnnotations,
-  StoryAnnotationsOrFn,
-  ProjectAnnotations,
   AnyFramework,
+  Args,
+  ArgsFromMeta,
+  ArgsStoryFn,
+  ComponentAnnotations,
+  DecoratorFunction,
+  LoaderFunction,
+  ProjectAnnotations,
+  StoryAnnotationsOrFn,
 } from './story';
 
 // NOTE Example of internal type definition for @storybook/<X> (where X is a framework)
@@ -93,7 +98,35 @@ const project: ProjectAnnotations<XFramework> = {
   },
 };
 
-// NOTE Jest forced to define at least one test in file
-describe('story', () => {
-  test('true', () => expect(true).toBe(true));
+test('ArgsFromMeta will infer correct args from render/loader/decorators', () => {
+  const decorator1: DecoratorFunction<XFramework, { decoratorArg: string }> = (Story, { args }) =>
+    `${args.decoratorArg}`;
+
+  const decorator2: DecoratorFunction<XFramework, { decoratorArg2: string }> = (Story, { args }) =>
+    `${args.decoratorArg2}`;
+
+  const loader: LoaderFunction<XFramework, { loaderArg: number }> = async ({ args }) => ({
+    loader: `${args.loaderArg}`,
+  });
+
+  const loader2: LoaderFunction<XFramework, { loaderArg2: number }> = async ({ args }) => ({
+    loader2: `${args.loaderArg2}`,
+  });
+
+  const renderer: ArgsStoryFn<XFramework, { theme: string }> = (args) => `${args.theme}`;
+
+  const meta = {
+    component: Button,
+    args: { disabled: false },
+    render: renderer,
+    decorators: [decorator1, decorator2],
+    loaders: [loader, loader2],
+  };
+  expectTypeOf<ArgsFromMeta<XFramework, typeof meta>>().toEqualTypeOf<{
+    theme: string;
+    decoratorArg: string;
+    decoratorArg2: string;
+    loaderArg: number;
+    loaderArg2: number;
+  }>();
 });
