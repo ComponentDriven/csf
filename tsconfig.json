@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2020",
     "lib": ["es2015", "es2017", "dom"],
-    "module": "commonjs",
+    "moduleResolution": "Node",
+    "module": "ES2020",
     "declaration": true,
-    "removeComments": true,
     "strict": true,
-    "noImplicitAny": true,
     "esModuleInterop": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "noEmit": true
   },
   "include": ["src"],
-  "exclude": ["src/**/*.test.ts", "dist"]
+  "exclude": ["dist", "src/includeConditionalArg.test.ts"]
 }
