@@ -74,7 +74,7 @@ export interface SeparatorOptions {
  */
 export const parseKind = (kind: string, { rootSeparator, groupSeparator }: SeparatorOptions) => {
   const [root, remainder] = kind.split(rootSeparator, 2);
-  const groups = (remainder || kind).split(groupSeparator).filter(i => !!i);
+  const groups = (remainder || kind).split(groupSeparator).filter((i) => !!i);
 
   // when there's no remainder, it means the root wasn't found/split
   return {
@@ -83,4 +83,5 @@ export const parseKind = (kind: string, { rootSeparator, groupSeparator }: Separ
   };
 };
 
+export { includeConditionalArg } from './includeConditionalArg';
 export * from './story';
