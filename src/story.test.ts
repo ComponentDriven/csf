@@ -99,7 +99,6 @@ const CSF3StoryStrict: XStory<ButtonArgs> = {
 };
 
 const project: ProjectAnnotations<XFramework> = {
-  tags: ['foo', 'bar'],
   async runStep(label, play, context) {
     return play(context);
   },

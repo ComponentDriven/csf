@@ -173,11 +173,6 @@ export type StepRunner<TFramework extends AnyFramework = AnyFramework, TArgs = A
 
 export type BaseAnnotations<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = {
   /**
-   * Named tags for a story, used to filter stories in different contexts.
-   */
-  tags?: Tag[];
-
-  /**
    * Wrapper components or Storybook decorators that wrap a story.
    *
    * Decorators defined in Meta will be applied to every story variation.
@@ -304,6 +299,11 @@ export interface ComponentAnnotations<TFramework extends AnyFramework = AnyFrame
    * Function that is executed after the story is rendered.
    */
   play?: PlayFunction<TFramework, TArgs>;
+
+  /**
+   * Named tags for a story, used to filter stories in different contexts.
+   */
+  tags?: Tag[];
 }
 
 export type StoryAnnotations<
@@ -325,6 +325,11 @@ export type StoryAnnotations<
    * Function that is executed after the story is rendered.
    */
   play?: PlayFunction<TFramework, TArgs>;
+
+  /**
+   * Named tags for a story, used to filter stories in different contexts.
+   */
+  tags?: Tag[];
 
   /** @deprecated */
   story?: Omit<StoryAnnotations<TFramework, TArgs>, 'story'>;
