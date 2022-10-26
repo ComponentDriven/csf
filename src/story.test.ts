@@ -33,6 +33,7 @@ const Button = (props: ButtonArgs) => 'Button';
 const simple: XMeta = {
   title: 'simple',
   component: Button,
+  tags: ['foo', 'bar'],
   decorators: [(storyFn, context) => `withDecorator(${storyFn(context)})`],
   parameters: { a: () => null, b: NaN, c: Symbol('symbol') },
   loaders: [() => Promise.resolve({ d: '3' })],
@@ -43,6 +44,7 @@ const simple: XMeta = {
 const strict: XMeta<ButtonArgs> = {
   title: 'simple',
   component: Button,
+  tags: ['foo', 'bar'],
   decorators: [(storyFn, context) => `withDecorator(${storyFn(context)})`],
   parameters: { a: () => null, b: NaN, c: Symbol('symbol') },
   loaders: [() => Promise.resolve({ d: '3' })],
@@ -56,7 +58,8 @@ const Simple: XStory = () => 'Simple';
 const CSF1Story: XStory = () => 'Named Story';
 CSF1Story.story = {
   name: 'Another name for story',
-  decorators: [(storyFn) => `Wrapped(${storyFn()}`],
+  tags: ['foo', 'bar'],
+  decorators: [storyFn => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
   loaders: [() => Promise.resolve({ d: '3' })],
   args: { a: 1 },
@@ -64,24 +67,27 @@ CSF1Story.story = {
 
 const CSF2Story: XStory = () => 'Named Story';
 CSF2Story.storyName = 'Another name for story';
-CSF2Story.decorators = [(storyFn) => `Wrapped(${storyFn()}`];
+CSF2Story.tags = ['foo', 'bar'];
+CSF2Story.decorators = [storyFn => `Wrapped(${storyFn()}`];
 CSF2Story.parameters = { a: [1, '2', {}], b: undefined, c: Button };
 CSF2Story.loaders = [() => Promise.resolve({ d: '3' })];
 CSF2Story.args = { a: 1 };
 
 const CSF3Story: XStory = {
-  render: (args) => 'Named Story',
+  render: args => 'Named Story',
   name: 'Another name for story',
-  decorators: [(storyFn) => `Wrapped(${storyFn()}`],
+  tags: ['foo', 'bar'],
+  decorators: [storyFn => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
   loaders: [() => Promise.resolve({ d: '3' })],
   args: { a: 1 },
 };
 
 const CSF3StoryStrict: XStory<ButtonArgs> = {
-  render: (args) => 'Named Story',
+  render: args => 'Named Story',
   name: 'Another name for story',
-  decorators: [(storyFn) => `Wrapped(${storyFn()}`],
+  tags: ['foo', 'bar'],
+  decorators: [storyFn => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
   loaders: [() => Promise.resolve({ d: '3' })],
   args: { x: '1' },
@@ -93,6 +99,7 @@ const CSF3StoryStrict: XStory<ButtonArgs> = {
 };
 
 const project: ProjectAnnotations<XFramework> = {
+  tags: ['foo', 'bar'],
   async runStep(label, play, context) {
     return play(context);
   },
@@ -113,7 +120,7 @@ test('ArgsFromMeta will infer correct args from render/loader/decorators', () =>
     loader2: `${args.loaderArg2}`,
   });
 
-  const renderer: ArgsStoryFn<XFramework, { theme: string }> = (args) => `${args.theme}`;
+  const renderer: ArgsStoryFn<XFramework, { theme: string }> = args => `${args.theme}`;
 
   const meta = {
     component: Button,

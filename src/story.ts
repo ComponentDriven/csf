@@ -11,6 +11,8 @@ export type StoryName = string;
 /** @deprecated */
 export type StoryKind = ComponentTitle;
 
+export type Tag = string;
+
 export interface StoryIdentifier {
   componentId: ComponentId;
   title: ComponentTitle;
@@ -21,6 +23,8 @@ export interface StoryIdentifier {
   name: StoryName;
   /** @deprecated */
   story: StoryName;
+
+  tags: Tag[];
 }
 
 export type Parameters = { [name: string]: any };
@@ -169,6 +173,11 @@ export type StepRunner<TFramework extends AnyFramework = AnyFramework, TArgs = A
 
 export type BaseAnnotations<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = {
   /**
+   * Named tags for a story, used to filter stories in different contexts.
+   */
+  tags?: Tag[];
+
+  /**
    * Wrapper components or Storybook decorators that wrap a story.
    *
    * Decorators defined in Meta will be applied to every story variation.
@@ -290,12 +299,12 @@ export interface ComponentAnnotations<TFramework extends AnyFramework = AnyFrame
    * By defining them each component will have its tab in the args table.
    */
   subcomponents?: Record<string, TFramework['component']>;
-  
+
   /**
    * Function that is executed after the story is rendered.
    */
   play?: PlayFunction<TFramework, TArgs>;
-};
+}
 
 export type StoryAnnotations<
   TFramework extends AnyFramework = AnyFramework,
