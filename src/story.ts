@@ -11,6 +11,8 @@ export type StoryName = string;
 /** @deprecated */
 export type StoryKind = ComponentTitle;
 
+export type Tag = string;
+
 export interface StoryIdentifier {
   componentId: ComponentId;
   title: ComponentTitle;
@@ -21,6 +23,8 @@ export interface StoryIdentifier {
   name: StoryName;
   /** @deprecated */
   story: StoryName;
+
+  tags: Tag[];
 }
 
 export type Parameters = { [name: string]: any };
@@ -290,12 +294,17 @@ export interface ComponentAnnotations<TFramework extends AnyFramework = AnyFrame
    * By defining them each component will have its tab in the args table.
    */
   subcomponents?: Record<string, TFramework['component']>;
-  
+
   /**
    * Function that is executed after the story is rendered.
    */
   play?: PlayFunction<TFramework, TArgs>;
-};
+
+  /**
+   * Named tags for a story, used to filter stories in different contexts.
+   */
+  tags?: Tag[];
+}
 
 export type StoryAnnotations<
   TFramework extends AnyFramework = AnyFramework,
@@ -316,6 +325,11 @@ export type StoryAnnotations<
    * Function that is executed after the story is rendered.
    */
   play?: PlayFunction<TFramework, TArgs>;
+
+  /**
+   * Named tags for a story, used to filter stories in different contexts.
+   */
+  tags?: Tag[];
 
   /** @deprecated */
   story?: Omit<StoryAnnotations<TFramework, TArgs>, 'story'>;
