@@ -1,3 +1,4 @@
+/* global HTMLElement */
 import { expectTypeOf } from 'expect-type';
 import {
   Framework,

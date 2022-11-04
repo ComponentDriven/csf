@@ -1,4 +1,4 @@
-/* global HTMLElement, AbortSignal */
+/* global AbortSignal */
 import { Simplify, UnionToIntersection } from 'type-fest';
 import { SBType, SBScalarType } from './SBType';
 
