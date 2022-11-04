@@ -1,4 +1,4 @@
-/* global HTMLElement, AbortSignal */
+/* global AbortSignal */
 import { Simplify, UnionToIntersection } from 'type-fest';
 import { SBType, SBScalarType } from './SBType';
 
@@ -54,9 +54,16 @@ export type Globals = { [name: string]: any };
 export type GlobalTypes = { [name: string]: InputType };
 export type StrictGlobalTypes = { [name: string]: StrictInputType };
 
-export type AnyFramework = {
+export type Framework = {
+  /** What does is the type of the `component` annotation in this framework? */
   component: unknown;
+
+  /** What does the story function return in this framework? */
   storyResult: unknown;
+
+  /** What type of element does this framework render to? */
+  canvasElement: unknown;
+
   // A generic type T that can be used in the definition of the component like this:
   // component: (args: this['T']) => string;
   // This generic type will eventually be filled in with TArgs
@@ -64,8 +71,11 @@ export type AnyFramework = {
   T?: unknown;
 };
 
+/** @deprecated - use `Framework` */
+export type AnyFramework = Framework;
+
 export type StoryContextForEnhancers<
-  TFramework extends AnyFramework = AnyFramework,
+  TFramework extends Framework = Framework,
   TArgs = Args
 > = StoryIdentifier & {
   component?: (TFramework & { T: any })['component'];
@@ -75,10 +85,10 @@ export type StoryContextForEnhancers<
   argTypes: StrictArgTypes<TArgs>;
 };
 
-export type ArgsEnhancer<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
+export type ArgsEnhancer<TFramework extends Framework = Framework, TArgs = Args> = (
   context: StoryContextForEnhancers<TFramework, TArgs>
 ) => TArgs;
-export type ArgTypesEnhancer<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = ((
+export type ArgTypesEnhancer<TFramework extends Framework = Framework, TArgs = Args> = ((
   context: StoryContextForEnhancers<TFramework, TArgs>
 ) => StrictArgTypes<TArgs>) & {
   secondPass?: boolean;
@@ -94,7 +104,7 @@ export type StoryContextUpdate<TArgs = Args> = {
 
 export type ViewMode = 'story' | 'docs';
 export type StoryContextForLoaders<
-  TFramework extends AnyFramework = AnyFramework,
+  TFramework extends Framework = Framework,
   TArgs = Args
 > = StoryContextForEnhancers<TFramework, TArgs> &
   Required<StoryContextUpdate<TArgs>> & {
@@ -103,75 +113,75 @@ export type StoryContextForLoaders<
     originalStoryFn: StoryFn<TFramework>;
   };
 
-export type LoaderFunction<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
+export type LoaderFunction<TFramework extends Framework = Framework, TArgs = Args> = (
   context: StoryContextForLoaders<TFramework, TArgs>
 ) => Promise<Record<string, any>>;
 
 export type StoryContext<
-  TFramework extends AnyFramework = AnyFramework,
+  TFramework extends Framework = Framework,
   TArgs = Args
 > = StoryContextForLoaders<TFramework, TArgs> & {
   loaded: Record<string, any>;
   abortSignal: AbortSignal;
-  canvasElement: HTMLElement;
+  canvasElement: TFramework['canvasElement'];
 };
 
 export type StepLabel = string;
 
-export type StepFunction<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
+export type StepFunction<TFramework extends Framework = Framework, TArgs = Args> = (
   label: StepLabel,
   play: PlayFunction<TFramework, TArgs>
 ) => Promise<void> | void;
 
 export type PlayFunctionContext<
-  TFramework extends AnyFramework = AnyFramework,
+  TFramework extends Framework = Framework,
   TArgs = Args
 > = StoryContext<TFramework, TArgs> & {
   step: StepFunction<TFramework, TArgs>;
 };
 
-export type PlayFunction<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
+export type PlayFunction<TFramework extends Framework = Framework, TArgs = Args> = (
   context: PlayFunctionContext<TFramework, TArgs>
 ) => Promise<void> | void;
 
 // This is the type of story function passed to a decorator -- does not rely on being passed any context
-export type PartialStoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
+export type PartialStoryFn<TFramework extends Framework = Framework, TArgs = Args> = (
   update?: StoryContextUpdate<Partial<TArgs>>
 ) => TFramework['storyResult'];
 
 // This is a passArgsFirst: false user story function
-export type LegacyStoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
+export type LegacyStoryFn<TFramework extends Framework = Framework, TArgs = Args> = (
   context: StoryContext<TFramework, TArgs>
 ) => TFramework['storyResult'];
 
 // This is a passArgsFirst: true user story function
-export type ArgsStoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
+export type ArgsStoryFn<TFramework extends Framework = Framework, TArgs = Args> = (
   args: TArgs,
   context: StoryContext<TFramework, TArgs>
 ) => (TFramework & { T: TArgs })['storyResult'];
 
 // This is either type of user story function
-export type StoryFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> =
+export type StoryFn<TFramework extends Framework = Framework, TArgs = Args> =
   | LegacyStoryFn<TFramework, TArgs>
   | ArgsStoryFn<TFramework, TArgs>;
 
-export type DecoratorFunction<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
+export type DecoratorFunction<TFramework extends Framework = Framework, TArgs = Args> = (
   fn: PartialStoryFn<TFramework, TArgs>,
   c: StoryContext<TFramework, TArgs>
 ) => TFramework['storyResult'];
 
-export type DecoratorApplicator<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
+export type DecoratorApplicator<TFramework extends Framework = Framework, TArgs = Args> = (
   storyFn: LegacyStoryFn<TFramework, TArgs>,
   decorators: DecoratorFunction<TFramework, TArgs>[]
 ) => LegacyStoryFn<TFramework, TArgs>;
 
-export type StepRunner<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = (
+export type StepRunner<TFramework extends Framework = Framework, TArgs = Args> = (
   label: StepLabel,
   play: PlayFunction<TFramework, TArgs>,
   context: PlayFunctionContext<TFramework, TArgs>
 ) => Promise<void>;
 
-export type BaseAnnotations<TFramework extends AnyFramework = AnyFramework, TArgs = Args> = {
+export type BaseAnnotations<TFramework extends Framework = Framework, TArgs = Args> = {
   /**
    * Wrapper components or Storybook decorators that wrap a story.
    *
@@ -211,7 +221,7 @@ export type BaseAnnotations<TFramework extends AnyFramework = AnyFramework, TArg
 };
 
 export type ProjectAnnotations<
-  TFramework extends AnyFramework = AnyFramework,
+  TFramework extends Framework = Framework,
   TArgs = Args
 > = BaseAnnotations<TFramework, TArgs> & {
   argsEnhancers?: ArgsEnhancer<TFramework, Args>[];
@@ -223,7 +233,7 @@ export type ProjectAnnotations<
 };
 
 type StoryDescriptor = string[] | RegExp;
-export interface ComponentAnnotations<TFramework extends AnyFramework = AnyFramework, TArgs = Args>
+export interface ComponentAnnotations<TFramework extends Framework = Framework, TArgs = Args>
   extends BaseAnnotations<TFramework, TArgs> {
   /**
    * Title of the component which will be presented in the navigation. **Should be unique.**
@@ -307,7 +317,7 @@ export interface ComponentAnnotations<TFramework extends AnyFramework = AnyFrame
 }
 
 export type StoryAnnotations<
-  TFramework extends AnyFramework = AnyFramework,
+  TFramework extends Framework = Framework,
   TArgs = Args,
   TRequiredArgs = Partial<TArgs>
 > = BaseAnnotations<TFramework, TArgs> & {
@@ -336,25 +346,25 @@ export type StoryAnnotations<
 } & ({} extends TRequiredArgs ? { args?: TRequiredArgs } : { args: TRequiredArgs });
 
 export type LegacyAnnotatedStoryFn<
-  TFramework extends AnyFramework = AnyFramework,
+  TFramework extends Framework = Framework,
   TArgs = Args
 > = StoryFn<TFramework, TArgs> & StoryAnnotations<TFramework, TArgs>;
 
-export type LegacyStoryAnnotationsOrFn<
-  TFramework extends AnyFramework = AnyFramework,
-  TArgs = Args
-> = LegacyAnnotatedStoryFn<TFramework, TArgs> | StoryAnnotations<TFramework, TArgs>;
+export type LegacyStoryAnnotationsOrFn<TFramework extends Framework = Framework, TArgs = Args> =
+  | LegacyAnnotatedStoryFn<TFramework, TArgs>
+  | StoryAnnotations<TFramework, TArgs>;
 
-export type AnnotatedStoryFn<
-  TFramework extends AnyFramework = AnyFramework,
-  TArgs = Args
-> = ArgsStoryFn<TFramework, TArgs> & StoryAnnotations<TFramework, TArgs>;
+export type AnnotatedStoryFn<TFramework extends Framework = Framework, TArgs = Args> = ArgsStoryFn<
+  TFramework,
+  TArgs
+> &
+  StoryAnnotations<TFramework, TArgs>;
 
-export type StoryAnnotationsOrFn<TFramework extends AnyFramework = AnyFramework, TArgs = Args> =
+export type StoryAnnotationsOrFn<TFramework extends Framework = Framework, TArgs = Args> =
   | AnnotatedStoryFn<TFramework, TArgs>
   | StoryAnnotations<TFramework, TArgs>;
 
-export type ArgsFromMeta<TFramework extends AnyFramework, Meta> = Meta extends {
+export type ArgsFromMeta<TFramework extends Framework, Meta> = Meta extends {
   render?: ArgsStoryFn<TFramework, infer RArgs>;
   loaders?: (infer Loaders)[];
   decorators?: (infer Decorators)[];
@@ -362,10 +372,10 @@ export type ArgsFromMeta<TFramework extends AnyFramework, Meta> = Meta extends {
   ? Simplify<RArgs & DecoratorsArgs<TFramework, Decorators> & LoaderArgs<TFramework, Loaders>>
   : unknown;
 
-type DecoratorsArgs<TFramework extends AnyFramework, Decorators> = UnionToIntersection<
+type DecoratorsArgs<TFramework extends Framework, Decorators> = UnionToIntersection<
   Decorators extends DecoratorFunction<TFramework, infer TArgs> ? TArgs : unknown
 >;
 
-type LoaderArgs<TFramework extends AnyFramework, Loaders> = UnionToIntersection<
+type LoaderArgs<TFramework extends Framework, Loaders> = UnionToIntersection<
   Loaders extends LoaderFunction<TFramework, infer TArgs> ? TArgs : unknown
 >;
