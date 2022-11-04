@@ -1,6 +1,6 @@
 import { expectTypeOf } from 'expect-type';
 import {
-  AnyFramework,
+  Framework,
   Args,
   ArgsFromMeta,
   ArgsStoryFn,
@@ -12,9 +12,10 @@ import {
 } from './story';
 
 // NOTE Example of internal type definition for @storybook/<X> (where X is a framework)
-interface XFramework extends AnyFramework {
+interface XFramework extends Framework {
   component: (args: this['T']) => string;
   storyResult: string;
+  canvasElement: HTMLElement;
 }
 
 type XMeta<TArgs = Args> = ComponentAnnotations<XFramework, TArgs>;
@@ -91,7 +92,7 @@ const CSF3StoryStrict: XStory<ButtonArgs> = {
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
   loaders: [() => Promise.resolve({ d: '3' })],
   args: { x: '1' },
-  play: async ({ step }) => {
+  play: async ({ step, canvasElement }) => {
     await step('a step', async ({ step: substep }) => {
       await substep('a substep', () => {});
     });
