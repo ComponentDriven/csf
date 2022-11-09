@@ -36,7 +36,7 @@
     "build": "tsup ./src/index.ts --format esm,cjs --dts",
     "check": "tsc",
     "lint": "eslint src --ext .ts",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "NODE_NO_WARNINGS=1 NODE_OPTIONS=--experimental-vm-modules jest",
     "release": "yarn build && auto shipit"
   },
   "eslintConfig": {
