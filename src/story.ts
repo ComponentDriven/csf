@@ -1,8 +1,7 @@
-/* global AbortSignal */
 import { Simplify, UnionToIntersection } from 'type-fest';
-import { SBType, SBScalarType } from './SBType';
+import { SBType, SBScalarType } from './SBType.js';
 
-export * from './SBType';
+export * from './SBType.js';
 export type StoryId = string;
 export type ComponentId = string;
 export type ComponentTitle = string;

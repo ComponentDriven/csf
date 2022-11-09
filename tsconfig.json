@@ -1,15 +1,13 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["es2015", "es2017", "dom"],
-    "moduleResolution": "Node",
+    "lib": ["ES2020", "DOM"],
+    "moduleResolution": "Node16",
     "module": "ES2020",
-    "declaration": true,
     "strict": true,
     "esModuleInterop": true,
-    "outDir": "dist",
-    "noEmit": true
+    "outDir": "dist"
   },
   "include": ["src"],
-  "exclude": ["dist", "src/includeConditionalArg.test.ts"]
+  "exclude": []
 }

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-import { toId, storyNameFromExport, isExportStory } from '.';
+import { toId, storyNameFromExport, isExportStory } from './index.js';
 
 describe('toId', () => {
   const testCases: [string, string, string | undefined, string][] = [
@@ -16,6 +15,7 @@ describe('toId', () => {
   ];
 
   testCases.forEach(([name, kind, story, output]) => {
+    // eslint-disable-next-line jest/valid-title
     it(name, () => {
       expect(toId(kind, story)).toBe(output);
     });

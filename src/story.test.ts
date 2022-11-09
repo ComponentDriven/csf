@@ -10,7 +10,7 @@ import {
   LoaderFunction,
   ProjectAnnotations,
   StoryAnnotationsOrFn,
-} from './story';
+} from './story.js';
 
 // NOTE Example of internal type definition for @storybook/<X> (where X is a renderer)
 interface XRenderer extends Renderer {
