@@ -1,5 +1,5 @@
 import isEqual from 'lodash/isEqual';
-import { Args, Globals, InputType, Conditional } from './story';
+import { Args, Globals, InputType, Conditional } from './story.js';
 
 const count = (vals: any[]) => vals.map((v) => typeof v !== 'undefined').filter(Boolean).length;
 

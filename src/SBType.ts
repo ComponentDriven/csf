@@ -40,3 +40,7 @@ export type SBType =
   | SBIntersectionType
   | SBUnionType
   | SBOtherType;
+
+// Needed for ts-jest as we export * from './SBType.js' in the other file
+// Might be a bug
+export {};

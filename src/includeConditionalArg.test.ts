@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-import { includeConditionalArg, testValue } from './includeConditionalArg';
-import type { Conditional } from './story';
+import { includeConditionalArg, testValue } from './includeConditionalArg.js';
+import type { Conditional } from './story.js';
 
 describe('testValue', () => {
   describe('truthy', () => {
@@ -15,7 +14,6 @@ describe('testValue', () => {
       ['falsey truthy', { truthy: false }, 1, false],
       ['falsey falsey', { truthy: false }, 0, true],
     ])('%s', (_name, cond, value, expected) => {
-      // @ts-ignore
       expect(testValue(cond, value)).toBe(expected);
     });
   });
@@ -26,7 +24,6 @@ describe('testValue', () => {
       ['nexist', { exists: false }, undefined, true],
       ['nexist false', { exists: false }, 1, false],
     ])('%s', (_name, cond, value, expected) => {
-      // @ts-ignore
       expect(testValue(cond, value)).toBe(expected);
     });
   });
@@ -39,7 +36,6 @@ describe('testValue', () => {
       ['object true', { eq: { x: 1 } }, { x: 1 }, true],
       ['object true', { eq: { x: 1 } }, { x: 2 }, false],
     ])('%s', (_name, cond, value, expected) => {
-      // @ts-ignore
       expect(testValue(cond, value)).toBe(expected);
     });
   });
@@ -52,7 +48,6 @@ describe('testValue', () => {
       ['object true', { neq: { x: 1 } }, { x: 2 }, true],
       ['object false', { neq: { x: 1 } }, { x: 1 }, false],
     ])('%s', (_name, cond, value, expected) => {
-      // @ts-ignore
       expect(testValue(cond, value)).toBe(expected);
     });
   });
@@ -92,7 +87,6 @@ describe('includeConditionalArg', () => {
         ['truthy true', { if: { arg: 'a', truthy: true } }, { a: 0 }, {}, false],
         ['truthy false', { if: { arg: 'a', truthy: false } }, {}, {}, true],
       ])('%s', (_name, argType, args, globals, expected) => {
-        // @ts-ignore
         expect(includeConditionalArg(argType, args, globals)).toBe(expected);
       });
     });
@@ -101,7 +95,6 @@ describe('includeConditionalArg', () => {
         ['exist', { if: { arg: 'a', exists: true } }, { a: 1 }, {}, true],
         ['exist false', { if: { arg: 'a', exists: true } }, {}, {}, false],
       ])('%s', (_name, argType, args, globals, expected) => {
-        // @ts-ignore
         expect(includeConditionalArg(argType, args, globals)).toBe(expected);
       });
     });
@@ -110,7 +103,6 @@ describe('includeConditionalArg', () => {
         ['scalar true', { if: { arg: 'a', eq: 1 } }, { a: 1 }, {}, true],
         ['scalar false', { if: { arg: 'a', eq: 1 } }, { a: 2 }, { a: 1 }, false],
       ])('%s', (_name, argType, args, globals, expected) => {
-        // @ts-ignore
         expect(includeConditionalArg(argType, args, globals)).toBe(expected);
       });
     });
@@ -119,7 +111,6 @@ describe('includeConditionalArg', () => {
         ['scalar true', { if: { arg: 'a', neq: 1 } }, { a: 2 }, {}, true],
         ['scalar false', { if: { arg: 'a', neq: 1 } }, { a: 1 }, { a: 2 }, false],
       ])('%s', (_name, argType, args, globals, expected) => {
-        // @ts-ignore
         expect(includeConditionalArg(argType, args, globals)).toBe(expected);
       });
     });
@@ -132,7 +123,6 @@ describe('includeConditionalArg', () => {
         ['truthy true', { if: { global: 'a', truthy: true } }, {}, { a: 0 }, false],
         ['truthy false', { if: { global: 'a', truthy: false } }, {}, { a: 0 }, true],
       ])('%s', (_name, argType, args, globals, expected) => {
-        // @ts-ignore
         expect(includeConditionalArg(argType, args, globals)).toBe(expected);
       });
     });
@@ -141,7 +131,6 @@ describe('includeConditionalArg', () => {
         ['implicit exist true', { if: { global: 'a', exists: true } }, {}, { a: 1 }, true],
         ['implicit exist false', { if: { global: 'a', exists: true } }, { a: 1 }, {}, false],
       ])('%s', (_name, argType, args, globals, expected) => {
-        // @ts-ignore
         expect(includeConditionalArg(argType, args, globals)).toBe(expected);
       });
     });
@@ -150,7 +139,6 @@ describe('includeConditionalArg', () => {
         ['scalar true', { if: { global: 'a', eq: 1 } }, {}, { a: 1 }, true],
         ['scalar false', { if: { arg: 'a', eq: 1 } }, { a: 2 }, { a: 1 }, false],
       ])('%s', (_name, argType, args, globals, expected) => {
-        // @ts-ignore
         expect(includeConditionalArg(argType, args, globals)).toBe(expected);
       });
     });
@@ -159,7 +147,6 @@ describe('includeConditionalArg', () => {
         ['scalar true', { if: { global: 'a', neq: 1 } }, {}, { a: 2 }, true],
         ['scalar false', { if: { global: 'a', neq: 1 } }, { a: 2 }, { a: 1 }, false],
       ])('%s', (_name, argType, args, globals, expected) => {
-        // @ts-ignore
         expect(includeConditionalArg(argType, args, globals)).toBe(expected);
       });
     });
