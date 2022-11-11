@@ -27,7 +27,7 @@ export interface StoryIdentifier {
 }
 
 export interface Parameters {
-  [name: string]: unknown;
+  [name: string]: any;
 }
 
 type ConditionalTest = { truthy?: boolean } | { exists: boolean } | { eq: any } | { neq: any };
