@@ -30,6 +30,10 @@ export interface Parameters {
   [name: string]: any;
 }
 
+export interface StrictParameters {
+  [name: string]: unknown;
+}
+
 type ConditionalTest = { truthy?: boolean } | { exists: boolean } | { eq: any } | { neq: any };
 type ConditionalValue = { arg: string } | { global: string };
 export type Conditional = ConditionalValue & ConditionalTest;
@@ -47,7 +51,14 @@ export interface StrictInputType extends InputType {
   type?: SBType;
 }
 
-export type Args = { [name: string]: any };
+export interface Args {
+  [name: string]: any;
+}
+
+export interface StrictArgs {
+  [name: string]: unknown;
+}
+
 export type ArgTypes<TArgs = Args> = { [name in keyof TArgs]: InputType };
 export type StrictArgTypes<TArgs = Args> = { [name in keyof TArgs]: StrictInputType };
 
