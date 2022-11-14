@@ -1,5 +1,6 @@
 /* global HTMLElement */
 import { expectTypeOf } from 'expect-type';
+import { Except, SetOptional } from 'type-fest';
 import {
   Renderer,
   Args,
@@ -10,6 +11,7 @@ import {
   LoaderFunction,
   ProjectAnnotations,
   StoryAnnotationsOrFn,
+  StrictArgs,
 } from './story.js';
 
 // NOTE Example of internal type definition for @storybook/<X> (where X is a renderer)
@@ -113,6 +115,10 @@ test('ArgsFromMeta will infer correct args from render/loader/decorators', () =>
   const decorator2: DecoratorFunction<XRenderer, { decoratorArg2: string }> = (Story, { args }) =>
     `${args.decoratorArg2}`;
 
+  const decorator3: DecoratorFunction<XRenderer, Args> = (Story, { args }) => ``;
+
+  const decorator4: DecoratorFunction<XRenderer, StrictArgs> = (Story, { args }) => ``;
+
   const loader: LoaderFunction<XRenderer, { loaderArg: number }> = async ({ args }) => ({
     loader: `${args.loaderArg}`,
   });
@@ -127,7 +133,7 @@ test('ArgsFromMeta will infer correct args from render/loader/decorators', () =>
     component: Button,
     args: { disabled: false },
     render: renderer,
-    decorators: [decorator1, decorator2],
+    decorators: [decorator1, decorator2, decorator3, decorator4],
     loaders: [loader, loader2],
   };
   expectTypeOf<ArgsFromMeta<XRenderer, typeof meta>>().toEqualTypeOf<{
