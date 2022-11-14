@@ -1,5 +1,5 @@
-import { Simplify, UnionToIntersection } from 'type-fest';
-import { SBType, SBScalarType } from './SBType.js';
+import { RemoveIndexSignature, Simplify, UnionToIntersection } from 'type-fest';
+import { SBScalarType, SBType } from './SBType.js';
 
 export * from './SBType.js';
 export type StoryId = string;
@@ -383,7 +383,11 @@ export type ArgsFromMeta<TRenderer extends Renderer, Meta> = Meta extends {
   loaders?: (infer Loaders)[];
   decorators?: (infer Decorators)[];
 }
-  ? Simplify<RArgs & DecoratorsArgs<TRenderer, Decorators> & LoaderArgs<TRenderer, Loaders>>
+  ? Simplify<
+      RemoveIndexSignature<
+        RArgs & DecoratorsArgs<TRenderer, Decorators> & LoaderArgs<TRenderer, Loaders>
+      >
+    >
   : unknown;
 
 type DecoratorsArgs<TRenderer extends Renderer, Decorators> = UnionToIntersection<
