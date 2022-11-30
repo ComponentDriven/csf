@@ -344,6 +344,13 @@ export type StoryAnnotations<
   storyName?: StoryName;
 
   /**
+   * The primary component for your story.
+   *
+   * Used by addons for automatic prop table generation and display of other component metadata.
+   */
+  component?: (TRenderer & { T: Args extends TArgs ? any : TArgs })['component'];
+
+  /**
    * Function that is executed after the story is rendered.
    */
   play?: PlayFunction<TRenderer, TArgs>;
