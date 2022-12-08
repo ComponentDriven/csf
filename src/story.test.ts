@@ -144,3 +144,13 @@ test('ArgsFromMeta will infer correct args from render/loader/decorators', () =>
     loaderArg2: number;
   }>();
 });
+
+test('You can assign a component to Meta, even when you pass a top type', () => {
+  expectTypeOf({ component: Button }).toMatchTypeOf<XMeta>();
+  expectTypeOf({ component: Button }).toMatchTypeOf<XMeta<Record<string, any>>>();
+  expectTypeOf({ component: Button }).toMatchTypeOf<XMeta<Record<string, unknown>>>();
+  expectTypeOf({ component: Button }).toMatchTypeOf<XMeta<unknown>>();
+  expectTypeOf({ component: Button }).toMatchTypeOf<XMeta<any>>();
+  expectTypeOf({ component: Button }).not.toMatchTypeOf<XMeta<{ a?: number }>>();
+  expectTypeOf({ component: Button }).not.toMatchTypeOf<XMeta<{ a: number }>>();
+});
