@@ -298,7 +298,24 @@ export interface ComponentAnnotations<TRenderer extends Renderer = Renderer, TAr
    *
    * Used by addons for automatic prop table generation and display of other component metadata.
    */
-  component?: (TRenderer & { T: Args extends TArgs ? any : TArgs })['component'];
+  component?: (TRenderer & {
+    // We fall back to `any` when TArgs is missing (and so TArgs will be Args).
+    // We also fallback to `any` for any other "top" type (Record<string, any>, Record<string, unknown>, any, unknown).
+    // This is because you can not assign Component with more specific props, to a Component that accepts anything
+
+    // For example this won't compile
+    // const Button: FC<Args> = (props: {prop: number} ) => {}
+    //
+    // Note that the subtyping relationship is inversed for T and (t: T) => any. As this is fine:
+    // const args: Args = { prop: 1 };
+    // The correct way would probably to fall back to `never`, being the inverse of unknown. Or maybe `Record<string, never>`
+    //
+    // Any is really weird as it pretends to be never and unknown at the same time (so being the absolute bottom and top type at the same time)
+    // However, I don't have the guts to fallback to Record<string, never>, forgive me.
+    //
+    // If this all doesn't make sense, you may want to look at the test: You can assign a component to Meta, even when you pass a top type.
+    T: Record<string, unknown> extends Required<TArgs> ? any : TArgs;
+  })['component'];
 
   /**
    * Auxiliary subcomponents that are part of the stories.
