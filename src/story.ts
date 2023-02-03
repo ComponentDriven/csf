@@ -1,5 +1,5 @@
-import { RemoveIndexSignature, Simplify, UnionToIntersection } from 'type-fest';
-import { SBScalarType, SBType } from './SBType.js';
+import type { RemoveIndexSignature, Simplify, UnionToIntersection } from 'type-fest';
+import type { SBScalarType, SBType } from './SBType';
 
 export * from './SBType.js';
 export type StoryId = string;

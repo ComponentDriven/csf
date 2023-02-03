@@ -33,7 +33,7 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup ./src/index.ts --format esm,cjs --dts",
+    "build": "tsup ./src/index.ts --format esm,cjs --dts --treeshake",
     "check": "tsc",
     "lint": "eslint src --ext .ts",
     "test": "NODE_NO_WARNINGS=1 NODE_OPTIONS=--experimental-vm-modules jest",
@@ -93,15 +93,14 @@
     ]
   },
   "dependencies": {
-    "expect-type": "^0.14.2",
-    "lodash": "^4.17.15",
     "type-fest": "^2.19.0"
   },
   "devDependencies": {
+    "expect-type": "^0.14.2",
     "@auto-it/released": "^10.37.6",
+    "@ngard/tiny-isequal": "^1.1.0",
     "@storybook/eslint-config-storybook": "^3.1.2",
     "@types/jest": "^29.2.0",
-    "@types/lodash": "^4.14.149",
     "@types/node": "^18.11.0",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",

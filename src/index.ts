@@ -1,4 +1,4 @@
-import startCase from 'lodash/startCase';
+import { toStartCaseStr } from './toStartCaseStr';
 
 /**
  * Remove punctuation and illegal characters from a story ID.
@@ -34,7 +34,7 @@ export const toId = (kind: string, name?: string) =>
 /**
  * Transform a CSF named export into a readable story name
  */
-export const storyNameFromExport = (key: string) => startCase(key);
+export const storyNameFromExport = (key: string) => toStartCaseStr(key);
 
 type StoryDescriptor = string[] | RegExp;
 export interface IncludeExcludeOptions {

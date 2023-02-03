@@ -1,4 +1,7 @@
-import isEqual from 'lodash/isEqual';
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable import/no-extraneous-dependencies */
+/* @ts-expect-error (has no typings) */
+import { isEqual } from '@ngard/tiny-isequal';
 import { Args, Globals, InputType, Conditional } from './story.js';
 
 const count = (vals: any[]) => vals.map((v) => typeof v !== 'undefined').filter(Boolean).length;
