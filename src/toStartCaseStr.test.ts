@@ -10,6 +10,7 @@ test.each([
   ['camelCase1A2b', 'Camel Case 1A 2b'],
   ['camelCase1A2B', 'Camel Case 1A 2B'],
   ['camelCase1A2B3', 'Camel Case 1A 2B 3'],
+  ['kebab-case', 'Kebab Case'],
   ['__FOOBAR__', 'FOOBAR'],
   ['__FOO_BAR__', 'FOO BAR'],
   [' FOO BAR', 'FOO BAR'],
