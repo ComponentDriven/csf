@@ -1,6 +1,7 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable import/no-extraneous-dependencies */
 /* global HTMLElement */
 import { expectTypeOf } from 'expect-type';
-import { Except, SetOptional } from 'type-fest';
 import {
   Renderer,
   Args,
