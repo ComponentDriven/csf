@@ -1,4 +1,4 @@
-import startCase from 'lodash/startCase';
+import { toStartCaseStr } from './toStartCaseStr';
 
 /**
  * Remove punctuation and illegal characters from a story ID.
@@ -28,13 +28,13 @@ const sanitizeSafe = (string: string, part: string) => {
 /**
  * Generate a storybook ID from a component/kind and story name.
  */
-export const toId = (kind: string, name: string) =>
-  `${sanitizeSafe(kind, 'kind')}--${sanitizeSafe(name, 'name')}`;
+export const toId = (kind: string, name?: string) =>
+  `${sanitizeSafe(kind, 'kind')}${name ? `--${sanitizeSafe(name, 'name')}` : ''}`;
 
 /**
  * Transform a CSF named export into a readable story name
  */
-export const storyNameFromExport = (key: string) => startCase(key);
+export const storyNameFromExport = (key: string) => toStartCaseStr(key);
 
 type StoryDescriptor = string[] | RegExp;
 export interface IncludeExcludeOptions {
@@ -74,7 +74,7 @@ export interface SeparatorOptions {
  */
 export const parseKind = (kind: string, { rootSeparator, groupSeparator }: SeparatorOptions) => {
   const [root, remainder] = kind.split(rootSeparator, 2);
-  const groups = (remainder || kind).split(groupSeparator).filter(i => !!i);
+  const groups = (remainder || kind).split(groupSeparator).filter((i) => !!i);
 
   // when there's no remainder, it means the root wasn't found/split
   return {
@@ -82,3 +82,6 @@ export const parseKind = (kind: string, { rootSeparator, groupSeparator }: Separ
     groups,
   };
 };
+
+export { includeConditionalArg } from './includeConditionalArg';
+export * from './story';
