@@ -120,6 +120,16 @@ export type StoryContextForLoaders<
   TArgs = Args
 > = StoryContextForEnhancers<TRenderer, TArgs> &
   Required<StoryContextUpdate<TArgs>> & {
+    /**
+     * The unmappedArgs are the args that are passed over the channel
+     * and defined in the story definition. They must be serializable.
+     */
+    unmappedArgs: TArgs;
+    /**
+     * The args that are passed on the context are mapped by arg mapping
+     * and can be filtered by conditional arg filters.
+     */
+    args: Args;
     hooks: unknown;
     viewMode: ViewMode;
     originalStoryFn: StoryFn<TRenderer>;
