@@ -1,3 +1,15 @@
+# v0.1.1 (Fri Jun 02 2023)
+
+#### 🐛 Bug Fix
+
+- Move `types` condition to the front [#70](https://github.com/ComponentDriven/csf/pull/70) ([@Andarist](https://github.com/Andarist))
+
+#### Authors: 1
+
+- Mateusz Burzyński ([@Andarist](https://github.com/Andarist))
+
+---
+
 # v0.1.0 (Mon Apr 03 2023)
 
 #### 🚀 Enhancement
