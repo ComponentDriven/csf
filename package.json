@@ -19,11 +19,11 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js",
       "browser": "./dist/index.mjs",
-      "node": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "node": "./dist/index.js"
     }
   },
   "main": "dist/index.js",
