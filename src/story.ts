@@ -224,7 +224,7 @@ export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
    * Asynchronous functions which provide data for a story.
    * @see [Loaders](https://storybook.js.org/docs/react/writing-stories/loaders)
    */
-  loaders?: LoaderFunction<TRenderer, TArgs>[];
+  loaders?: LoaderFunction<TRenderer, TArgs>[] | LoaderFunction<TRenderer, TArgs>;
 
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the renderer will be used.
