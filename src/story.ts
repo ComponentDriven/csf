@@ -200,7 +200,9 @@ export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
    * Decorators defined in Meta will be applied to every story variation.
    * @see [Decorators](https://storybook.js.org/docs/addons/introduction/#1-decorators)
    */
-  decorators?: DecoratorFunction<TRenderer, Simplify<TArgs>>[];
+  decorators?:
+    | DecoratorFunction<TRenderer, Simplify<TArgs>>[]
+    | DecoratorFunction<TRenderer, Simplify<TArgs>>;
 
   /**
    * Custom metadata for a story.
@@ -397,8 +399,8 @@ export type StoryAnnotationsOrFn<TRenderer extends Renderer = Renderer, TArgs = 
 
 export type ArgsFromMeta<TRenderer extends Renderer, Meta> = Meta extends {
   render?: ArgsStoryFn<TRenderer, infer RArgs>;
-  loaders?: (infer Loaders)[];
-  decorators?: (infer Decorators)[];
+  loaders?: (infer Loaders)[] | infer Loaders;
+  decorators?: (infer Decorators)[] | infer Decorators;
 }
   ? Simplify<
       RemoveIndexSignature<
