@@ -62,9 +62,15 @@ export interface StrictArgs {
 export type ArgTypes<TArgs = Args> = { [name in keyof TArgs]: InputType };
 export type StrictArgTypes<TArgs = Args> = { [name in keyof TArgs]: StrictInputType };
 
-export type Globals = { [name: string]: any };
-export type GlobalTypes = { [name: string]: InputType };
-export type StrictGlobalTypes = { [name: string]: StrictInputType };
+export interface Globals {
+  [name: string]: any;
+}
+export interface GlobalTypes {
+  [name: string]: InputType;
+}
+export interface StrictGlobalTypes {
+  [name: string]: StrictInputType;
+}
 
 export type Renderer = {
   /** What is the type of the `component` annotation in this renderer? */
@@ -86,16 +92,14 @@ export type Renderer = {
 /** @deprecated - use `Renderer` */
 export type AnyFramework = Renderer;
 
-export type StoryContextForEnhancers<
-  TRenderer extends Renderer = Renderer,
-  TArgs = Args
-> = StoryIdentifier & {
+export interface StoryContextForEnhancers<TRenderer extends Renderer = Renderer, TArgs = Args>
+  extends StoryIdentifier {
   component?: (TRenderer & { T: any })['component'];
   subcomponents?: Record<string, (TRenderer & { T: any })['component']>;
   parameters: Parameters;
   initialArgs: TArgs;
   argTypes: StrictArgTypes<TArgs>;
-};
+}
 
 export type ArgsEnhancer<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: StoryContextForEnhancers<TRenderer, TArgs>
@@ -106,37 +110,33 @@ export type ArgTypesEnhancer<TRenderer extends Renderer = Renderer, TArgs = Args
   secondPass?: boolean;
 };
 
-export type StoryContextUpdate<TArgs = Args> = {
+export interface StoryContextUpdate<TArgs = Args> {
   args?: TArgs;
   globals?: Globals;
   // NOTE: it is currently possibly to add *any* key you like to the context
   // (although you cannot override the basic keys). This will likely be removed in future.
   [key: string]: any;
-};
+}
 
 export type ViewMode = 'story' | 'docs';
-export type StoryContextForLoaders<
-  TRenderer extends Renderer = Renderer,
-  TArgs = Args
-> = StoryContextForEnhancers<TRenderer, TArgs> &
-  Required<StoryContextUpdate<TArgs>> & {
-    hooks: unknown;
-    viewMode: ViewMode;
-    originalStoryFn: StoryFn<TRenderer>;
-  };
+export interface StoryContextForLoaders<TRenderer extends Renderer = Renderer, TArgs = Args>
+  extends StoryContextForEnhancers<TRenderer, TArgs>,
+    Required<StoryContextUpdate<TArgs>> {
+  hooks: unknown;
+  viewMode: ViewMode;
+  originalStoryFn: StoryFn<TRenderer>;
+}
 
 export type LoaderFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: StoryContextForLoaders<TRenderer, TArgs>
-) => Promise<Record<string, any>>;
+) => Promise<Record<string, any> | void> | Record<string, any> | void;
 
-export type StoryContext<
-  TRenderer extends Renderer = Renderer,
-  TArgs = Args
-> = StoryContextForLoaders<TRenderer, TArgs> & {
+export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args>
+  extends StoryContextForLoaders<TRenderer, TArgs> {
   loaded: Record<string, any>;
   abortSignal: AbortSignal;
   canvasElement: TRenderer['canvasElement'];
-};
+}
 
 export type StepLabel = string;
 
@@ -200,7 +200,9 @@ export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
    * Decorators defined in Meta will be applied to every story variation.
    * @see [Decorators](https://storybook.js.org/docs/addons/introduction/#1-decorators)
    */
-  decorators?: DecoratorFunction<TRenderer, Simplify<TArgs>>[];
+  decorators?:
+    | DecoratorFunction<TRenderer, Simplify<TArgs>>[]
+    | DecoratorFunction<TRenderer, Simplify<TArgs>>;
 
   /**
    * Custom metadata for a story.
@@ -224,7 +226,7 @@ export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
    * Asynchronous functions which provide data for a story.
    * @see [Loaders](https://storybook.js.org/docs/react/writing-stories/loaders)
    */
-  loaders?: LoaderFunction<TRenderer, TArgs>[];
+  loaders?: LoaderFunction<TRenderer, TArgs>[] | LoaderFunction<TRenderer, TArgs>;
 
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the renderer will be used.
@@ -397,8 +399,8 @@ export type StoryAnnotationsOrFn<TRenderer extends Renderer = Renderer, TArgs = 
 
 export type ArgsFromMeta<TRenderer extends Renderer, Meta> = Meta extends {
   render?: ArgsStoryFn<TRenderer, infer RArgs>;
-  loaders?: (infer Loaders)[];
-  decorators?: (infer Decorators)[];
+  loaders?: (infer Loaders)[] | infer Loaders;
+  decorators?: (infer Decorators)[] | infer Decorators;
 }
   ? Simplify<
       RemoveIndexSignature<
