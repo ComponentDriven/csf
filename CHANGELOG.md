@@ -1,3 +1,17 @@
+# v0.1.2 (Wed Nov 22 2023)
+
+#### 🐛 Bug Fix
+
+- Allow loaders to be synchronous or void [#71](https://github.com/ComponentDriven/csf/pull/71) ([@kasperpeulen](https://github.com/kasperpeulen))
+- Move `types` condition to the front [#69](https://github.com/ComponentDriven/csf/pull/69) ([@Andarist](https://github.com/Andarist))
+
+#### Authors: 2
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+- Mateusz Burzyński ([@Andarist](https://github.com/Andarist))
+
+---
+
 # v0.1.1 (Fri Jun 02 2023)
 
 #### 🐛 Bug Fix
