@@ -23,7 +23,7 @@ export interface StoryIdentifier {
   /** @deprecated */
   story: StoryName;
 
-  tags: Tag[];
+  tags: readonly Tag[];
 }
 
 export interface Parameters {
@@ -184,7 +184,7 @@ export type DecoratorFunction<TRenderer extends Renderer = Renderer, TArgs = Arg
 
 export type DecoratorApplicator<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   storyFn: LegacyStoryFn<TRenderer, TArgs>,
-  decorators: DecoratorFunction<TRenderer, TArgs>[]
+  decorators: readonly DecoratorFunction<TRenderer, TArgs>[]
 ) => LegacyStoryFn<TRenderer, TArgs>;
 
 export type StepRunner<TRenderer extends Renderer = Renderer, TArgs = Args> = (
@@ -201,7 +201,7 @@ export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
    * @see [Decorators](https://storybook.js.org/docs/addons/introduction/#1-decorators)
    */
   decorators?:
-    | DecoratorFunction<TRenderer, Simplify<TArgs>>[]
+    | readonly DecoratorFunction<TRenderer, Simplify<TArgs>>[]
     | DecoratorFunction<TRenderer, Simplify<TArgs>>;
 
   /**
@@ -226,7 +226,7 @@ export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
    * Asynchronous functions which provide data for a story.
    * @see [Loaders](https://storybook.js.org/docs/react/writing-stories/loaders)
    */
-  loaders?: LoaderFunction<TRenderer, TArgs>[] | LoaderFunction<TRenderer, TArgs>;
+  loaders?: readonly LoaderFunction<TRenderer, TArgs>[] | LoaderFunction<TRenderer, TArgs>;
 
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the renderer will be used.
@@ -238,15 +238,15 @@ export type ProjectAnnotations<
   TRenderer extends Renderer = Renderer,
   TArgs = Args
 > = BaseAnnotations<TRenderer, TArgs> & {
-  argsEnhancers?: ArgsEnhancer<TRenderer, Args>[];
-  argTypesEnhancers?: ArgTypesEnhancer<TRenderer, Args>[];
+  argsEnhancers?: readonly ArgsEnhancer<TRenderer, Args>[];
+  argTypesEnhancers?: readonly ArgTypesEnhancer<TRenderer, Args>[];
   globals?: Globals;
   globalTypes?: GlobalTypes;
   applyDecorators?: DecoratorApplicator<TRenderer, Args>;
   runStep?: StepRunner<TRenderer, TArgs>;
 };
 
-type StoryDescriptor = string[] | RegExp;
+type StoryDescriptor = readonly string[] | RegExp;
 export interface ComponentAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
   extends BaseAnnotations<TRenderer, TArgs> {
   /**
@@ -344,7 +344,7 @@ export interface ComponentAnnotations<TRenderer extends Renderer = Renderer, TAr
   /**
    * Named tags for a story, used to filter stories in different contexts.
    */
-  tags?: Tag[];
+  tags?: readonly Tag[];
 }
 
 export type StoryAnnotations<
@@ -370,7 +370,7 @@ export type StoryAnnotations<
   /**
    * Named tags for a story, used to filter stories in different contexts.
    */
-  tags?: Tag[];
+  tags?: readonly Tag[];
 
   /** @deprecated */
   story?: Omit<StoryAnnotations<TRenderer, TArgs>, 'story'>;
@@ -399,8 +399,8 @@ export type StoryAnnotationsOrFn<TRenderer extends Renderer = Renderer, TArgs = 
 
 export type ArgsFromMeta<TRenderer extends Renderer, Meta> = Meta extends {
   render?: ArgsStoryFn<TRenderer, infer RArgs>;
-  loaders?: (infer Loaders)[] | infer Loaders;
-  decorators?: (infer Decorators)[] | infer Decorators;
+  loaders?: readonly (infer Loaders)[] | infer Loaders;
+  decorators?: readonly (infer Decorators)[] | infer Decorators;
 }
   ? Simplify<
       RemoveIndexSignature<

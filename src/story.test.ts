@@ -44,7 +44,7 @@ const simple: XMeta = {
   loaders: [() => Promise.resolve({ d: '3' })],
   args: { x: '1' },
   argTypes: { x: { type: { name: 'string' } } },
-};
+} as const;
 
 const strict: XMeta<ButtonArgs> = {
   title: 'simple',
