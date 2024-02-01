@@ -34,15 +34,117 @@ export interface StrictParameters {
   [name: string]: unknown;
 }
 
+type ControlType =
+  | 'object'
+  | 'boolean'
+  | 'check'
+  | 'inline-check'
+  | 'radio'
+  | 'inline-radio'
+  | 'select'
+  | 'multi-select'
+  | 'number'
+  | 'range'
+  | 'file'
+  | 'color'
+  | 'date'
+  | 'text';
+
 type ConditionalTest = { truthy?: boolean } | { exists: boolean } | { eq: any } | { neq: any };
 type ConditionalValue = { arg: string } | { global: string };
 export type Conditional = ConditionalValue & ConditionalTest;
 export interface InputType {
-  name?: string;
+  /**
+   * @see https://storybook.js.org/docs/api/arg-types#control
+   */
+  control?:
+    | ControlType
+    | {
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controltype
+         */
+        type: ControlType;
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlaccept
+         */
+        accept?: string;
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controllabels
+         */
+        labels?: { [options: string]: string };
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlmax
+         */
+        max?: number;
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlmin
+         */
+        min?: number;
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlpresetcolors
+         */
+        presetColors?: string[];
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlstep
+         */
+        step?: number;
+      }
+    | false;
+  /**
+   * @see https://storybook.js.org/docs/api/arg-types#description
+   */
   description?: string;
-  defaultValue?: any;
-  type?: SBType | SBScalarType['name'];
+  /**
+   * @see https://storybook.js.org/docs/api/arg-types#if
+   */
   if?: Conditional;
+  /**
+   * @see https://storybook.js.org/docs/api/arg-types#mapping
+   */
+  mapping?: { [key: string]: { [option: string]: any } };
+  /**
+   * @see https://storybook.js.org/docs/api/arg-types#name
+   */
+  name?: string;
+  /**
+   * @see https://storybook.js.org/docs/api/arg-types#options
+   */
+  options?: string[];
+  /**
+   * @see https://storybook.js.org/docs/api/arg-types#table
+   */
+  table?: {
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#tablecategory
+     */
+    category?: string;
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#tabledefaultvalue
+     */
+    defaultValue?: { summary: string; detail?: string };
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#tabledisable
+     */
+    disable?: boolean;
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#tablesubcategory
+     */
+    subcategory?: string;
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#tabletype
+     */
+    type?: { summary?: string; detail?: string };
+  };
+  /**
+   * @see https://storybook.js.org/docs/api/arg-types#type
+   */
+  type?: SBType | SBScalarType['name'];
+  /**
+   * @see https://storybook.js.org/docs/api/arg-types#defaultvalue
+   *
+   * @deprecated Use `table.defaultValue.summary` instead.
+   */
+  defaultValue?: any;
   [key: string]: any;
 }
 
@@ -59,6 +161,9 @@ export interface StrictArgs {
   [name: string]: unknown;
 }
 
+/**
+ * @see https://storybook.js.org/docs/api/arg-types#argtypes
+ */
 export type ArgTypes<TArgs = Args> = { [name in keyof TArgs]: InputType };
 export type StrictArgTypes<TArgs = Args> = { [name in keyof TArgs]: StrictInputType };
 
