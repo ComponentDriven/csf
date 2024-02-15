@@ -55,10 +55,14 @@ describe('testValue', () => {
 
 describe('includeConditionalArg', () => {
   describe('errors', () => {
-    it('should throw if neither arg nor global is specified', () => {
-      expect(() =>
-        includeConditionalArg({ if: {} as Conditional }, {}, {})
-      ).toThrowErrorMatchingInlineSnapshot(`"Invalid conditional value {}"`);
+    it.each([
+      ['empty if', { if: {} as Conditional }],
+      ['empty and', { if: { and: [{} as Conditional] } }],
+      ['empty or', { if: { or: [{} as Conditional] } }],
+    ])('should throw if neither arg, global, and nor or is specified; %s', (_name, argType) => {
+      expect(() => includeConditionalArg(argType, {}, {})).toThrowErrorMatchingInlineSnapshot(
+        `"Invalid conditional value {}"`
+      );
     });
     it('should throw if arg and global are both specified', () => {
       expect(() =>
@@ -148,6 +152,142 @@ describe('includeConditionalArg', () => {
         ['scalar false', { if: { global: 'a', neq: 1 } }, { a: 2 }, { a: 1 }, false],
       ])('%s', (_name, argType, args, globals, expected) => {
         expect(includeConditionalArg(argType, args, globals)).toBe(expected);
+      });
+    });
+  });
+  describe('and/or collections', () => {
+    describe('and', () => {
+      it.each([
+        ['and false', { if: { and: [{ global: 'a' }, { global: 'b' }] } }, {}, { a: 1 }, false],
+        ['and true', { if: { and: [{ global: 'a' }, { global: 'b' }] } }, {}, { a: 1, b: 1 }, true],
+        [
+          'mix args and globals',
+          { if: { and: [{ arg: 'a' }, { global: 'b' }] } },
+          { a: 1 },
+          { b: 1 },
+          true,
+        ],
+      ])('%s', (_name, argType, args, globals, expected) => {
+        expect(includeConditionalArg(argType, args, globals)).toBe(expected);
+      });
+    });
+    describe('or', () => {
+      it.each([
+        ['or true', { if: { or: [{ global: 'a' }, { global: 'b' }] } }, {}, { a: 1 }, true],
+        ['or true', { if: { or: [{ global: 'a' }, { global: 'b' }] } }, {}, { c: 1 }, false],
+        [
+          'mix args and globals, check arg',
+          { if: { or: [{ arg: 'a' }, { global: 'b' }] } },
+          { a: 1 },
+          {},
+          true,
+        ],
+        [
+          'mix args and globals, check global',
+          { if: { or: [{ arg: 'a' }, { global: 'b' }] } },
+          {},
+          { b: 1 },
+          true,
+        ],
+      ])('%s', (_name, argType, args, globals, expected) => {
+        expect(includeConditionalArg(argType, args, globals)).toBe(expected);
+      });
+    });
+    describe('nesting', () => {
+      it.each([
+        ['both true', { a: 1, b: 2 }, {}, true],
+        ['first false', { a: 0, b: 2 }, {}, false],
+        ['second false', { a: 1, b: 0 }, {}, false],
+        ['both false', { a: 0, b: 0 }, {}, false],
+      ])('and/or, %s', (_name, args, globals, expected) => {
+        expect(
+          includeConditionalArg(
+            {
+              if: {
+                and: [
+                  {
+                    or: [
+                      { arg: 'a', eq: 1 },
+                      { arg: 'a', eq: 2 },
+                    ],
+                  },
+                  {
+                    or: [
+                      { arg: 'b', eq: 1 },
+                      { arg: 'b', eq: 2 },
+                    ],
+                  },
+                ],
+              },
+            },
+            args,
+            globals
+          )
+        ).toBe(expected);
+      });
+
+      it.each([
+        ['both true', { a: 1, b: 2 }, {}, true],
+        ['first true', { a: 0, b: 2 }, {}, true],
+        ['second true', { a: 1, b: 0 }, {}, true],
+        ['both false', { a: 0, b: 0 }, {}, false],
+      ])('or/or, %s', (_name, args, globals, expected) => {
+        expect(
+          includeConditionalArg(
+            {
+              if: {
+                or: [
+                  {
+                    or: [
+                      { arg: 'a', eq: 1 },
+                      { arg: 'a', eq: 2 },
+                    ],
+                  },
+                  {
+                    or: [
+                      { arg: 'b', eq: 1 },
+                      { arg: 'b', eq: 2 },
+                    ],
+                  },
+                ],
+              },
+            },
+            args,
+            globals
+          )
+        ).toBe(expected);
+      });
+
+      it.each([
+        ['both true', { a: 0, b: 0 }, {}, true],
+        ['first false', { a: 1, b: 0 }, {}, false],
+        ['second false', { a: 0, b: 2 }, {}, false],
+        ['both false', { a: 1, b: 2 }, {}, false],
+      ])('and/and, %s', (_name, args, globals, expected) => {
+        expect(
+          includeConditionalArg(
+            {
+              if: {
+                and: [
+                  {
+                    and: [
+                      { arg: 'a', neq: 1 },
+                      { arg: 'a', neq: 2 },
+                    ],
+                  },
+                  {
+                    and: [
+                      { arg: 'b', neq: 1 },
+                      { arg: 'b', neq: 2 },
+                    ],
+                  },
+                ],
+              },
+            },
+            args,
+            globals
+          )
+        ).toBe(expected);
       });
     });
   });
