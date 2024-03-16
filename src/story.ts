@@ -60,47 +60,47 @@ export interface InputType {
   control?:
     | ControlType
     | {
-      /**
-       * @see https://storybook.js.org/docs/api/arg-types#controltype
-       */
-      type: ControlType;
-    }
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controltype
+         */
+        type: ControlType;
+      }
     | {
-      type: 'color';
-      /**
-       * @see https://storybook.js.org/docs/api/arg-types#controlpresetcolors
-       */
-      presetColors?: string[];
-    }
+        type: 'color';
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlpresetcolors
+         */
+        presetColors?: string[];
+      }
     | {
-      type: 'file';
-      /**
-       * @see https://storybook.js.org/docs/api/arg-types#controlaccept
-       */
-      accept?: string;
-    }
+        type: 'file';
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlaccept
+         */
+        accept?: string;
+      }
     | {
-      type: 'inline-check' | 'radio' | 'inline-radio' | 'select' | 'multi-select';
-      /**
-       * @see https://storybook.js.org/docs/api/arg-types#controllabels
-       */
-      labels?: { [options: string]: string };
-    }
+        type: 'inline-check' | 'radio' | 'inline-radio' | 'select' | 'multi-select';
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controllabels
+         */
+        labels?: { [options: string]: string };
+      }
     | {
-      type: 'number' | 'range';
-      /**
-       * @see https://storybook.js.org/docs/api/arg-types#controlmax
-       */
-      max?: number;
-      /**
-       * @see https://storybook.js.org/docs/api/arg-types#controlmin
-       */
-      min?: number;
-      /**
-       * @see https://storybook.js.org/docs/api/arg-types#controlstep
-       */
-      step?: number;
-    }
+        type: 'number' | 'range';
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlmax
+         */
+        max?: number;
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlmin
+         */
+        min?: number;
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlstep
+         */
+        step?: number;
+      }
     | false;
   /**
    * @see https://storybook.js.org/docs/api/arg-types#description
