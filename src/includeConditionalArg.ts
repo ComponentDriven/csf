@@ -32,9 +32,21 @@ export const testValue = (cond: Omit<Conditional, 'arg' | 'global'>, value: any)
 export const includeConditionalArg = (argType: InputType, args: Args, globals: Globals) => {
   if (!argType.if) return true;
 
-  const { arg, global } = argType.if as any;
-  if (count([arg, global]) !== 1) {
-    throw new Error(`Invalid conditional value ${JSON.stringify({ arg, global })}`);
+  const { arg, global, and, or } = argType.if as any;
+  if (count([arg, global, and, or]) !== 1) {
+    throw new Error(`Invalid conditional value ${JSON.stringify({ arg, global, and, or })}`);
+  }
+
+  if (and) {
+    return and.every((condition: Conditional) =>
+      includeConditionalArg({ if: condition }, args, globals)
+    );
+  }
+
+  if (or) {
+    return or.some((condition: Conditional) =>
+      includeConditionalArg({ if: condition }, args, globals)
+    );
   }
 
   const value = arg ? args[arg] : globals[global];

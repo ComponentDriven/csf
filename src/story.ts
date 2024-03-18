@@ -52,7 +52,9 @@ type ControlType =
 
 type ConditionalTest = { truthy?: boolean } | { exists: boolean } | { eq: any } | { neq: any };
 type ConditionalValue = { arg: string } | { global: string };
-export type Conditional = ConditionalValue & ConditionalTest;
+type ConditionalGroup = { and: Conditional[] } | { or: Conditional[] };
+type ConditionalItem = ConditionalValue & ConditionalTest;
+export type Conditional = ConditionalGroup | ConditionalItem;
 export interface InputType {
   /**
    * @see https://storybook.js.org/docs/api/arg-types#control
