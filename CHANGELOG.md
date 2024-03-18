@@ -1,3 +1,20 @@
+# v0.1.3 (Mon Mar 18 2024)
+
+#### 🐛 Bug Fix
+
+- Fix bad publish [#78](https://github.com/ComponentDriven/csf/pull/78) ([@shilman](https://github.com/shilman))
+- Improve InputType for controls [#75](https://github.com/ComponentDriven/csf/pull/75) ([@Shinigami92](https://github.com/Shinigami92) [@shilman](https://github.com/shilman))
+- Update README [#74](https://github.com/ComponentDriven/csf/pull/74) ([@nkabrown](https://github.com/nkabrown))
+
+#### Authors: 4
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+- Michael Shilman ([@shilman](https://github.com/shilman))
+- Nathan Brown ([@nkabrown](https://github.com/nkabrown))
+- Shinigami ([@Shinigami92](https://github.com/Shinigami92))
+
+---
+
 # v0.1.2 (Wed Nov 22 2023)
 
 #### 🐛 Bug Fix
