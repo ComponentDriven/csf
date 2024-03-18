@@ -8,6 +8,9 @@ import { toStartCaseStr } from './toStartCaseStr';
 export const sanitize = (string: string) => {
   return (
     string
+      // Storybook will occasionally pass a number which throws.
+      // This prevents that from crashing a build.
+      .toString()
       .toLowerCase()
       // eslint-disable-next-line no-useless-escape
       .replace(/[ ’–—―′¿'`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '-')
