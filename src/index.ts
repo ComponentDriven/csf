@@ -83,5 +83,19 @@ export const parseKind = (kind: string, { rootSeparator, groupSeparator }: Separ
   };
 };
 
+/**
+ * Combine a set of project / meta / story tags, removing duplicates and handling negations.
+ */
+export const combineTags = (...tags: string[]): string[] => {
+  const set = new Set<string>(tags);
+  return Array.from(set).reduce((acc, tag) => {
+    if (tag.startsWith('-')) return acc;
+    if (!set.has(`-${tag}`)) {
+      acc.push(tag);
+    }
+    return acc;
+  }, [] as string[]);
+};
+
 export { includeConditionalArg } from './includeConditionalArg';
 export * from './story';

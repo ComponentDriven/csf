@@ -1,4 +1,4 @@
-import { toId, storyNameFromExport, isExportStory } from './index.js';
+import { toId, storyNameFromExport, isExportStory, combineTags } from './index.js';
 
 describe('toId', () => {
   const testCases: [string, string, string | undefined, string][] = [
@@ -91,5 +91,22 @@ describe('isExportStory', () => {
     expect(isExportStory('a', { includeStories: /a/, excludeStories: ['a'] })).toBeFalsy();
     expect(isExportStory('a', { includeStories: /.*/, excludeStories: /.*/ })).toBeFalsy();
     expect(isExportStory('a', { includeStories: /a/, excludeStories: /b/ })).toBeTruthy();
+  });
+});
+
+describe('combineTags', () => {
+  it.each([
+    [[], []],
+    [
+      ['a', 'b'],
+      ['a', 'b'],
+    ],
+    [
+      ['a', 'b', 'b'],
+      ['a', 'b'],
+    ],
+    [['a', 'b', '-b'], ['a']],
+  ])('combineTags(%o) -> %o', (tags, expected) => {
+    expect(combineTags(...tags)).toEqual(expected);
   });
 });
