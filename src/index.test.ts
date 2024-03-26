@@ -105,7 +105,7 @@ describe('combineTags', () => {
       ['a', 'b', 'b'],
       ['a', 'b'],
     ],
-    [['a', 'b', '-b'], ['a']],
+    [['a', 'b', '!b'], ['a']],
   ])('combineTags(%o) -> %o', (tags, expected) => {
     expect(combineTags(...tags)).toEqual(expected);
   });

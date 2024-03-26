@@ -89,8 +89,8 @@ export const parseKind = (kind: string, { rootSeparator, groupSeparator }: Separ
 export const combineTags = (...tags: string[]): string[] => {
   const set = new Set<string>(tags);
   return Array.from(set).reduce((acc, tag) => {
-    if (tag.startsWith('-')) return acc;
-    if (!set.has(`-${tag}`)) {
+    if (tag.startsWith('!')) return acc;
+    if (!set.has(`!${tag}`)) {
       acc.push(tag);
     }
     return acc;
