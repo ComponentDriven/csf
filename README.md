@@ -43,7 +43,7 @@ A minimal set of utility functions for dealing with [Component Story Format (CSF
 ### Install
 
 ```sh
-yarn add @componentdriven/csf
+yarn add @storybook/csf
 ```
 
 ### API
