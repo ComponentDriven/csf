@@ -259,11 +259,12 @@ export type LoaderFunction<TRenderer extends Renderer = Renderer, TArgs = Args> 
   context: StoryContextForLoaders<TRenderer, TArgs>
 ) => Promise<Record<string, any> | void> | Record<string, any> | void;
 
-export type Awaitable<T> = T | PromiseLike<T>;
+type Awaitable<T> = T | PromiseLike<T>;
+export type CleanupCallback = (() => Awaitable<unknown>) | void;
 
 export type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: StoryContextForLoaders<TRenderer, TArgs>
-) => Awaitable<(() => Awaitable<unknown>) | void>;
+) => Awaitable<CleanupCallback>;
 
 export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args>
   extends StoryContextForLoaders<TRenderer, TArgs> {
