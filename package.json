@@ -1,6 +1,6 @@
 {
   "name": "@storybook/csf",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Component Story Format (CSF) utilities",
   "keywords": [
     "storybook",
