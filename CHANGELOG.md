@@ -1,3 +1,15 @@
+# v0.1.4 (Fri Apr 12 2024)
+
+#### 🐛 Bug Fix
+
+- Loosen control type and some fixes [#83](https://github.com/ComponentDriven/csf/pull/83) ([@kasperpeulen](https://github.com/kasperpeulen))
+
+#### Authors: 1
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+
+---
+
 # v0.1.3 (Mon Mar 18 2024)
 
 #### 🐛 Bug Fix
