@@ -53,55 +53,65 @@ type ControlType =
 type ConditionalTest = { truthy?: boolean } | { exists: boolean } | { eq: any } | { neq: any };
 type ConditionalValue = { arg: string } | { global: string };
 export type Conditional = ConditionalValue & ConditionalTest;
+
+interface ControlBase {
+  [key: string]: any;
+  /**
+   * @see https://storybook.js.org/docs/api/arg-types#controltype
+   */
+  type?: ControlType;
+  disable?: boolean;
+}
+
+type Control =
+  | ControlType
+  | false
+  | (ControlBase &
+      (
+        | ControlBase
+        | {
+            type: 'color';
+            /**
+             * @see https://storybook.js.org/docs/api/arg-types#controlpresetcolors
+             */
+            presetColors?: string[];
+          }
+        | {
+            type: 'file';
+            /**
+             * @see https://storybook.js.org/docs/api/arg-types#controlaccept
+             */
+            accept?: string;
+          }
+        | {
+            type: 'inline-check' | 'radio' | 'inline-radio' | 'select' | 'multi-select';
+            /**
+             * @see https://storybook.js.org/docs/api/arg-types#controllabels
+             */
+            labels?: { [options: string]: string };
+          }
+        | {
+            type: 'number' | 'range';
+            /**
+             * @see https://storybook.js.org/docs/api/arg-types#controlmax
+             */
+            max?: number;
+            /**
+             * @see https://storybook.js.org/docs/api/arg-types#controlmin
+             */
+            min?: number;
+            /**
+             * @see https://storybook.js.org/docs/api/arg-types#controlstep
+             */
+            step?: number;
+          }
+      ));
+
 export interface InputType {
   /**
    * @see https://storybook.js.org/docs/api/arg-types#control
    */
-  control?:
-    | ControlType
-    | {
-        /**
-         * @see https://storybook.js.org/docs/api/arg-types#controltype
-         */
-        type: ControlType;
-      }
-    | {
-        type: 'color';
-        /**
-         * @see https://storybook.js.org/docs/api/arg-types#controlpresetcolors
-         */
-        presetColors?: string[];
-      }
-    | {
-        type: 'file';
-        /**
-         * @see https://storybook.js.org/docs/api/arg-types#controlaccept
-         */
-        accept?: string;
-      }
-    | {
-        type: 'inline-check' | 'radio' | 'inline-radio' | 'select' | 'multi-select';
-        /**
-         * @see https://storybook.js.org/docs/api/arg-types#controllabels
-         */
-        labels?: { [options: string]: string };
-      }
-    | {
-        type: 'number' | 'range';
-        /**
-         * @see https://storybook.js.org/docs/api/arg-types#controlmax
-         */
-        max?: number;
-        /**
-         * @see https://storybook.js.org/docs/api/arg-types#controlmin
-         */
-        min?: number;
-        /**
-         * @see https://storybook.js.org/docs/api/arg-types#controlstep
-         */
-        step?: number;
-      }
-    | false;
+  control?: Control;
   /**
    * @see https://storybook.js.org/docs/api/arg-types#description
    */
@@ -113,7 +123,7 @@ export interface InputType {
   /**
    * @see https://storybook.js.org/docs/api/arg-types#mapping
    */
-  mapping?: { [key: string]: { [option: string]: any } };
+  mapping?: { [key: string]: any };
   /**
    * @see https://storybook.js.org/docs/api/arg-types#name
    */
@@ -121,11 +131,12 @@ export interface InputType {
   /**
    * @see https://storybook.js.org/docs/api/arg-types#options
    */
-  options?: string[];
+  options?: any[];
   /**
    * @see https://storybook.js.org/docs/api/arg-types#table
    */
   table?: {
+    [key: string]: unknown;
     /**
      * @see https://storybook.js.org/docs/api/arg-types#tablecategory
      */
@@ -133,7 +144,7 @@ export interface InputType {
     /**
      * @see https://storybook.js.org/docs/api/arg-types#tabledefaultvalue
      */
-    defaultValue?: { summary: string; detail?: string };
+    defaultValue?: { summary?: string; detail?: string };
     /**
      * @see https://storybook.js.org/docs/api/arg-types#tabledisable
      */
