@@ -57,6 +57,25 @@ const strict: XMeta<ButtonArgs> = {
   argTypes: { x: { type: { name: 'string' } } },
 };
 
+const options = ['foo', 'bar'] as const;
+const simpleWithReadonlyOptions: XMeta<ButtonArgs> = {
+  title: 'simple',
+  component: Button,
+  tags: ['foo', 'bar'],
+  decorators: [(storyFn, context) => `withDecorator(${storyFn(context)})`],
+  parameters: { a: () => null, b: NaN, c: Symbol('symbol') },
+  loaders: [() => Promise.resolve({ d: '3' })],
+  args: { x: '1' },
+  argTypes: {
+    x: {
+      control: {
+        type: 'select',
+      },
+      options: options,
+    }
+  },
+}
+
 // NOTE Various story usages
 const Simple: XStory = () => 'Simple';
 
