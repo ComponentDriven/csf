@@ -71,10 +71,10 @@ const simpleWithReadonlyOptions: XMeta<ButtonArgs> = {
       control: {
         type: 'select',
       },
-      options: options,
-    }
+      options,
+    },
   },
-}
+};
 
 // NOTE Various story usages
 const Simple: XStory = () => 'Simple';
