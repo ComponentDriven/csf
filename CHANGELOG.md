@@ -1,3 +1,17 @@
+# v0.1.5 (Thu Apr 25 2024)
+
+#### 🐛 Bug Fix
+
+- chore: resolve eslint issues [#87](https://github.com/ComponentDriven/csf/pull/87) ([@Cherry](https://github.com/Cherry))
+- fix: better handle readonly InputType options [#85](https://github.com/ComponentDriven/csf/pull/85) ([@Cherry](https://github.com/Cherry))
+
+#### Authors: 2
+
+- James Ross ([@Cherry](https://github.com/Cherry))
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+
+---
+
 # v0.1.4 (Fri Apr 12 2024)
 
 #### 🐛 Bug Fix
