@@ -131,7 +131,7 @@ export interface InputType {
   /**
    * @see https://storybook.js.org/docs/api/arg-types#options
    */
-  options?: any[];
+  options?: readonly any[];
   /**
    * @see https://storybook.js.org/docs/api/arg-types#table
    */
