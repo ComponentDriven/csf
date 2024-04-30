@@ -259,6 +259,13 @@ export type LoaderFunction<TRenderer extends Renderer = Renderer, TArgs = Args> 
   context: StoryContextForLoaders<TRenderer, TArgs>
 ) => Promise<Record<string, any> | void> | Record<string, any> | void;
 
+type Awaitable<T> = T | PromiseLike<T>;
+export type CleanupCallback = () => Awaitable<unknown>;
+
+export type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
+  context: StoryContext<TRenderer, TArgs>
+) => Awaitable<CleanupCallback | void>;
+
 export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args>
   extends StoryContextForLoaders<TRenderer, TArgs> {
   loaded: Record<string, any>;
@@ -355,6 +362,16 @@ export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
    * @see [Loaders](https://storybook.js.org/docs/react/writing-stories/loaders)
    */
   loaders?: LoaderFunction<TRenderer, TArgs>[] | LoaderFunction<TRenderer, TArgs>;
+
+  /**
+   * Function to be called before each story. When the function is async, it will be awaited.
+   *
+   * `beforeEach` can be added to preview, the default export and to a specific story.
+   * They are run (and awaited) in the order: preview, default export, story
+   *
+   * A cleanup function can be returned.
+   */
+  beforeEach?: BeforeEach<TRenderer, TArgs>[] | BeforeEach<TRenderer, TArgs>;
 
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the renderer will be used.
