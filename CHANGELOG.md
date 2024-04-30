@@ -1,3 +1,15 @@
+# v0.1.6 (Tue Apr 30 2024)
+
+#### 🐛 Bug Fix
+
+- Add the beforeEach hook [#82](https://github.com/ComponentDriven/csf/pull/82) ([@kasperpeulen](https://github.com/kasperpeulen))
+
+#### Authors: 1
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+
+---
+
 # v0.1.5 (Thu Apr 25 2024)
 
 #### 🐛 Bug Fix
