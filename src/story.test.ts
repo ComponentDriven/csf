@@ -34,6 +34,15 @@ type ButtonArgs = {
 
 const Button = (props: ButtonArgs) => 'Button';
 
+let a = 1;
+async function doSomething() {
+  a = 2;
+}
+
+async function cleanup() {
+  a = 1;
+}
+
 // NOTE Various kind usages
 const simple: XMeta = {
   title: 'simple',
@@ -42,6 +51,10 @@ const simple: XMeta = {
   decorators: [(storyFn, context) => `withDecorator(${storyFn(context)})`],
   parameters: { a: () => null, b: NaN, c: Symbol('symbol') },
   loaders: [() => Promise.resolve({ d: '3' })],
+  async beforeEach() {
+    await doSomething();
+    return cleanup;
+  },
   args: { x: '1' },
   argTypes: { x: { type: { name: 'string' } } },
 };
@@ -54,6 +67,10 @@ const strict: XMeta<ButtonArgs> = {
   parameters: { a: () => null, b: NaN, c: Symbol('symbol') },
   loaders: [() => Promise.resolve({ d: '3' })],
   args: { x: '1' },
+  async beforeEach() {
+    await doSomething();
+    return cleanup;
+  },
   argTypes: { x: { type: { name: 'string' } } },
 };
 
@@ -86,6 +103,10 @@ CSF1Story.story = {
   decorators: [(storyFn) => `Wrapped(${storyFn()}`],
   parameters: { a: [1, '2', {}], b: undefined, c: Button },
   loaders: [() => Promise.resolve({ d: '3' })],
+  async beforeEach() {
+    await doSomething();
+    return cleanup;
+  },
   args: { a: 1 },
 };
 
