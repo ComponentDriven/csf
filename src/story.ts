@@ -263,7 +263,7 @@ type Awaitable<T> = T | PromiseLike<T>;
 export type CleanupCallback = () => Awaitable<unknown>;
 
 export type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
-  context: StoryContextForLoaders<TRenderer, TArgs>
+  context: StoryContext<TRenderer, TArgs>
 ) => Awaitable<CleanupCallback | void>;
 
 export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args>
