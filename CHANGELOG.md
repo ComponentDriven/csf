@@ -1,3 +1,17 @@
+# v0.1.7 (Mon May 06 2024)
+
+#### 🐛 Bug Fix
+
+- Fix the package name in the readme [#81](https://github.com/ComponentDriven/csf/pull/81) ([@stof](https://github.com/stof))
+- Add utility for tag combination & negation [#80](https://github.com/ComponentDriven/csf/pull/80) ([@shilman](https://github.com/shilman))
+
+#### Authors: 2
+
+- Christophe Coevoet ([@stof](https://github.com/stof))
+- Michael Shilman ([@shilman](https://github.com/shilman))
+
+---
+
 # v0.1.6 (Tue Apr 30 2024)
 
 #### 🐛 Bug Fix
