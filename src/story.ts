@@ -377,6 +377,11 @@ export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
    * Define a custom render function for the story(ies). If not passed, a default render function by the renderer will be used.
    */
   render?: ArgsStoryFn<TRenderer, TArgs>;
+
+  /**
+   * Named tags for a story, used to filter stories in different contexts.
+   */
+  tags?: Tag[];
 };
 
 export type ProjectAnnotations<
@@ -485,11 +490,6 @@ export interface ComponentAnnotations<TRenderer extends Renderer = Renderer, TAr
    * Function that is executed after the story is rendered.
    */
   play?: PlayFunction<TRenderer, TArgs>;
-
-  /**
-   * Named tags for a story, used to filter stories in different contexts.
-   */
-  tags?: Tag[];
 }
 
 export type StoryAnnotations<
@@ -511,11 +511,6 @@ export type StoryAnnotations<
    * Function that is executed after the story is rendered.
    */
   play?: PlayFunction<TRenderer, TArgs>;
-
-  /**
-   * Named tags for a story, used to filter stories in different contexts.
-   */
-  tags?: Tag[];
 
   /** @deprecated */
   story?: Omit<StoryAnnotations<TRenderer, TArgs>, 'story'>;
