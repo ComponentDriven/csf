@@ -285,6 +285,7 @@ export type PlayFunctionContext<TRenderer extends Renderer = Renderer, TArgs = A
   TArgs
 > & {
   step: StepFunction<TRenderer, TArgs>;
+  mount: () => Promise<void>;
 };
 
 export type PlayFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = (
