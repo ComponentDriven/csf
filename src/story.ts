@@ -247,13 +247,6 @@ export interface StoryContextUpdate<TArgs = Args> {
 }
 
 export type ViewMode = 'story' | 'docs';
-export interface StoryContextForLoaders<TRenderer extends Renderer = Renderer, TArgs = Args>
-  extends StoryContextForEnhancers<TRenderer, TArgs>,
-    Required<StoryContextUpdate<TArgs>> {
-  hooks: unknown;
-  viewMode: ViewMode;
-  originalStoryFn: StoryFn<TRenderer>;
-}
 
 export type LoaderFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: StoryContextForLoaders<TRenderer, TArgs>
@@ -267,11 +260,25 @@ export type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
 ) => Awaitable<CleanupCallback | void>;
 
 export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args>
-  extends StoryContextForLoaders<TRenderer, TArgs> {
+  extends StoryContextForEnhancers<TRenderer, TArgs>,
+    Required<StoryContextUpdate<TArgs>> {
+  hooks: unknown;
+  viewMode: ViewMode;
+  originalStoryFn: StoryFn<TRenderer>;
   loaded: Record<string, any>;
   abortSignal: AbortSignal;
   canvasElement: TRenderer['canvasElement'];
+  step: StepFunction<TRenderer, TArgs>;
+  mount: () => Promise<void>;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface StoryContextForLoaders<TRenderer extends Renderer = Renderer, TArgs = Args>
+  extends StoryContext<TRenderer, TArgs> {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface PlayFunctionContext<TRenderer extends Renderer = Renderer, TArgs = Args>
+  extends StoryContext<TRenderer, TArgs> {}
 
 export type StepLabel = string;
 
@@ -279,14 +286,6 @@ export type StepFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = 
   label: StepLabel,
   play: PlayFunction<TRenderer, TArgs>
 ) => Promise<void> | void;
-
-export type PlayFunctionContext<TRenderer extends Renderer = Renderer, TArgs = Args> = StoryContext<
-  TRenderer,
-  TArgs
-> & {
-  step: StepFunction<TRenderer, TArgs>;
-  mount: () => Promise<void>;
-};
 
 export type PlayFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: PlayFunctionContext<TRenderer, TArgs>
@@ -326,7 +325,7 @@ export type DecoratorApplicator<TRenderer extends Renderer = Renderer, TArgs = A
 export type StepRunner<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   label: StepLabel,
   play: PlayFunction<TRenderer, TArgs>,
-  context: PlayFunctionContext<TRenderer, TArgs>
+  context: StoryContext<TRenderer, TArgs>
 ) => Promise<void>;
 
 export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args> = {
