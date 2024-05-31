@@ -67,45 +67,45 @@ type Control =
   | ControlType
   | false
   | (ControlBase &
-      (
-        | ControlBase
-        | {
-            type: 'color';
-            /**
-             * @see https://storybook.js.org/docs/api/arg-types#controlpresetcolors
-             */
-            presetColors?: string[];
-          }
-        | {
-            type: 'file';
-            /**
-             * @see https://storybook.js.org/docs/api/arg-types#controlaccept
-             */
-            accept?: string;
-          }
-        | {
-            type: 'inline-check' | 'radio' | 'inline-radio' | 'select' | 'multi-select';
-            /**
-             * @see https://storybook.js.org/docs/api/arg-types#controllabels
-             */
-            labels?: { [options: string]: string };
-          }
-        | {
-            type: 'number' | 'range';
-            /**
-             * @see https://storybook.js.org/docs/api/arg-types#controlmax
-             */
-            max?: number;
-            /**
-             * @see https://storybook.js.org/docs/api/arg-types#controlmin
-             */
-            min?: number;
-            /**
-             * @see https://storybook.js.org/docs/api/arg-types#controlstep
-             */
-            step?: number;
-          }
-      ));
+    (
+      | ControlBase
+      | {
+        type: 'color';
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlpresetcolors
+         */
+        presetColors?: string[];
+      }
+      | {
+        type: 'file';
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlaccept
+         */
+        accept?: string;
+      }
+      | {
+        type: 'inline-check' | 'radio' | 'inline-radio' | 'select' | 'multi-select';
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controllabels
+         */
+        labels?: { [options: string]: string };
+      }
+      | {
+        type: 'number' | 'range';
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlmax
+         */
+        max?: number;
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlmin
+         */
+        min?: number;
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#controlstep
+         */
+        step?: number;
+      }
+    ));
 
 export interface InputType {
   /**
@@ -261,7 +261,7 @@ export type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
 
 export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args>
   extends StoryContextForEnhancers<TRenderer, TArgs>,
-    Required<StoryContextUpdate<TArgs>> {
+  Required<StoryContextUpdate<TArgs>> {
   hooks: unknown;
   viewMode: ViewMode;
   originalStoryFn: StoryFn<TRenderer>;
@@ -269,16 +269,16 @@ export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Arg
   abortSignal: AbortSignal;
   canvasElement: TRenderer['canvasElement'];
   step: StepFunction<TRenderer, TArgs>;
-  mount: () => Promise<void>;
+  mount(): Promise<void>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface StoryContextForLoaders<TRenderer extends Renderer = Renderer, TArgs = Args>
-  extends StoryContext<TRenderer, TArgs> {}
+  extends StoryContext<TRenderer, TArgs> { }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface PlayFunctionContext<TRenderer extends Renderer = Renderer, TArgs = Args>
-  extends StoryContext<TRenderer, TArgs> {}
+  extends StoryContext<TRenderer, TArgs> { }
 
 export type StepLabel = string;
 
@@ -336,8 +336,8 @@ export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
    * @see [Decorators](https://storybook.js.org/docs/addons/introduction/#1-decorators)
    */
   decorators?:
-    | DecoratorFunction<TRenderer, Simplify<TArgs>>[]
-    | DecoratorFunction<TRenderer, Simplify<TArgs>>;
+  | DecoratorFunction<TRenderer, Simplify<TArgs>>[]
+  | DecoratorFunction<TRenderer, Simplify<TArgs>>;
 
   /**
    * Custom metadata for a story.
@@ -543,10 +543,10 @@ export type ArgsFromMeta<TRenderer extends Renderer, Meta> = Meta extends {
   decorators?: (infer Decorators)[] | infer Decorators;
 }
   ? Simplify<
-      RemoveIndexSignature<
-        RArgs & DecoratorsArgs<TRenderer, Decorators> & LoaderArgs<TRenderer, Loaders>
-      >
+    RemoveIndexSignature<
+      RArgs & DecoratorsArgs<TRenderer, Decorators> & LoaderArgs<TRenderer, Loaders>
     >
+  >
   : unknown;
 
 type DecoratorsArgs<TRenderer extends Renderer, Decorators> = UnionToIntersection<
