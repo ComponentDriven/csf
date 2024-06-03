@@ -1,3 +1,15 @@
+# v0.1.8 (Mon Jun 03 2024)
+
+#### 🐛 Bug Fix
+
+- Add project initialGlobals & component/story globals, deprecate project globals [#92](https://github.com/ComponentDriven/csf/pull/92) ([@shilman](https://github.com/shilman))
+
+#### Authors: 1
+
+- Michael Shilman ([@shilman](https://github.com/shilman))
+
+---
+
 # v0.1.7 (Mon May 06 2024)
 
 #### 🐛 Bug Fix
