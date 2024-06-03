@@ -390,7 +390,11 @@ export type ProjectAnnotations<
 > = BaseAnnotations<TRenderer, TArgs> & {
   argsEnhancers?: ArgsEnhancer<TRenderer, Args>[];
   argTypesEnhancers?: ArgTypesEnhancer<TRenderer, Args>[];
+  /**
+   * @deprecated Project `globals` renamed to `initiaGlobals`
+   */
   globals?: Globals;
+  initialGlobals?: Globals;
   globalTypes?: GlobalTypes;
   applyDecorators?: DecoratorApplicator<TRenderer, Args>;
   runStep?: StepRunner<TRenderer, TArgs>;
@@ -490,6 +494,11 @@ export interface ComponentAnnotations<TRenderer extends Renderer = Renderer, TAr
    * Function that is executed after the story is rendered.
    */
   play?: PlayFunction<TRenderer, TArgs>;
+
+  /**
+   * Override the globals values for all stories in this component
+   */
+  globals?: Globals;
 }
 
 export type StoryAnnotations<
@@ -511,6 +520,11 @@ export type StoryAnnotations<
    * Function that is executed after the story is rendered.
    */
   play?: PlayFunction<TRenderer, TArgs>;
+
+  /**
+   * Override the globals values for this story
+   */
+  globals?: Globals;
 
   /** @deprecated */
   story?: Omit<StoryAnnotations<TRenderer, TArgs>, 'story'>;
