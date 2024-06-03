@@ -390,7 +390,11 @@ export type ProjectAnnotations<
 > = BaseAnnotations<TRenderer, TArgs> & {
   argsEnhancers?: ArgsEnhancer<TRenderer, Args>[];
   argTypesEnhancers?: ArgTypesEnhancer<TRenderer, Args>[];
+  /**
+   * @deprecated Project `globals` renamed to `initiaGlobals`
+   */
   globals?: Globals;
+  initialGlobals?: Globals;
   globalTypes?: GlobalTypes;
   applyDecorators?: DecoratorApplicator<TRenderer, Args>;
   runStep?: StepRunner<TRenderer, TArgs>;
