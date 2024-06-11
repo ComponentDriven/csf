@@ -261,7 +261,7 @@ export type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
 
 // To be augmented by addons
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface MountReturn {}
+export interface MountReturnType {}
 
 export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args>
   extends StoryContextForEnhancers<TRenderer, TArgs>,
@@ -273,7 +273,7 @@ export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Arg
   abortSignal: AbortSignal;
   canvasElement: TRenderer['canvasElement'];
   step: StepFunction<TRenderer, TArgs>;
-  mount(): Promise<MountReturn>;
+  mount(): Promise<MountReturnType>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
