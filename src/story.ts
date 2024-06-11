@@ -259,6 +259,10 @@ export type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: StoryContext<TRenderer, TArgs>
 ) => Awaitable<CleanupCallback | void>;
 
+// To be augmented by addons
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface MountReturn {}
+
 export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args>
   extends StoryContextForEnhancers<TRenderer, TArgs>,
     Required<StoryContextUpdate<TArgs>> {
@@ -269,7 +273,7 @@ export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Arg
   abortSignal: AbortSignal;
   canvasElement: TRenderer['canvasElement'];
   step: StepFunction<TRenderer, TArgs>;
-  mount(): Promise<void>;
+  mount(): Promise<MountReturn>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
