@@ -388,17 +388,15 @@ export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
   tags?: Tag[];
 };
 
-export type ProjectAnnotations<
-  TRenderer extends Renderer = Renderer,
-  TArgs = Args
-> = BaseAnnotations<TRenderer, TArgs> & {
+export interface ProjectAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
+  extends BaseAnnotations<TRenderer, TArgs> {
   argsEnhancers?: ArgsEnhancer<TRenderer, Args>[];
   argTypesEnhancers?: ArgTypesEnhancer<TRenderer, Args>[];
   globals?: Globals;
   globalTypes?: GlobalTypes;
   applyDecorators?: DecoratorApplicator<TRenderer, Args>;
   runStep?: StepRunner<TRenderer, TArgs>;
-};
+}
 
 type StoryDescriptor = string[] | RegExp;
 export interface ComponentAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
