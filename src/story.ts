@@ -390,7 +390,7 @@ export interface BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = 
    */
   tags?: Tag[];
 
-  mount: (
+  mount?: (
     context: StoryContext<TRenderer, TArgs>
   ) => () => Promise<StoryContext<TRenderer, TArgs>['canvas']>;
 }
