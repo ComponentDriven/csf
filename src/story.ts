@@ -200,7 +200,7 @@ export interface StrictGlobalTypes {
   [name: string]: StrictInputType;
 }
 
-export type Renderer = {
+export interface Renderer {
   /** What is the type of the `component` annotation in this renderer? */
   component: unknown;
 
@@ -210,12 +210,14 @@ export type Renderer = {
   /** What type of element does this renderer render to? */
   canvasElement: unknown;
 
+  mount(): Promise<unknown>;
+
   // A generic type T that can be used in the definition of the component like this:
   // component: (args: this['T']) => string;
   // This generic type will eventually be filled in with TArgs
   // Credits to Michael Arnaldi.
   T?: unknown;
-};
+}
 
 /** @deprecated - use `Renderer` */
 export type AnyFramework = Renderer;
@@ -272,9 +274,14 @@ export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Arg
   loaded: Record<string, any>;
   abortSignal: AbortSignal;
   canvasElement: TRenderer['canvasElement'];
+  canvas: unknown;
   step: StepFunction<TRenderer, TArgs>;
-  mount(): Promise<MountReturnType>;
+  mount: (...args: FunctionParameters<TRenderer['mount']>) => Promise<this['canvas']>;
 }
+
+type FunctionParameters<T extends (...args: any) => any> = T extends (...args: infer P) => any
+  ? P
+  : never;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface StoryContextForLoaders<TRenderer extends Renderer = Renderer, TArgs = Args>
@@ -332,7 +339,7 @@ export type StepRunner<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: StoryContext<TRenderer, TArgs>
 ) => Promise<void>;
 
-export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args> = {
+export interface BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args> {
   /**
    * Wrapper components or Storybook decorators that wrap a story.
    *
@@ -386,7 +393,11 @@ export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
    * Named tags for a story, used to filter stories in different contexts.
    */
   tags?: Tag[];
-};
+
+  mount: (
+    context: StoryContext<TRenderer, TArgs>
+  ) => () => Promise<StoryContext<TRenderer, TArgs>['canvas']>;
+}
 
 export interface ProjectAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
   extends BaseAnnotations<TRenderer, TArgs> {
