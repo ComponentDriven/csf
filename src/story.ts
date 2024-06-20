@@ -210,7 +210,7 @@ export interface Renderer {
   /** What type of element does this renderer render to? */
   canvasElement: unknown;
 
-  mount(): Promise<unknown>;
+  mount(): Promise<Canvas>;
 
   // A generic type T that can be used in the definition of the component like this:
   // component: (args: this['T']) => string;
@@ -261,6 +261,9 @@ export type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: StoryContext<TRenderer, TArgs>
 ) => Awaitable<CleanupCallback | void>;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface Canvas {}
+
 export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args>
   extends StoryContextForEnhancers<TRenderer, TArgs>,
     Required<StoryContextUpdate<TArgs>> {
@@ -270,7 +273,7 @@ export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Arg
   loaded: Record<string, any>;
   abortSignal: AbortSignal;
   canvasElement: TRenderer['canvasElement'];
-  canvas: unknown;
+  canvas: Canvas;
   step: StepFunction<TRenderer, TArgs>;
   mount: (...args: FunctionParameters<TRenderer['mount']>) => Promise<this['canvas']>;
 }
