@@ -262,6 +262,8 @@ export type LoaderFunction<TRenderer extends Renderer = Renderer, TArgs = Args> 
 type Awaitable<T> = T | PromiseLike<T>;
 export type CleanupCallback = () => Awaitable<unknown>;
 
+export type BeforeAll = () => Awaitable<CleanupCallback | void>;
+
 export type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: StoryContext<TRenderer, TArgs>
 ) => Awaitable<CleanupCallback | void>;
@@ -390,6 +392,13 @@ export type ProjectAnnotations<
 > = BaseAnnotations<TRenderer, TArgs> & {
   argsEnhancers?: ArgsEnhancer<TRenderer, Args>[];
   argTypesEnhancers?: ArgTypesEnhancer<TRenderer, Args>[];
+
+  /**
+   * Function to be called once, before rendering any story. When the function is async, it will be awaited.
+   * A cleanup function may be returned. This function may only be defined globally.
+   */
+  beforeAll?: BeforeAll;
+
   /**
    * @deprecated Project `globals` renamed to `initiaGlobals`
    */
