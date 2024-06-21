@@ -276,6 +276,7 @@ export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Arg
   canvas: Canvas;
   step: StepFunction<TRenderer, TArgs>;
   mount: TRenderer['mount'];
+  context: this;
 }
 
 type FunctionParameters<T extends (...args: any) => any> = T extends (...args: infer P) => any
