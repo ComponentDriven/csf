@@ -1,3 +1,16 @@
+# v0.1.9 (Mon Jun 24 2024)
+
+#### 🐛 Bug Fix
+
+- Add `beforeAll` hook to CSF types [#96](https://github.com/ComponentDriven/csf/pull/96) ([@ghengeveld](https://github.com/ghengeveld))
+
+#### Authors: 2
+
+- Gert Hengeveld ([@ghengeveld](https://github.com/ghengeveld))
+- Michael Shilman ([@shilman](https://github.com/shilman))
+
+---
+
 # v0.1.8 (Mon Jun 03 2024)
 
 #### 🐛 Bug Fix
