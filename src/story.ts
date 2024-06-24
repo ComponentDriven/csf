@@ -262,6 +262,8 @@ export type LoaderFunction<TRenderer extends Renderer = Renderer, TArgs = Args> 
 type Awaitable<T> = T | PromiseLike<T>;
 export type CleanupCallback = () => Awaitable<unknown>;
 
+export type BeforeAll = () => Awaitable<CleanupCallback | void>;
+
 export type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: StoryContext<TRenderer, TArgs>
 ) => Awaitable<CleanupCallback | void>;
@@ -390,6 +392,20 @@ export type ProjectAnnotations<
 > = BaseAnnotations<TRenderer, TArgs> & {
   argsEnhancers?: ArgsEnhancer<TRenderer, Args>[];
   argTypesEnhancers?: ArgTypesEnhancer<TRenderer, Args>[];
+
+  /**
+   * Lifecycle hook which runs once, before any loaders, decorators or stories, and may rerun when configuration changes or when reinitializing (e.g. between test runs).
+   * The function may be synchronous or asynchronous, and may return a cleanup function which may also be synchronous or asynchronous.
+   * The cleanup function is not guaranteed to run (e.g. when the browser closes), but runs when configuration changes or when reinitializing.
+   * This hook may only be defined globally (i.e. not on component or story level).
+   * When multiple hooks are specified, they are to be executed sequentially (and awaited) in the following order:
+   * - Addon hooks (in order of addons array in e.g. .storybook/main.js)
+   * - Annotation hooks (in order of previewAnnotations array in e.g. .storybook/main.js)
+   * - Preview hook (via e.g. .storybook/preview.js)
+   * Cleanup functions are executed sequentially in reverse order of initialization.
+   */
+  beforeAll?: BeforeAll;
+
   /**
    * @deprecated Project `globals` renamed to `initiaGlobals`
    */
