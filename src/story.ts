@@ -200,7 +200,7 @@ export interface StrictGlobalTypes {
   [name: string]: StrictInputType;
 }
 
-export type Renderer = {
+export interface Renderer {
   /** What is the type of the `component` annotation in this renderer? */
   component: unknown;
 
@@ -215,7 +215,7 @@ export type Renderer = {
   // This generic type will eventually be filled in with TArgs
   // Credits to Michael Arnaldi.
   T?: unknown;
-};
+}
 
 /** @deprecated - use `Renderer` */
 export type AnyFramework = Renderer;
@@ -247,13 +247,6 @@ export interface StoryContextUpdate<TArgs = Args> {
 }
 
 export type ViewMode = 'story' | 'docs';
-export interface StoryContextForLoaders<TRenderer extends Renderer = Renderer, TArgs = Args>
-  extends StoryContextForEnhancers<TRenderer, TArgs>,
-    Required<StoryContextUpdate<TArgs>> {
-  hooks: unknown;
-  viewMode: ViewMode;
-  originalStoryFn: StoryFn<TRenderer>;
-}
 
 export type LoaderFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: StoryContextForLoaders<TRenderer, TArgs>
@@ -267,11 +260,29 @@ export type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
 ) => Awaitable<CleanupCallback | void>;
 
 export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args>
-  extends StoryContextForLoaders<TRenderer, TArgs> {
+  extends StoryContextForEnhancers<TRenderer, TArgs>,
+    Required<StoryContextUpdate<TArgs>> {
   loaded: Record<string, any>;
   abortSignal: AbortSignal;
   canvasElement: TRenderer['canvasElement'];
+  hooks: unknown;
+  originalStoryFn: StoryFn<TRenderer>;
+  viewMode: ViewMode;
+  step: StepFunction<TRenderer, TArgs>;
+  context: this;
 }
+
+/** @deprecated Use {@link StoryContext} instead. */
+export type StoryContextForLoaders<
+  TRenderer extends Renderer = Renderer,
+  TArgs = Args
+> = StoryContext<TRenderer, TArgs>;
+
+/** @deprecated Use {@link StoryContext} instead. */
+export type PlayFunctionContext<TRenderer extends Renderer = Renderer, TArgs = Args> = StoryContext<
+  TRenderer,
+  TArgs
+>;
 
 export type StepLabel = string;
 
@@ -279,13 +290,6 @@ export type StepFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = 
   label: StepLabel,
   play: PlayFunction<TRenderer, TArgs>
 ) => Promise<void> | void;
-
-export type PlayFunctionContext<TRenderer extends Renderer = Renderer, TArgs = Args> = StoryContext<
-  TRenderer,
-  TArgs
-> & {
-  step: StepFunction<TRenderer, TArgs>;
-};
 
 export type PlayFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: PlayFunctionContext<TRenderer, TArgs>
@@ -325,10 +329,10 @@ export type DecoratorApplicator<TRenderer extends Renderer = Renderer, TArgs = A
 export type StepRunner<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   label: StepLabel,
   play: PlayFunction<TRenderer, TArgs>,
-  context: PlayFunctionContext<TRenderer, TArgs>
+  context: StoryContext<TRenderer, TArgs>
 ) => Promise<void>;
 
-export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args> = {
+export interface BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args> {
   /**
    * Wrapper components or Storybook decorators that wrap a story.
    *
@@ -382,12 +386,10 @@ export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
    * Named tags for a story, used to filter stories in different contexts.
    */
   tags?: Tag[];
-};
+}
 
-export type ProjectAnnotations<
-  TRenderer extends Renderer = Renderer,
-  TArgs = Args
-> = BaseAnnotations<TRenderer, TArgs> & {
+export interface ProjectAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
+  extends BaseAnnotations<TRenderer, TArgs> {
   argsEnhancers?: ArgsEnhancer<TRenderer, Args>[];
   argTypesEnhancers?: ArgTypesEnhancer<TRenderer, Args>[];
   /**
@@ -398,7 +400,7 @@ export type ProjectAnnotations<
   globalTypes?: GlobalTypes;
   applyDecorators?: DecoratorApplicator<TRenderer, Args>;
   runStep?: StepRunner<TRenderer, TArgs>;
-};
+}
 
 type StoryDescriptor = string[] | RegExp;
 export interface ComponentAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
