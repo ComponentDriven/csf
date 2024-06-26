@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 import type { RemoveIndexSignature, Simplify, UnionToIntersection } from 'type-fest';
 import type { SBScalarType, SBType } from './SBType';
 
@@ -273,16 +274,12 @@ export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Arg
 }
 
 /** @deprecated Use {@link StoryContext} instead. */
-export type StoryContextForLoaders<
-  TRenderer extends Renderer = Renderer,
-  TArgs = Args
-> = StoryContext<TRenderer, TArgs>;
+export interface StoryContextForLoaders<TRenderer extends Renderer = Renderer, TArgs = Args>
+  extends StoryContext<TRenderer, TArgs> {}
 
 /** @deprecated Use {@link StoryContext} instead. */
-export type PlayFunctionContext<TRenderer extends Renderer = Renderer, TArgs = Args> = StoryContext<
-  TRenderer,
-  TArgs
->;
+export interface PlayFunctionContext<TRenderer extends Renderer = Renderer, TArgs = Args>
+  extends StoryContext<TRenderer, TArgs> {}
 
 export type StepLabel = string;
 
