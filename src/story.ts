@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 import type { RemoveIndexSignature, Simplify, UnionToIntersection } from 'type-fest';
 import type { SBScalarType, SBType } from './SBType';
 
