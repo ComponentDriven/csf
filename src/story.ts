@@ -210,6 +210,8 @@ export interface Renderer {
   /** What type of element does this renderer render to? */
   canvasElement: unknown;
 
+  mount(): Promise<Canvas>;
+
   // A generic type T that can be used in the definition of the component like this:
   // component: (args: this['T']) => string;
   // This generic type will eventually be filled in with TArgs
@@ -273,6 +275,7 @@ export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Arg
   step: StepFunction<TRenderer, TArgs>;
   context: this;
   canvas: Canvas;
+  mount: TRenderer['mount'];
 }
 
 /** @deprecated Use {@link StoryContext} instead. */
@@ -385,6 +388,8 @@ export interface BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = 
    * Named tags for a story, used to filter stories in different contexts.
    */
   tags?: Tag[];
+
+  mount?: (context: StoryContext<TRenderer, TArgs>) => TRenderer['mount'];
 }
 
 export interface ProjectAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
