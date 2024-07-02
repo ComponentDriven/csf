@@ -1,3 +1,16 @@
+# v0.1.10 (Tue Jul 02 2024)
+
+#### 🐛 Bug Fix
+
+- Consolidate loader, play and render context and add a self referencing context property [#98](https://github.com/ComponentDriven/csf/pull/98) ([@kasperpeulen](https://github.com/kasperpeulen))
+- Add canvas prop to the context [#99](https://github.com/ComponentDriven/csf/pull/99) ([@kasperpeulen](https://github.com/kasperpeulen))
+
+#### Authors: 1
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+
+---
+
 # v0.1.9 (Mon Jun 24 2024)
 
 #### 🐛 Bug Fix
