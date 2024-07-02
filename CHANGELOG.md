@@ -1,3 +1,15 @@
+# v0.1.11 (Tue Jul 02 2024)
+
+#### 🐛 Bug Fix
+
+- Add mount to CSF [#100](https://github.com/ComponentDriven/csf/pull/100) ([@kasperpeulen](https://github.com/kasperpeulen))
+
+#### Authors: 1
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+
+---
+
 # v0.1.10 (Tue Jul 02 2024)
 
 #### 🐛 Bug Fix
