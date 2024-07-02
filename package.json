@@ -62,6 +62,7 @@
       "@storybook/eslint-config-storybook"
     ],
     "rules": {
+      "@typescript-eslint/no-empty-interface": "off",
       "import/no-unresolved": "error",
       "jest/expect-expect": [
         "warn",
