@@ -200,7 +200,7 @@ export interface StrictGlobalTypes {
   [name: string]: StrictInputType;
 }
 
-export type Renderer = {
+export interface Renderer {
   /** What is the type of the `component` annotation in this renderer? */
   component: unknown;
 
@@ -210,12 +210,14 @@ export type Renderer = {
   /** What type of element does this renderer render to? */
   canvasElement: unknown;
 
+  mount(): Promise<Canvas>;
+
   // A generic type T that can be used in the definition of the component like this:
   // component: (args: this['T']) => string;
   // This generic type will eventually be filled in with TArgs
   // Credits to Michael Arnaldi.
   T?: unknown;
-};
+}
 
 /** @deprecated - use `Renderer` */
 export type AnyFramework = Renderer;
@@ -248,13 +250,6 @@ export interface StoryContextUpdate<TArgs = Args> {
 }
 
 export type ViewMode = 'story' | 'docs';
-export interface StoryContextForLoaders<TRenderer extends Renderer = Renderer, TArgs = Args>
-  extends StoryContextForEnhancers<TRenderer, TArgs>,
-    Required<StoryContextUpdate<TArgs>> {
-  hooks: unknown;
-  viewMode: ViewMode;
-  originalStoryFn: StoryFn<TRenderer>;
-}
 
 export type LoaderFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: StoryContextForLoaders<TRenderer, TArgs>
@@ -263,16 +258,36 @@ export type LoaderFunction<TRenderer extends Renderer = Renderer, TArgs = Args> 
 type Awaitable<T> = T | PromiseLike<T>;
 export type CleanupCallback = () => Awaitable<unknown>;
 
+export type BeforeAll = () => Awaitable<CleanupCallback | void>;
+
 export type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: StoryContext<TRenderer, TArgs>
 ) => Awaitable<CleanupCallback | void>;
 
+export interface Canvas {}
+
 export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args>
-  extends StoryContextForLoaders<TRenderer, TArgs> {
+  extends StoryContextForEnhancers<TRenderer, TArgs>,
+    Required<StoryContextUpdate<TArgs>> {
   loaded: Record<string, any>;
   abortSignal: AbortSignal;
   canvasElement: TRenderer['canvasElement'];
+  hooks: unknown;
+  originalStoryFn: StoryFn<TRenderer>;
+  viewMode: ViewMode;
+  step: StepFunction<TRenderer, TArgs>;
+  context: this;
+  canvas: Canvas;
+  mount: TRenderer['mount'];
 }
+
+/** @deprecated Use {@link StoryContext} instead. */
+export interface StoryContextForLoaders<TRenderer extends Renderer = Renderer, TArgs = Args>
+  extends StoryContext<TRenderer, TArgs> {}
+
+/** @deprecated Use {@link StoryContext} instead. */
+export interface PlayFunctionContext<TRenderer extends Renderer = Renderer, TArgs = Args>
+  extends StoryContext<TRenderer, TArgs> {}
 
 export type StepLabel = string;
 
@@ -280,13 +295,6 @@ export type StepFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = 
   label: StepLabel,
   play: PlayFunction<TRenderer, TArgs>
 ) => Promise<void> | void;
-
-export type PlayFunctionContext<TRenderer extends Renderer = Renderer, TArgs = Args> = StoryContext<
-  TRenderer,
-  TArgs
-> & {
-  step: StepFunction<TRenderer, TArgs>;
-};
 
 export type PlayFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: PlayFunctionContext<TRenderer, TArgs>
@@ -326,10 +334,10 @@ export type DecoratorApplicator<TRenderer extends Renderer = Renderer, TArgs = A
 export type StepRunner<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   label: StepLabel,
   play: PlayFunction<TRenderer, TArgs>,
-  context: PlayFunctionContext<TRenderer, TArgs>
+  context: StoryContext<TRenderer, TArgs>
 ) => Promise<void>;
 
-export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args> = {
+export interface BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args> {
   /**
    * Wrapper components or Storybook decorators that wrap a story.
    *
@@ -383,14 +391,28 @@ export type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
    * Named tags for a story, used to filter stories in different contexts.
    */
   tags?: Tag[];
-};
 
-export type ProjectAnnotations<
-  TRenderer extends Renderer = Renderer,
-  TArgs = Args
-> = BaseAnnotations<TRenderer, TArgs> & {
+  mount?: (context: StoryContext<TRenderer, TArgs>) => TRenderer['mount'];
+}
+
+export interface ProjectAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
+  extends BaseAnnotations<TRenderer, TArgs> {
   argsEnhancers?: ArgsEnhancer<TRenderer, Args>[];
   argTypesEnhancers?: ArgTypesEnhancer<TRenderer, Args>[];
+
+  /**
+   * Lifecycle hook which runs once, before any loaders, decorators or stories, and may rerun when configuration changes or when reinitializing (e.g. between test runs).
+   * The function may be synchronous or asynchronous, and may return a cleanup function which may also be synchronous or asynchronous.
+   * The cleanup function is not guaranteed to run (e.g. when the browser closes), but runs when configuration changes or when reinitializing.
+   * This hook may only be defined globally (i.e. not on component or story level).
+   * When multiple hooks are specified, they are to be executed sequentially (and awaited) in the following order:
+   * - Addon hooks (in order of addons array in e.g. .storybook/main.js)
+   * - Annotation hooks (in order of previewAnnotations array in e.g. .storybook/main.js)
+   * - Preview hook (via e.g. .storybook/preview.js)
+   * Cleanup functions are executed sequentially in reverse order of initialization.
+   */
+  beforeAll?: BeforeAll;
+
   /**
    * @deprecated Project `globals` renamed to `initiaGlobals`
    */
@@ -399,7 +421,7 @@ export type ProjectAnnotations<
   globalTypes?: GlobalTypes;
   applyDecorators?: DecoratorApplicator<TRenderer, Args>;
   runStep?: StepRunner<TRenderer, TArgs>;
-};
+}
 
 type StoryDescriptor = string[] | RegExp;
 export interface ComponentAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args>
