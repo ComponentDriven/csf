@@ -3,7 +3,6 @@
 /* global HTMLElement */
 import { expectTypeOf } from 'expect-type';
 import {
-  Renderer,
   Args,
   ArgsFromMeta,
   ArgsStoryFn,
@@ -11,6 +10,7 @@ import {
   DecoratorFunction,
   LoaderFunction,
   ProjectAnnotations,
+  Renderer,
   StoryAnnotationsOrFn,
   StrictArgs,
 } from './story.js';
@@ -33,6 +33,8 @@ type ButtonArgs = {
 };
 
 const Button = (props: ButtonArgs) => 'Button';
+
+const ButtonIcon = ({ icon }: { icon: string }) => `ButtonIcon ${icon}`;
 
 let a = 1;
 async function doSomething() {
@@ -108,6 +110,22 @@ CSF1Story.story = {
     return cleanup;
   },
   args: { a: 1 },
+};
+
+const simpleWithSubComponents: XMeta = {
+  title: 'simple',
+  component: Button,
+  tags: ['foo', 'bar'],
+  decorators: [(storyFn, context) => `withDecorator(${storyFn(context)})`],
+  parameters: { a: () => null, b: NaN, c: Symbol('symbol') },
+  loaders: [() => Promise.resolve({ d: '3' })],
+  async beforeEach() {
+    await doSomething();
+    return cleanup;
+  },
+  args: { x: '1' },
+  argTypes: { x: { type: { name: 'string' } } },
+  subcomponents: { ButtonIcon }, // the fact that this line does not cause a Typescript compilation error itself means that the type is correct
 };
 
 const CSF2Story: XStory = () => 'Named Story';
