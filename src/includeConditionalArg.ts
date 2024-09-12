@@ -30,14 +30,22 @@ export const testValue = (cond: Omit<Conditional, 'arg' | 'global'>, value: any)
  * aka "conditional args"
  */
 export const includeConditionalArg = (argType: InputType, args: Args, globals: Globals) => {
-  if (!argType.if) return true;
+  const conditions = Array.isArray(argType.if) ? argType.if : [argType.if];
+  
+  for (const condition of conditions) {
+    if (!condition) continue;
 
-  const { arg, global } = argType.if as any;
-  if (count([arg, global]) !== 1) {
-    throw new Error(`Invalid conditional value ${JSON.stringify({ arg, global })}`);
+    const { arg, global } = condition as any;
+    if (count([arg, global]) !== 1) {
+      throw new Error(`Invalid conditional value ${JSON.stringify({ arg, global })}`);
+    }
+
+    const value = arg ? args[arg] : globals[global];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    if (!testValue(condition!, value)) {
+      return false;
+    }
   }
-
-  const value = arg ? args[arg] : globals[global];
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  return testValue(argType.if!, value);
+  
+  return true;
 };

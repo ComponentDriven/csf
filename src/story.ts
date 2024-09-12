@@ -119,7 +119,7 @@ export interface InputType {
   /**
    * @see https://storybook.js.org/docs/api/arg-types#if
    */
-  if?: Conditional;
+  if?: Conditional | Conditional[];
   /**
    * @see https://storybook.js.org/docs/api/arg-types#mapping
    */

@@ -115,6 +115,16 @@ describe('includeConditionalArg', () => {
       });
     });
   });
+
+  describe('array of conditions', () => {
+    it.each([
+      ['all conditions pass', { if: [{ arg: 'a', truthy: true }, { arg: 'b', eq: 2 }] }, { a: 1, b: 2 }, {}, true],
+      ['one condition fails', { if: [{ arg: 'a', truthy: true }, { arg: 'b', eq: 3 }] }, { a: 1, b: 2 }, {}, false],
+      ['no conditions provided', { if: [] }, { a: 1, b: 2 }, {}, true],
+    ])('%s', (_name, argType, args, globals, expected) => {
+      expect(includeConditionalArg(argType, args, globals)).toBe(expected);
+    });
+  });
   describe('globals', () => {
     describe('truthy', () => {
       it.each([
