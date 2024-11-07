@@ -39,6 +39,8 @@ async function doSomething() {
   a = 2;
 }
 
+async function validateSomething() {}
+
 async function cleanup() {
   a = 1;
 }
@@ -55,6 +57,9 @@ const simple: XMeta = {
     await doSomething();
     return cleanup;
   },
+  async afterEach() {
+    await validateSomething();
+  },
   args: { x: '1' },
   argTypes: { x: { type: { name: 'string' } } },
 };
@@ -70,6 +75,9 @@ const strict: XMeta<ButtonArgs> = {
   async beforeEach() {
     await doSomething();
     return cleanup;
+  },
+  async afterEach() {
+    await validateSomething();
   },
   argTypes: { x: { type: { name: 'string' } } },
 };
