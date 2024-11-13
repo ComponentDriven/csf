@@ -63,6 +63,18 @@ interface ControlBase {
   disable?: boolean;
 }
 
+interface Report {
+  id: string;
+  version: number;
+  result: unknown;
+  status: 'failed' | 'passed' | 'warning';
+}
+
+interface ReportingAPI {
+  reports: Report[];
+  addReport: (report: Report) => void;
+}
+
 type Control =
   | ControlType
   | false
@@ -278,6 +290,7 @@ export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Arg
   context: this;
   canvas: Canvas;
   mount: TRenderer['mount'];
+  reporting: ReportingAPI;
 }
 
 /** @deprecated Use {@link StoryContext} instead. */
