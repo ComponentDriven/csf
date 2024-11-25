@@ -65,7 +65,7 @@ interface ControlBase {
 
 interface Report {
   id: string;
-  version: number;
+  version?: number;
   result: unknown;
   status: 'failed' | 'passed' | 'warning';
 }
