@@ -63,6 +63,18 @@ interface ControlBase {
   disable?: boolean;
 }
 
+interface Report {
+  type: string;
+  version?: number;
+  result: unknown;
+  status: 'failed' | 'passed' | 'warning';
+}
+
+interface ReportingAPI {
+  reports: Report[];
+  addReport: (report: Report) => void;
+}
+
 type Control =
   | ControlType
   | false
@@ -263,6 +275,10 @@ export type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   context: StoryContext<TRenderer, TArgs>
 ) => Awaitable<CleanupCallback | void>;
 
+export type AfterEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (
+  context: StoryContext<TRenderer, TArgs>
+) => Awaitable<void>;
+
 export interface Canvas {}
 
 export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args>
@@ -278,6 +294,7 @@ export interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Arg
   context: this;
   canvas: Canvas;
   mount: TRenderer['mount'];
+  reporting: ReportingAPI;
 }
 
 /** @deprecated Use {@link StoryContext} instead. */
@@ -380,6 +397,17 @@ export interface BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = 
    * A cleanup function can be returned.
    */
   beforeEach?: BeforeEach<TRenderer, TArgs>[] | BeforeEach<TRenderer, TArgs>;
+
+  /**
+   * Function to be called after each play function for post-test assertions.
+   * Don't use this function for cleaning up state.
+   * You can use the return callback of `beforeEach` for that, which is run when switching stories.
+   * When the function is async, it will be awaited.
+   *
+   * `afterEach` can be added to preview, the default export and to a specific story.
+   * They are run (and awaited) reverse order: preview, default export, story
+   */
+  experimental_afterEach?: AfterEach<TRenderer, TArgs>[] | AfterEach<TRenderer, TArgs>;
 
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the renderer will be used.
