@@ -1,3 +1,19 @@
+# v0.1.12 (Fri Nov 29 2024)
+
+#### 🐛 Bug Fix
+
+- Add ReportingAPI interface and reporting property to StoryContext [#110](https://github.com/ComponentDriven/csf/pull/110) ([@valentinpalkovic](https://github.com/valentinpalkovic) [@kasperpeulen](https://github.com/kasperpeulen))
+- Update links to Storybook documentation [#77](https://github.com/ComponentDriven/csf/pull/77) ([@nkabrown](https://github.com/nkabrown))
+
+#### Authors: 4
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+- Nathan Brown ([@nkabrown](https://github.com/nkabrown))
+- Norbert de Langen ([@ndelangen](https://github.com/ndelangen))
+- Valentin Palkovic ([@valentinpalkovic](https://github.com/valentinpalkovic))
+
+---
+
 # v0.1.11 (Tue Jul 02 2024)
 
 #### 🐛 Bug Fix
