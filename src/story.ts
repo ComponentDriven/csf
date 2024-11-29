@@ -64,7 +64,7 @@ interface ControlBase {
 }
 
 interface Report {
-  id: string;
+  type: string;
   version?: number;
   result: unknown;
   status: 'failed' | 'passed' | 'warning';
@@ -407,7 +407,7 @@ export interface BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = 
    * `afterEach` can be added to preview, the default export and to a specific story.
    * They are run (and awaited) reverse order: preview, default export, story
    */
-  afterEach?: AfterEach<TRenderer, TArgs>[] | AfterEach<TRenderer, TArgs>;
+  experimental_afterEach?: AfterEach<TRenderer, TArgs>[] | AfterEach<TRenderer, TArgs>;
 
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the renderer will be used.
