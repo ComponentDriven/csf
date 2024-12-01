@@ -168,7 +168,7 @@ export interface InputType {
     /**
      * @see https://storybook.js.org/docs/api/arg-types#tabletype
      */
-    type?: { summary?: string; detail?: string };
+    type?: { summary?: string | undefined; detail?: string };
   };
   /**
    * @see https://storybook.js.org/docs/api/arg-types#type
