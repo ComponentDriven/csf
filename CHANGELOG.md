@@ -1,3 +1,16 @@
+# v0.1.13 (Tue Dec 24 2024)
+
+#### 🐛 Bug Fix
+
+- fix: story ComponentAnnotations['subcomponents'] to correctly use its own type for subcomponents rather than attempt to inherit from the component [#103](https://github.com/ComponentDriven/csf/pull/103) ([@lburgess](https://github.com/lburgess))
+
+#### Authors: 2
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+- Luke Burgess ([@lburgess](https://github.com/lburgess))
+
+---
+
 # v0.1.12 (Fri Nov 29 2024)
 
 #### 🐛 Bug Fix
