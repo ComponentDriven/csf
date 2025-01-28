@@ -214,13 +214,13 @@ export interface StrictGlobalTypes {
 
 export interface Renderer {
   /** What is the type of the `component` annotation in this renderer? */
-  component: unknown;
+  component: any;
 
   /** What does the story function return in this renderer? */
-  storyResult: unknown;
+  storyResult: any;
 
   /** What type of element does this renderer render to? */
-  canvasElement: unknown;
+  canvasElement: any;
 
   mount(): Promise<Canvas>;
 
