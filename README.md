@@ -1,17 +1,21 @@
+> **NOTE** This repo is inactive. The code from this repo lives in the [Storybook monorepo](https://github.com/storybookjs/storybook/tree/next/code/core/src/csf) and is no longer published as a standalone package. If you depend on the `@storybook/csf` package directly, please file an issue on this repo explaining your use case. We'll be figuring out a longer-term solution over the coming months.
+
 <img src="https://user-images.githubusercontent.com/42671/89649515-eceafc00-d88e-11ea-9728-5ef80cdf8462.png" width="321px" height="236px" />
 
 # Component Story Format (CSF)
 
 ### Why a standard format?
+
 Components have risen to dominate the UI landscape. There are new component-oriented tools for development, testing, design, and prototyping. These tools engage in the creation and consumption of components and component examples (a.k.a. stories). But each tool has its own proprietary format because a simple, platform-agnostic way to express component examples doesn't yet exist.
 
 ### The "Story" is the source of truth for a component.
+
 A story is a code snippet that renders an example of a component in a specific state. Think about it like a "[user story](https://en.wikipedia.org/wiki/User_story)".
 
 It uses the production code shipped to users, making it the most accurate representation of a component example. What's more, stories are expressed in the view layer you use to build your app.
 
-
 ### Component Story Format
+
 The Component Story Format is an open standard for component examples based on JavaScript ES6 modules. This enables interoperation between development, testing, and design tools.
 
 ```js
@@ -34,11 +38,9 @@ export const emoji = () => <Button>😀😎👍💯</Button>;
 
 **Compatible with:** [Jest](https://jestjs.io/), [Enzyme](https://enzymejs.github.io/enzyme), [Testing Library](https://testing-library.com), [Cypress](https://www.cypress.io/), [Playwright](https://playwright.dev/), [Mocha](https://mochajs.org), etc.
 
-
 ## CSF utilities
 
 A minimal set of utility functions for dealing with [Component Story Format (CSF)](https://storybook.js.org/docs/formats/component-story-format/).
-
 
 ### Install
 
